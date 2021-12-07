@@ -23,7 +23,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../../constants/utility"
 import axios from 'axios'
 import history from 'history.js'
-import {createIndustry} from 'app/redux/actions/admin/industry/IndustryActions'
+import {createAds} from 'app/redux/actions/admin/ads/AdsActions'
 import { connect } from 'react-redux';
 import { RichTextEditor, Breadcrumb } from 'app/components'
 
@@ -57,9 +57,9 @@ const AddForm = ({ dispatch }) => {
 
     const handleSubmit = (event) => {
         
-          const params = {name:state.industry_name,status:state.Status};
-          dispatch(createIndustry(params));
-          history.push('/industry/list')
+          const params = {title:state.title,ads:state.ads,status:state.Status};
+          dispatch(createAds(params));
+          history.push('/ads/list')
       
     }
 
@@ -77,7 +77,8 @@ const AddForm = ({ dispatch }) => {
     }
 
     const {
-        industry_name,
+        title,
+        ads,
         Status,
     } = state
 
@@ -92,14 +93,15 @@ const AddForm = ({ dispatch }) => {
                             label="Ads Title"
                             onChange={handleChange}
                             type="text"
-                            name="industry_name"
-                            value={industry_name || ''}
+                            name="title"
+                            value={title || ''}
                             validators={['required']}
                             errorMessages={['this field is required']}
                         />
                         <RichTextEditor
                         content=""
                         placeholder="insert text here..."
+                        name="ads"
                     />
                         <FormControl variant="outlined" className={classes.formControl+" mb-4 w-full"}>
                          <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
