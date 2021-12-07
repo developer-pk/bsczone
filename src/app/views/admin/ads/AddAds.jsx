@@ -3,14 +3,14 @@ import { Breadcrumb } from 'app/components'
 import AddForm from './AddForm'
 import { Card } from '@material-ui/core'
 
-class AddIndustry extends Component {
+class AddAds extends Component {
     render() {
         return (
             <div className="m-sm-30">
                 <div className="mb-sm-30">
                     <Breadcrumb
                         routeSegments={[
-                            { name: 'Industry', path: '/industry/list' },
+                            { name: 'Industry', path: '/ads/list' },
                             { name: 'Add' },
                         ]}
                     />
@@ -23,4 +23,4 @@ class AddIndustry extends Component {
     }
 }
 
-export default AddIndustry
+export default AddAds

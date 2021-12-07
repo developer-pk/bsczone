@@ -80,6 +80,7 @@ const AddForm = ({ dispatch }) => {
         title,
         ads,
         Status,
+        ads
     } = state
 
     return (
@@ -99,9 +100,11 @@ const AddForm = ({ dispatch }) => {
                             errorMessages={['this field is required']}
                         />
                         <RichTextEditor
+                        onChange={handleChange}
                         content=""
                         placeholder="insert text here..."
                         name="ads"
+                        value={ads || ''}
                     />
                         <FormControl variant="outlined" className={classes.formControl+" mb-4 w-full"}>
                          <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
