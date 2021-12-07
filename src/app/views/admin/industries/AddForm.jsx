@@ -58,7 +58,7 @@ const AddForm = ({ dispatch }) => {
     const handleSubmit = (event) => {
         
           const params = {title:state.title,ads:state.ads,status:state.Status};
-          dispatch(createAds(params));
+          dispatch(createIndustry(params));
           history.push('/ads/list')
       
     }

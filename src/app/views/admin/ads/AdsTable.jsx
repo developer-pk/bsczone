@@ -148,7 +148,7 @@ const AdsTable = ({ dispatch }) => {
                 className="px-4"
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={industry.length}
+                count={ads.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 backIconButtonProps={{
