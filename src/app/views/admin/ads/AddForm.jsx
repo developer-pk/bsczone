@@ -42,6 +42,9 @@ const AddForm = ({ dispatch }) => {
         date: new Date(),
     })
     const [status, setStatus] = React.useState('');
+    const [content, setContent] = useState(
+        ``
+    )
     const classes = useStyles()
     useEffect(() => {
         ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
@@ -56,8 +59,7 @@ const AddForm = ({ dispatch }) => {
     }, [state.password])
 
     const handleSubmit = (event) => {
-        
-          const params = {title:state.title,ads:state.ads,status:state.Status};
+          const params = {title:state.title,ads:content,status:state.Status};
           dispatch(createAds(params));
           history.push('/ads/list')
       
@@ -80,7 +82,6 @@ const AddForm = ({ dispatch }) => {
         title,
         ads,
         Status,
-        ads
     } = state
 
     return (
@@ -100,11 +101,10 @@ const AddForm = ({ dispatch }) => {
                             errorMessages={['this field is required']}
                         />
                         <RichTextEditor
-                        onChange={handleChange}
-                        content=""
+                        content={content}
+                        handleContentChange={(content) => setContent(content)}
                         placeholder="insert text here..."
                         name="ads"
-                        value={ads || ''}
                     />
                         <FormControl variant="outlined" className={classes.formControl+" mb-4 w-full"}>
                          <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
