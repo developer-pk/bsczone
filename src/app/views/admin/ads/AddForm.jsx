@@ -27,6 +27,7 @@ import history from 'history.js'
 import {createAds} from 'app/redux/actions/admin/ads/AdsActions'
 import { connect } from 'react-redux';
 import { RichTextEditor, Breadcrumb } from 'app/components'
+import FileBase64 from 'react-file-base64';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -87,6 +88,10 @@ const AddForm = ({ dispatch }) => {
         setFile(event.target.files[0]);
     }
 
+    const getFiles =  (files) => {
+        setFile(files);
+      }
+
     const {
         title,
         ads,
@@ -102,7 +107,7 @@ const AddForm = ({ dispatch }) => {
                         <TextValidator
                         variant="outlined"
                             className="mb-4 w-full"
-                            label="Ads Title"
+                            label="Ads Link"
                             onChange={handleChange}
                             type="text"
                             name="title"
@@ -111,8 +116,14 @@ const AddForm = ({ dispatch }) => {
                             errorMessages={['this field is required']}
                         />
                         <div className="mb-3">
-                            <input type="file" name="file" onChange={onFileChange} />
+                            {/* <input type="file" name="file" onChange={onFileChange} /> */}
+
+                            <FileBase64
+                            multiple={ true }
+                            onDone={ getFiles.bind(this) } />
                         </div>
+
+                       
 
                         
                         <FormControl variant="outlined" className={classes.formControl+" mb-4 w-full"}>

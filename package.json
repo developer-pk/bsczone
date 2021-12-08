@@ -45,6 +45,7 @@
     "react-bootstrap": "^2.0.3",
     "react-dom": "^16.8.6",
     "react-dropzone": "^11.2.0",
+    "react-file-base64": "^1.0.3",
     "react-google-maps": "^9.4.5",
     "react-highlight": "^0.12.0",
     "react-html-parser": "^2.0.2",
@@ -68,7 +69,7 @@
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "HTTPS=true SSL_CRT_FILE=/etc/letsencrypt/live/bsczoneapp.webtracktechnology.com/fullchain.pem SSL_KEY_FILE=/etc/letsencrypt/live/bsczoneapp.webtracktechnology.com/privkey.pem react-scripts start",
+    "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

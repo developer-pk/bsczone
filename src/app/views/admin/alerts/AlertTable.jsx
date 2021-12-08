@@ -76,6 +76,7 @@ const AlertTable = ({ dispatch }) => {
                     <TableRow>
                         <TableCell className="px-0">High Price</TableCell>
                         <TableCell className="px-0">Low Price</TableCell>
+                        <TableCell className="px-0">Currency</TableCell>
                         <TableCell className="px-0">IP</TableCell>
                         <TableCell className="px-0">Status</TableCell>
                     </TableRow>
@@ -97,6 +98,12 @@ const AlertTable = ({ dispatch }) => {
                                     align="left"
                                 >
                                     {indus.lowPrice}
+                                </TableCell>
+                                <TableCell
+                                    className="px-0 capitalize"
+                                    align="left"
+                                >
+                                    {indus.currencySymbol}
                                 </TableCell>
                                 <TableCell className="px-0 capitalize">
                                     {indus.ip}
