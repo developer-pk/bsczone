@@ -58,13 +58,14 @@ const Blank = ({ dispatch }) => {
                 'flex justify-center items-center  min-h-full-screen'
             )}
         >
-            <div>
+            <div className="home-wrapper">
+                <div className="container-fluid">
             {/* Navigation */}
             <nav
                 className="navbar navbar-expand-lg text-uppercase "
                 id="mainNav"
             >
-                <div className="container-fluid">
+                
                     <a className="navbar-brand" href="#page-top">
                         Logo
                     </a>
@@ -107,7 +108,7 @@ const Blank = ({ dispatch }) => {
                                 >
                                     <img
                                         alt="img-text"
-                                        src="images/pancake.png"
+                                        src={process.env.PUBLIC_URL + "//images/pancake.png"}
                                     />
                                 </a>
                             </li>
@@ -118,7 +119,7 @@ const Blank = ({ dispatch }) => {
                                 >
                                     <img
                                         alt="img-text"
-                                        src="images/uniswap.png"
+                                        src={process.env.PUBLIC_URL + "/images/uniswap.png"}
                                     />
                                 </a>
                             </li>
@@ -134,11 +135,10 @@ const Blank = ({ dispatch }) => {
                             </li>
                         </ul>
                     </div>
-                </div>
             </nav>
-            <div className="content">
+            <div className="content main-content">
                 <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-2">
                         <nav className="sidebar sidebar-offcanvas" id="sidebar">
                             <div className="sidebar_div">
                                 <h4>Token Info :</h4>
@@ -150,7 +150,7 @@ const Blank = ({ dispatch }) => {
                                         >
                                             <img
                                                 alt="img-text"
-                                                src="images/cardano-ada-logo.png"
+                                                src={process.env.PUBLIC_URL + "/images/cardano-ada-logo.png"}
                                             />{' '}
                                             <b>
                                                 ADA/
@@ -186,7 +186,7 @@ const Blank = ({ dispatch }) => {
                                         0x3ee2......435d47{' '}
                                         <img
                                             alt="img-text"
-                                            src="images/copy.png"
+                                            src={process.env.PUBLIC_URL + "/images/copy.png"}
                                         />
                                     </div>
                                     <div className="market_cap">
@@ -213,14 +213,14 @@ const Blank = ({ dispatch }) => {
                                         <p>
                                             <img
                                                 alt="img-text"
-                                                src="images/bscscan.png"
+                                                src={process.env.PUBLIC_URL + "/images/bscscan.png"}
                                             />{' '}
                                             BSC SCAN{' '}
                                             <a href="/">
                                                 TRADE{' '}
                                                 <img
                                                     alt="img-text"
-                                                    src="images/down.png"
+                                                    src={process.env.PUBLIC_URL + "/images/down.png"}
                                                 />
                                             </a>
                                         </p>
@@ -278,7 +278,7 @@ const Blank = ({ dispatch }) => {
                                         >
                                             <img
                                                 alt="img-text"
-                                                src="images/left.png"
+                                                src={process.env.PUBLIC_URL + "/images/left.png"}
                                             />
                                         </a>
                                         <a
@@ -289,7 +289,7 @@ const Blank = ({ dispatch }) => {
                                         >
                                             <img
                                                 alt="img-text"
-                                                src="images/right.png"
+                                                src={process.env.PUBLIC_URL + "/images/right.png"}
                                             />
                                         </a>
                                     </div>
@@ -297,7 +297,7 @@ const Blank = ({ dispatch }) => {
                             </div>
                         </nav>
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-md-10">
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
@@ -309,7 +309,7 @@ const Blank = ({ dispatch }) => {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-7 col-xl-7 mb-12 mb-xl-0">
+                            <div className="col-8 col-xl-8 mb-12 mb-xl-0 pricing-table">
                                 <div className="table-responsive">
                                     <table className="table">
                                         <thead>
@@ -407,7 +407,7 @@ const Blank = ({ dispatch }) => {
                                     </table>
                                 </div>
                             </div>
-                            <div className="col-5 col-xl-5 mb-12 mb-xl-0">
+                            <div className="col-4 col-xl-4 mb-12 mb-xl-0">
                                 <div className="promo_tab">
                                     <ul className="nav nav-tabs">
                                         <li>
@@ -440,7 +440,6 @@ const Blank = ({ dispatch }) => {
                                                 Favourite
                                             </a>
                                         </li>
-                                        t
                                     </ul>
                                     <div className="tab-content">
                                         <div
@@ -453,7 +452,7 @@ const Blank = ({ dispatch }) => {
                                                         {' '}
                                                         <img
                                                             alt="img-text"
-                                                            src="images/check.png"
+                                                            src={process.env.PUBLIC_URL + "/images/check.png"}
                                                         />
                                                     </span>{' '}
                                                     <span className="pro_title">
@@ -469,7 +468,7 @@ const Blank = ({ dispatch }) => {
                                                         {' '}
                                                         <img
                                                             alt="img-text"
-                                                            src="images/check.png"
+                                                            src={process.env.PUBLIC_URL + "/images/check.png"}
                                                         />
                                                     </span>{' '}
                                                     <span className="pro_title">
@@ -485,7 +484,7 @@ const Blank = ({ dispatch }) => {
                                                         {' '}
                                                         <img
                                                             alt="img-text"
-                                                            src="images/check.png"
+                                                            src={process.env.PUBLIC_URL + "/images/check.png"}
                                                         />
                                                     </span>{' '}
                                                     <span className="pro_title">
@@ -501,7 +500,7 @@ const Blank = ({ dispatch }) => {
                                                         {' '}
                                                         <img
                                                             alt="img-text"
-                                                            src="images/check.png"
+                                                            src={process.env.PUBLIC_URL + "/images/check.png"}
                                                         />
                                                     </span>{' '}
                                                     <span className="pro_title">
@@ -517,7 +516,7 @@ const Blank = ({ dispatch }) => {
                                                         {' '}
                                                         <img
                                                             alt="img-text"
-                                                            src="images/check.png"
+                                                            src={process.env.PUBLIC_URL + "/images/check.png"}
                                                         />
                                                     </span>{' '}
                                                     <span className="pro_title">
@@ -533,7 +532,7 @@ const Blank = ({ dispatch }) => {
                                                         {' '}
                                                         <img
                                                             alt="img-text"
-                                                            src="images/check.png"
+                                                            src={process.env.PUBLIC_URL + "/images/check.png"}
                                                         />
                                                     </span>{' '}
                                                     <span className="pro_title">
@@ -555,7 +554,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -571,7 +570,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -592,7 +591,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -608,7 +607,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -624,7 +623,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -642,7 +641,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -658,7 +657,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -674,7 +673,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -690,7 +689,7 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     <img
                                                         alt="img-text"
-                                                        src="images/check.png"
+                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
@@ -710,6 +709,7 @@ const Blank = ({ dispatch }) => {
                 </div>
                 {/* Left and right controls  */}
             </div>
+            </div>
             <div
                 className="modal fade"
                 id="add_alert2"
@@ -722,7 +722,7 @@ const Blank = ({ dispatch }) => {
                     <div className="modal-content">
                         <div className="modal-body">
                             <div className="alert_text2 text-center">
-                                <img alt="img-text" src="images/noti.png" />
+                                <img alt="img-text" src={process.env.PUBLIC_URL + "/images/noti.png"} />
                                 <h4>Set up an alarm</h4>
                                 <ValidatorForm onSubmit={handleFormSubmit}>
                                     <ul>

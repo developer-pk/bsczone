@@ -1,4 +1,5 @@
 {
+  "homepage": "https://bsczoneapp.webtracktechnology.com:8082/home",
   "name": "matx-react",
   "version": "2.0.0",
   "private": true,
@@ -67,7 +68,7 @@
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "HTTPS=true SSL_CRT_FILE=/etc/letsencrypt/live/bsczoneapp.webtracktechnology.com/fullchain.pem SSL_KEY_FILE=/etc/letsencrypt/live/bsczoneapp.webtracktechnology.com/privkey.pem react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
