@@ -12,6 +12,7 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
+    Fab
 } from '@material-ui/core'
 import {
     MuiPickersUtilsProvider,
@@ -38,6 +39,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 const AddForm = ({ dispatch }) => {
+    const [selectedFile, setFile] = useState('')
     const [state, setState] = useState({
         date: new Date(),
     })
@@ -59,9 +61,11 @@ const AddForm = ({ dispatch }) => {
     }, [state.password])
 
     const handleSubmit = (event) => {
-          const params = {title:state.title,ads:content,status:state.Status};
-          dispatch(createAds(params));
-          history.push('/ads/list')
+
+          console.log(selectedFile,'form data');
+          const params = {title:state.title,ads:selectedFile,status:state.Status};
+            dispatch(createAds(params));
+           history.push('/ads/list')
       
     }
 
@@ -78,10 +82,16 @@ const AddForm = ({ dispatch }) => {
         setState({ ...state, date })
     }
 
+    const onFileChange = (event) => {
+
+        setFile(event.target.files[0]);
+    }
+
     const {
         title,
         ads,
         Status,
+        file,
     } = state
 
     return (
@@ -100,12 +110,11 @@ const AddForm = ({ dispatch }) => {
                             validators={['required']}
                             errorMessages={['this field is required']}
                         />
-                        <RichTextEditor
-                        content={content}
-                        handleContentChange={(content) => setContent(content)}
-                        placeholder="insert text here..."
-                        name="ads"
-                    />
+                        <div className="mb-3">
+                            <input type="file" name="file" onChange={onFileChange} />
+                        </div>
+
+                        
                         <FormControl variant="outlined" className={classes.formControl+" mb-4 w-full"}>
                          <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
                             <Select

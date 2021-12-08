@@ -10,7 +10,7 @@ class AddAds extends Component {
                 <div className="mb-sm-30">
                     <Breadcrumb
                         routeSegments={[
-                            { name: 'Industry', path: '/ads/list' },
+                            { name: 'Ads', path: '/ads/list' },
                             { name: 'Add' },
                         ]}
                     />

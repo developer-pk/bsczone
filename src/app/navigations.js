@@ -23,6 +23,11 @@ export const navigations = [
             }
         ],
     },
+    {
+        name: 'Alerts',
+        path: '/alert/list',
+        icon: 'location_city',
+    },
 
     // {
     //     name: 'Session/Auth',

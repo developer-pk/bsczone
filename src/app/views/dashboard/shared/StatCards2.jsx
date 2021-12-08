@@ -26,7 +26,7 @@ const StatCards2 = () => {
                     </div>
                 </Card>
             </Grid>
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={12} md={6}>
                 <Card elevation={3} className="p-4">
                     <div className="flex items-center">
                         <Fab
@@ -47,7 +47,7 @@ const StatCards2 = () => {
                         <span className="text-13 text-error ml-1">(+21%)</span>
                     </div>
                 </Card>
-            </Grid>
+            </Grid> */}
         </Grid>
     )
 }

@@ -299,16 +299,16 @@ Mock.onGet('/api/ecommerce/get-brand-list').reply((config) => {
     return [200, response]
 })
 
-Mock.onGet('/api/ecommerce/get-cart-list').reply((config) => {
-    let uid = config.data
-    let response = []
+// Mock.onGet('/api/ecommerce/get-cart-list').reply((config) => {
+//     let uid = config.data
+//     let response = []
 
-    if (uid) {
-        response = getDetailedCartList(uid)
-    }
+//     if (uid) {
+//         response = getDetailedCartList(uid)
+//     }
 
-    return [200, response]
-})
+//     return [200, response]
+// })
 
 Mock.onPost('/api/ecommerce/add-to-cart').reply((config) => {
     let { uid, productId } = JSON.parse(config.data)

@@ -20,14 +20,14 @@ const Analytics = () => {
                         <StatCards />
 
                         {/* Top Selling Products */}
-                        <TopSellingTable />
+                        {/* <TopSellingTable /> */}
 
                         <StatCards2 />
 
-                        <h4 className="card-title text-muted mb-4">
+                        {/* <h4 className="card-title text-muted mb-4">
                             Ongoing Projects
                         </h4>
-                        <RowCards />
+                        <RowCards /> */}
                     </Grid>
 
                     <Grid item lg={4} md={4} sm={12} xs={12}>
@@ -44,9 +44,9 @@ const Analytics = () => {
                             />
                         </Card>
 
-                        <UpgradeCard />
+                        {/* <UpgradeCard />
 
-                        <Campaigns />
+                        <Campaigns /> */}
                     </Grid>
                 </Grid>
             </div>

@@ -1,23 +1,23 @@
 import React from 'react'
-import AdsTable from './AdsTable'
+import AlertTable from './AlertTable'
 import { Breadcrumb, SimpleCard } from 'app/components'
 
-const AdsList = () => {
+const AlertList = () => {
     return (
         <div className="m-sm-30">
             <div className="mb-sm-30">
                 <Breadcrumb
                     routeSegments={[
-                        { name: 'Ads', path: '/ads/list' },
+                        { name: 'Alerts', path: '/alert/list' },
                         { name: 'List' },
                     ]}
                 />
             </div>
-            <SimpleCard title="Ads">
-                <AdsTable />
+            <SimpleCard title="Alerts">
+                <AlertTable />
             </SimpleCard>
         </div>
     )
 }
 
-export default AdsList
+export default AlertList

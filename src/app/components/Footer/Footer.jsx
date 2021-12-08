@@ -49,7 +49,7 @@ const Footer = () => {
             >
               <Button variant="contained">Download Free version</Button>
             </a> */}
-                        <a href="https://ui-lib.com/downloads/matx-pro-react-admin/">
+                        {/* <a href="https://ui-lib.com/downloads/matx-pro-react-admin/">
                             <Button variant="contained" color="secondary">
                                 Get MatX Pro
                             </Button>
@@ -58,7 +58,7 @@ const Footer = () => {
                         <p className="m-0">
                             Design and Developed by{' '}
                             <a href="http://ui-lib.com">UI Lib</a>
-                        </p>
+                        </p> */}
                     </div>
                 </Toolbar>
             </AppBar>

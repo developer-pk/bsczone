@@ -398,6 +398,15 @@ div#add_alert2 form li {
     display: flex;
     justify-content: space-between;
 }
+div#add_alert2 form li div div div input {
+    width: 47%;
+    padding: 7px 12px;
+    border: none;
+    margin-bottom: 15px;
+    border-radius: 100px;
+    font-weight: 400;
+    font-size: 12px;
+}
 div#add_alert2 form li input,
 div#add_alert2 form li button {
     width: 47%;

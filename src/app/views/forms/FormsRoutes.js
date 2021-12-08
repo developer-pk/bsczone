@@ -14,6 +14,7 @@ import AddCollege from '../admin/colleges/AddCollege'
 import CollegeList from '../admin/colleges/CollegeList'
 import AdsList from '../admin/ads/AdsList'
 import AddAds from '../admin/ads/AddAds'
+import AlertList from '../admin/alerts/AlertList'
 
 const formsRoutes = [
     {
@@ -119,6 +120,10 @@ const formsRoutes = [
     {
         path: '/ads/add',
         component: AddAds,
+    },
+    {
+        path: '/alert/list',
+        component: AlertList,
     },
 ]
 

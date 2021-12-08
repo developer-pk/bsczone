@@ -23,7 +23,7 @@ const StatCards = () => {
                     <div className="flex items-center">
                         <Icon className={classes.icon}>group</Icon>
                         <div className="ml-3">
-                            <small className="text-muted">New Leads</small>
+                            <small className="text-muted">New Alerts</small>
                             <h6 className="m-0 mt-1 text-primary font-medium">
                                 3050
                             </h6>
@@ -45,10 +45,10 @@ const StatCards = () => {
                         <Icon className={classes.icon}>attach_money</Icon>
                         <div className="ml-3">
                             <small className="text-muted line-height-1">
-                                This week Sales
+                                Total Ads
                             </small>
                             <h6 className="m-0 mt-1 text-primary font-medium">
-                                $80,500
+                                5
                             </h6>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ const StatCards = () => {
                     </Tooltip>
                 </Card>
             </Grid>
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={12} md={6}>
                 <Card
                     className="flex flex-wrap justify-between items-center p-sm-24 bg-paper"
                     elevation={6}
@@ -104,7 +104,7 @@ const StatCards = () => {
                         </IconButton>
                     </Tooltip>
                 </Card>
-            </Grid>
+            </Grid> */}
         </Grid>
     )
 }
