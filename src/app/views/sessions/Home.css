@@ -281,7 +281,7 @@ div#promoted {
     text-transform: uppercase;
     font-size: 10px;
     font-weight: 500;
-    margin: 0 5px;
+    margin: 0 2px;
 }
 
 .promo_tab .nav-tabs li .active {
@@ -371,7 +371,7 @@ nav#sidebar {
     border-radius: 12px;
 }
 #cruncy-chart {
-    height: 60vh;
+      height: 68.5vh;
 }
 
 .alert_text2.text-center h4 {
@@ -395,15 +395,6 @@ button.clear {
 div#add_alert2 form li {
     display: flex;
     justify-content: space-between;
-}
-div#add_alert2 form li div div div input {
-    width: 47%;
-    padding: 7px 12px;
-    border: none;
-    margin-bottom: 15px;
-    border-radius: 100px;
-    font-weight: 400;
-    font-size: 12px;
 }
 div#add_alert2 form li input,
 div#add_alert2 form li button {
@@ -491,4 +482,17 @@ table .buy {
 }.content.main-content .col-md-10 {
     flex: 80%;
     max-width: 80%;
+}
+.navbar-brand {
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+    width: 13%;
+}
+.sidebar_div ul:last-child {
+    border-bottom: none!important;
 }
