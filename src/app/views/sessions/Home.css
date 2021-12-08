@@ -1,7 +1,7 @@
 body {
     background: #232a32;
     /* padding: 0px 30px;   */
-    font-family: 'Montserrat';
+    /*font-family: 'Montserrat'!important;*/
 }
 
 nav#mainNav {
@@ -63,7 +63,7 @@ nav#sidebar h4 {
 
 .sidebar .nav:not(.sub-menu) {
     margin: 0 10px;
-    border-bottom: 1px solid #9ca7b4;
+    border-bottom: 1px solid #5d666a;
 }
 
 .bnb span {
@@ -76,14 +76,15 @@ li.nav-item.bnb a {
 }
 
 li.nav-item.alert_icon a {
-    background: #20262f !important;
+           background: #20262f !important;
     width: 50px;
     height: 50px;
     margin-right: 10px;
-    font-size: 22px;
+    font-size: 20px;
     text-align: center;
-    color: #6c7383;
+    color: #fff;
     border-radius: 6px;
+    padding: 11px;
 }
 
 li.nav-item.alert_icon a:hover {
@@ -116,7 +117,6 @@ li.nav-item.alert_icon a:hover {
 .price h5 {
     font-size: 25px;
     margin-top: 20px;
-    font-weight: bold;
 }
 
 .price h5 span {
@@ -139,7 +139,7 @@ li.nav-item.alert_icon a:hover {
 }
 
 .market_cap p {
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 12px;
 }
 
@@ -148,7 +148,7 @@ li.nav-item.alert_icon a:hover {
 }
 
 .market_cap {
-    border-bottom: 1px solid #9ca7b4;
+    border-bottom: 1px solid #5d666a;
     margin-bottom: 35px;
     padding: 10px 0;
 }
@@ -264,7 +264,7 @@ div#promoted {
 
 .promo_tab {
     background: #131722;
-    padding: 15px;
+    padding: 10px;
     border-radius: 12px;
 }
 
@@ -279,8 +279,8 @@ div#promoted {
     padding: 5px 6px;
     border-radius: 100px;
     text-transform: uppercase;
-    font-size: 11px;
-    font-weight: bold;
+    font-size: 10px;
+    font-weight: 500;
     margin: 0 5px;
 }
 
@@ -292,11 +292,6 @@ div#promoted {
 
 p.media_icon a:hover {
     color: #fff;
-}
-
-p.media_icon a {
-    color: #5d666a;
-    font-size: 22px;
 }
 
 .alert_text h3 {
@@ -327,12 +322,14 @@ p.media_icon a {
 }
 
 #navbarResponsive ul.navbar-nav li button.button {
-    background: #ebcc86;
+   background: #ebcc86;
     color: #2f3945;
     padding: 6px 15px !important;
     border-radius: 100px;
-    font-weight: bold;
+    font-weight: 500;
     transition: all 200ms linear 0s;
+    font-size: 16px;
+    border: none;
 }
 
 #navbarResponsive ul.navbar-nav li button.button:hover {
@@ -354,6 +351,7 @@ p.media_icon a {
     display: inline-block;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
+    margin-right: 8px;
 }
 
 .sise_title span a {
@@ -432,4 +430,56 @@ div#add_alert2 form button {
 }
 div#add_alert2 form li:last-child button {
     margin-bottom: 0;
+}
+.home-wrapper {
+    background: #232a32;
+      padding: 0 10px;
+}
+.content.main-content {
+    margin: 0;
+    padding-top: 30px;
+}
+
+.home-wrapper .h4,.home-wrapper h4 {
+   font-size: 1.125rem!important;
+}
+i.fas.fa-bell.show_hover {
+    color: #1dbaab!important;
+}
+.alert_icon i.mdi.mdi-heart {
+    color: #ec514e!important;
+}
+.price p {
+    font-weight: 500;
+}
+p.media_icon a {
+    width: 40px;
+    height: 40px;
+    padding: 6px 0px 0px 9px;color: #5d666a;
+    font-size: 20px;
+}
+
+.pricing-table {
+    background: #2c343e;
+    border-radius: 12px;
+}
+div#cruncy-chart {
+    margin-bottom: 30px;
+    background: #131722;
+    border-radius: 12px;
+    padding: 11px;
+}
+/*.pricing-table td {
+    white-space: nowrap;
+}*/
+table .buy {
+    color: #15dac7;
+}
+
+.content.main-content .col-md-2 {
+    flex: 20%;
+    max-width: 20%;
+}.content.main-content .col-md-10 {
+    flex: 80%;
+    max-width: 80%;
 }
