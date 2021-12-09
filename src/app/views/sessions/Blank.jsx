@@ -771,7 +771,7 @@ const Blank = ({ dispatch }) => {
                                                 size="small"
                                                 placeholder="High price...."
                                                 onChange={handleChange}
-                                                type="number"
+                                                type="text"
                                                 name="highPrice"
                                                 value={highPrice || ''}
                                                 validators={['required']}
@@ -800,7 +800,7 @@ const Blank = ({ dispatch }) => {
                                                 size="small"
                                                 placeholder="Low price...."
                                                 onChange={handleChange}
-                                                type="number"
+                                                type="text"
                                                 name="lowPrice"
                                                 value={lowPrice || ''}
                                                 validators={['required']}
