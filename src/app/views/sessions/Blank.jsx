@@ -289,7 +289,7 @@ const Blank = ({ dispatch }) => {
                                 >
                                     <div className="carousel-inner">
                                     {ads.map((add, index) => (
-                                        <div className="carousel-item active" key={index}> 
+                                        <div className={"carousel-item " + (index == 0 ? 'active' : '')} key={index}> 
                                             <div className="slide_box">
                                                 <a href={add.title} target="_blank"><img src={add.ads} /></a>
                                             </div>

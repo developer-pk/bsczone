@@ -521,3 +521,6 @@ table .buy {
     background: #ef5350;
     color: #fff;
 }
+.slide_box a img {
+    width: 100%;
+}
