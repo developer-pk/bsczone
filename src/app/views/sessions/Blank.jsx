@@ -23,6 +23,7 @@ import {createAlert} from 'app/redux/actions/common/AlertActions'
 import { ToastContainer, toast } from 'material-react-toastify';
 import 'material-react-toastify/dist/ReactToastify.css';
 import {getAds, deleteAds} from 'app/redux/actions/admin/ads/AdsActions'
+import { $CombinedState } from 'redux'
 
 const Blank = ({ dispatch }) => {
 
@@ -30,6 +31,7 @@ const Blank = ({ dispatch }) => {
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
     const {ads} = useSelector(state=>state);
+    const [show, setShow] = useState({})
     //creating function to load ip address from the API
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -54,11 +56,12 @@ const Blank = ({ dispatch }) => {
     }
     const handleFormSubmit = (event) => {
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:'SHIBUSDT',ip:ip};
+        console.log(params,'get it');
         dispatch(createAlert(params));
         toast.success("Alert added successfully.");
         setState({highPrice:'',lowPrice:''});
-        history.push('/home')
-        
+        //history.push('/home')
+        //$("#add_alert2").modal('hide');
   }
 
   const clearHighPrice = (event) => {
@@ -268,16 +271,16 @@ const Blank = ({ dispatch }) => {
                                         </p>
                                         <p>MEDIA</p>
                                         <p className="media_icon">
-                                            <a href="/">
+                                            <a href="/" target="_blank">
                                                 <i className="fas fa-globe-africa" />
                                             </a>
-                                            <a href="/">
+                                            <a href="https://twitter.com/" target="_blank">
                                                 <i className="fab fa-twitter" />
                                             </a>
-                                            <a href="/">
+                                            <a href="https://telegram.org/" target="_blank">
                                                 <i className="fab fa-telegram-plane" />
                                             </a>
-                                            <a href="/">
+                                            <a href="https://www.reddit.com/" target="_blank">
                                                 <i className="fab fa-reddit-alien" />
                                             </a>
                                         </p>
@@ -288,7 +291,7 @@ const Blank = ({ dispatch }) => {
                                 <div className="sise_title">
                                     <b className="ads">ADS</b> APP ADS -{' '}
                                     <span>
-                                        <a href="/">Contact us!</a>
+                                        <a href="#" target="_blank">Contact us!</a>
                                     </span>
                                 </div>
                                 <div
@@ -746,7 +749,7 @@ const Blank = ({ dispatch }) => {
             </div>
             </div>
             <div
-                className="modal fade"
+                className="modal fade "
                 id="add_alert2"
                 tabIndex={-1}
                 role="dialog"
@@ -766,7 +769,6 @@ const Blank = ({ dispatch }) => {
                                                 className="mb-6 w-full"
                                                 variant="outlined"
                                                 size="small"
-                                                label="High price"
                                                 placeholder="High price...."
                                                 onChange={handleChange}
                                                 type="number"
@@ -774,11 +776,9 @@ const Blank = ({ dispatch }) => {
                                                 value={highPrice || ''}
                                                 validators={['required']}
                                                 errorMessages={['this field is required']}
-                                                ref={el => highPrice = el}
-                                                min="0.00"
-                                                step="0.001"
-                                                max="1.00"
-                                                presicion={2}  
+                                                onInput={(e)=>{ 
+                                                    e.target.value = Math.max(0, e.target.value ).toString().slice(0,9)
+                                                }}
                                             />
                                             {/* <input
                                                 type="text"
@@ -798,18 +798,16 @@ const Blank = ({ dispatch }) => {
                                                 className="mb-6 w-full"
                                                 variant="outlined"
                                                 size="small"
-                                                label="Low price"
                                                 placeholder="Low price...."
                                                 onChange={handleChange}
-                                                type="text"
+                                                type="number"
                                                 name="lowPrice"
                                                 value={lowPrice || ''}
                                                 validators={['required']}
                                                 errorMessages={['this field is required']}
-                                                min="0.00"
-                                                step="0.001"
-                                                max="1.00"
-                                                presicion={2}
+                                                onInput={(e)=>{ 
+                                                    e.target.value = Math.max(0, e.target.value ).toString().slice(0,9)
+                                                }}
                                             />
                                              <Button
                                                 className="capitalize clear"
