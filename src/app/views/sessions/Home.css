@@ -167,7 +167,7 @@ li.nav-item.alert_icon a:hover {
 
 .pans p {
     color: #87919d;
-    margin-bottom: 15px;
+    margin-bottom: 15px!important;
     display: inline-block;
     width: 100%;
     font-size: 11px;
