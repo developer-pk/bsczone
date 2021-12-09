@@ -20,12 +20,14 @@ import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import './Home.css';
 import axios from 'axios'
 import {createAlert} from 'app/redux/actions/common/AlertActions'
+import { ToastContainer, toast } from 'material-react-toastify';
+import 'material-react-toastify/dist/ReactToastify.css';
 
 const Blank = ({ dispatch }) => {
 
     const [state, setState] = useState({})
     const [ip, setIP] = useState('');
-
+    const [message, setMessage] = useState('')
     //creating function to load ip address from the API
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -47,8 +49,9 @@ const Blank = ({ dispatch }) => {
     const handleFormSubmit = (event) => {
         const params = {highPrice:state.highPrice,lowPrice:state.lowPrice,status:'active',currencySymbol:'SHIBUSDT',ip:ip};
         dispatch(createAlert(params));
+        toast.success("Alert added successfully.");
         history.push('/home')
-    
+        
   }
 
   let { highPrice, lowPrice } = state
@@ -60,6 +63,15 @@ const Blank = ({ dispatch }) => {
         >
             <div className="home-wrapper">
                 <div className="container-fluid">
+                <ToastContainer position="top-right"
+                                autoClose={3000}
+                                hideProgressBar
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover />
             {/* Navigation */}
             <nav
                 className="navbar navbar-expand-lg text-uppercase "
@@ -789,6 +801,10 @@ const Blank = ({ dispatch }) => {
                                             >
                                                 ACCEPT
                                             </Button>
+
+                                            {message && (
+                                                    <p className="text-success">{message}</p>
+                                                )}
                                         </li>
                                     </ul>
                                 </ValidatorForm>

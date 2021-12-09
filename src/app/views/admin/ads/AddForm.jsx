@@ -28,6 +28,8 @@ import {createAds} from 'app/redux/actions/admin/ads/AdsActions'
 import { connect } from 'react-redux';
 import { RichTextEditor, Breadcrumb } from 'app/components'
 import FileBase64 from 'react-file-base64';
+import { ToastContainer, toast } from 'material-react-toastify';
+import 'material-react-toastify/dist/ReactToastify.css';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -63,10 +65,12 @@ const AddForm = ({ dispatch }) => {
 
     const handleSubmit = (event) => {
 
-          console.log(selectedFile,'form data');
-          const params = {title:state.title,ads:selectedFile,status:state.Status};
+          //console.log(selectedFile[0].base64,'form data');
+          const params = {title:state.title,ads:selectedFile[0].base64,status:state.Status};
             dispatch(createAds(params));
-           history.push('/ads/list')
+          //  toast.success("Ads added successfully.");
+          history.push('/ads/list')
+
       
     }
 
