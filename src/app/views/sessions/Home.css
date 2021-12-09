@@ -429,6 +429,11 @@ div#add_alert2 form button {
     opacity: 0.9;
     cursor: pointer;
     letter-spacing: 5px;
+    height: 44px;
+}
+div#add_alert2 form li:last-child button {
+    height: auto;
+    padding: 7px;
 }
 div#add_alert2 form li:last-child button {
     margin-bottom: 0;
@@ -513,13 +518,27 @@ table .buy {
 }
 .alert_text2 .MuiFormControl-root.MuiTextField-root.mb-6.w-full {
     width: 100%;
-    padding: 7px 12px;
+    padding: 5px 12px;
     border: none;
     margin-bottom: 15px;
     border-radius: 100px;
     font-weight: 400;
     font-size: 12px;
     background: #fff;
+}
+div#add_alert2 form li .MuiFormControl-root input {
+    background: transparent;
+    color: #8c91a1;
+    margin: 0;
+    padding: 9px;
+}
+
+div#add_alert2 .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+   
+    border: none;
+}
+div#add_alert2 .MuiOutlinedInput-notchedOutline{  
+    border: none;
 }
 .slide_box a img {
     width: 100%;
