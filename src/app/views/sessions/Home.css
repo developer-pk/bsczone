@@ -396,15 +396,16 @@ div#add_alert2 form li {
     display: flex;
     justify-content: space-between;
 }
-div#add_alert2 form li input,
-div#add_alert2 form li button {
+div#add_alert2 form li input, div#add_alert2 form li button {
     width: 47%;
-    padding: 7px 12px;
+    padding: 0px 12px;
     border: none;
     margin-bottom: 15px;
     border-radius: 100px;
     font-weight: 400;
     font-size: 12px;
+    background: #ef5350;
+    color: #fff;
 }
 div#add_alert2 ul {
     padding: 0;
@@ -463,7 +464,17 @@ p.media_icon a {
     background: #2c343e;
     border-radius: 12px;
 }
+/* div#cruncy-chart {
+    margin-bottom: 30px;
+    background: #131722;
+    border-radius: 12px;
+    padding: 11px;
+} */
 div#cruncy-chart {
+    margin-bottom: 30px;
+    height: 68.5vh;
+}
+div#cruncy-chart article {
     margin-bottom: 30px;
     background: #131722;
     border-radius: 12px;
@@ -495,4 +506,18 @@ table .buy {
 }
 .sidebar_div ul:last-child {
     border-bottom: none!important;
+}
+.MuiOutlinedInput-notchedOutline {
+    border-color: transparent;
+}
+.MuiFormControl-root.MuiTextField-root.mb-6.w-full {
+    width: 100%;
+    padding: 7px 12px;
+    border: none;
+    margin-bottom: 15px;
+    border-radius: 100px;
+    font-weight: 400;
+    font-size: 12px;
+    background: #ef5350;
+    color: #fff;
 }

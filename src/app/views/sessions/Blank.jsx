@@ -22,12 +22,14 @@ import axios from 'axios'
 import {createAlert} from 'app/redux/actions/common/AlertActions'
 import { ToastContainer, toast } from 'material-react-toastify';
 import 'material-react-toastify/dist/ReactToastify.css';
+import {getAds, deleteAds} from 'app/redux/actions/admin/ads/AdsActions'
 
 const Blank = ({ dispatch }) => {
 
     const [state, setState] = useState({})
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
+    const {ads} = useSelector(state=>state);
     //creating function to load ip address from the API
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -37,6 +39,8 @@ const Blank = ({ dispatch }) => {
 
     useEffect(() => {
        getData()
+       const params={type:'GET_ADS'};
+       dispatch(getAds(params));
     }, [])
 
 
@@ -45,14 +49,31 @@ const Blank = ({ dispatch }) => {
             ...state,
             [name]: value,
         })
+       // sethighPrice(value);
+      //  setlowPrice(value);
     }
     const handleFormSubmit = (event) => {
-        const params = {highPrice:state.highPrice,lowPrice:state.lowPrice,status:'active',currencySymbol:'SHIBUSDT',ip:ip};
+        const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:'SHIBUSDT',ip:ip};
         dispatch(createAlert(params));
         toast.success("Alert added successfully.");
+        setState({highPrice:'',lowPrice:''});
         history.push('/home')
         
   }
+
+  const clearHighPrice = () => {
+//console.log('asdsadasd');
+            setState({
+                highPrice:''
+            })
+    }
+
+            const clearPrice = () => {
+                setState({
+                    highPrice:'',
+                    lowPrice:''
+                })
+                            }
 
   let { highPrice, lowPrice } = state
     return (
@@ -267,21 +288,14 @@ const Blank = ({ dispatch }) => {
                                     data-ride="carousel"
                                 >
                                     <div className="carousel-inner">
-                                        <div className="carousel-item">
+                                    {ads.map((add, index) => (
+                                        <div className="carousel-item active" key={index}> 
                                             <div className="slide_box">
-                                                slide 1
+                                                <a href={add.title} target="_blank"><img src={add.ads} /></a>
                                             </div>
                                         </div>
-                                        <div className="carousel-item">
-                                            <div className="slide_box">
-                                                slide 2
-                                            </div>
-                                        </div>
-                                        <div className="carousel-item active">
-                                            <div className="slide_box">
-                                                slide 3
-                                            </div>
-                                        </div>
+                                 
+                                    ))}
                                         <a
                                             className="carousel-control-prev"
                                             href="#carouselExampleSlidesOnly"
@@ -751,6 +765,7 @@ const Blank = ({ dispatch }) => {
                                                 value={highPrice || ''}
                                                 validators={['required']}
                                                 errorMessages={['this field is required']}
+                                                ref={el => highPrice = el}
                                             />
                                             {/* <input
                                                 type="text"
@@ -760,6 +775,7 @@ const Blank = ({ dispatch }) => {
                                                 className="capitalize clear"
                                                 variant="contained"
                                                 type="button"
+                                                onClick={clearHighPrice}
                                             >
                                                 CLEAR
                                             </Button>
@@ -791,6 +807,7 @@ const Blank = ({ dispatch }) => {
                                                 className="capitalize clear"
                                                 variant="contained"
                                                 type="button"
+                                                onClick={clearPrice}
                                             >
                                                 CLEAR
                                             </Button>
