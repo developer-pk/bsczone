@@ -167,7 +167,7 @@ li.nav-item.alert_icon a:hover {
 
 .pans p {
     color: #87919d;
-    margin-bottom: 15px;
+    margin-bottom: 15px!important;
     display: inline-block;
     width: 100%;
     font-size: 11px;
@@ -390,8 +390,10 @@ div#add_alert2 .modal-body {
     border: 1px solid #15dac7;
     border-radius: 12px;
     box-shadow: 0 0 12px rgb(0 0 0);
-    width: 80%;
+    width: 506px;
     margin: 22% auto;
+    height: 416px;
+    padding: 50px;
 }
 div#add_alert2 .modal-content {
     background: transparent;
@@ -405,7 +407,7 @@ div#add_alert2 form li {
     justify-content: space-between;
 }
 div#add_alert2 form li input, div#add_alert2 form li button {
-    width: 47%;
+    width: 184px;
     padding: 6px 12px;
     border: none;
     margin-bottom: 15px;
@@ -414,7 +416,7 @@ div#add_alert2 form li input, div#add_alert2 form li button {
     font-size: 12px;
     background: #ef5350;
     color: #fff;
-    font-weight: 600;
+    font-weight: 600;height: 37px;
 }
 div#add_alert2 ul {
     padding: 0;
@@ -424,7 +426,9 @@ button.accept {
 }
 .alert_text2.text-center h4 {
     color: #fff;
-    margin: 15px 0 20px;
+    margin: 38px 0 42px;
+    font-size: 18px!important;
+    text-transform: uppercase;
 }
 div#add_alert2 form li:last-child {
     margin-top: 10px;
@@ -437,7 +441,6 @@ div#add_alert2 form button {
     opacity: 0.9;
     cursor: pointer;
     letter-spacing: 5px;
-    height: 37px;
 }div#add_alert2 form li:last-child button:last-child {
     background: #15dac7;
     color: #131722;
@@ -528,10 +531,10 @@ table .buy {
     border-color: transparent;
 }
 .alert_text2 .MuiFormControl-root.MuiTextField-root.mb-6.w-full {
-    width: 100%;
+    width: 184px;
     padding: 2px 12px;
     border: none;
-    margin-bottom: 15px;
+    height: 34px;
     border-radius: 100px;
     font-weight: 400;
     font-size: 12px;
