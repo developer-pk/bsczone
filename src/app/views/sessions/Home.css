@@ -511,7 +511,7 @@ table .buy {
 .MuiOutlinedInput-notchedOutline {
     border-color: transparent;
 }
-.MuiFormControl-root.MuiTextField-root.mb-6.w-full {
+.alert_text2 .MuiFormControl-root.MuiTextField-root.mb-6.w-full {
     width: 100%;
     padding: 7px 12px;
     border: none;
@@ -519,8 +519,7 @@ table .buy {
     border-radius: 100px;
     font-weight: 400;
     font-size: 12px;
-    background: #ef5350;
-    color: #fff;
+    background: #fff;
 }
 .slide_box a img {
     width: 100%;
