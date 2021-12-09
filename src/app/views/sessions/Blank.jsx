@@ -225,14 +225,11 @@ const Blank = ({ dispatch }) => {
                                         <h5>
                                             PRICE: <span>$2.4226</span>
                                         </h5>
-                                        <p>PRICE 24h CHANGE: +5%</p>
+                                        <p>PRICE 24h CHANGE: <span>+5%</span></p>
                                     </div>
                                     <div className="copy">
                                         0x3ee2......435d47{' '}
-                                        <img
-                                            alt="img-text"
-                                            src={process.env.PUBLIC_URL + "/images/copy.png"}
-                                        />
+                                        <i class="far fa-copy"></i>
                                     </div>
                                     <div className="market_cap">
                                         <p>
