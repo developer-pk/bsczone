@@ -61,19 +61,28 @@ const Blank = ({ dispatch }) => {
         
   }
 
-  const clearHighPrice = () => {
-//console.log('asdsadasd');
-            setState({
-                highPrice:''
-            })
+  const clearHighPrice = (event) => {
+       //console.log(event,'asdsadasd');
+       setState({
+           ...state,
+        highPrice:'',
+    })
     }
 
-            const clearPrice = () => {
-                setState({
-                    highPrice:'',
-                    lowPrice:''
-                })
-                            }
+    const clearLowPrice = (event) => {
+        //console.log(event,'asdsadasd');
+        setState({
+            ...state,
+         lowPrice:'',
+     })
+     }
+
+  const clearPrice = () => {
+        setState({
+            highPrice:'',
+            lowPrice:''
+        })
+    }
 
   let { highPrice, lowPrice } = state
     return (
@@ -760,12 +769,16 @@ const Blank = ({ dispatch }) => {
                                                 label="High price"
                                                 placeholder="High price...."
                                                 onChange={handleChange}
-                                                type="text"
+                                                type="number"
                                                 name="highPrice"
                                                 value={highPrice || ''}
                                                 validators={['required']}
                                                 errorMessages={['this field is required']}
                                                 ref={el => highPrice = el}
+                                                min="0.00"
+                                                step="0.001"
+                                                max="1.00"
+                                                presicion={2}  
                                             />
                                             {/* <input
                                                 type="text"
@@ -793,11 +806,16 @@ const Blank = ({ dispatch }) => {
                                                 value={lowPrice || ''}
                                                 validators={['required']}
                                                 errorMessages={['this field is required']}
+                                                min="0.00"
+                                                step="0.001"
+                                                max="1.00"
+                                                presicion={2}
                                             />
                                              <Button
                                                 className="capitalize clear"
                                                 variant="contained"
                                                 type="button"
+                                                onClick={clearLowPrice}
                                             >
                                                 CLEAR
                                             </Button>
