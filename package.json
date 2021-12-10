@@ -44,6 +44,7 @@
     "react-beautiful-dnd": "^11.0.4",
     "react-big-calendar": "^0.24.6",
     "react-bootstrap": "^2.0.3",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^16.8.6",
     "react-dropzone": "^11.2.0",
     "react-file-base64": "^1.0.3",
@@ -71,7 +72,7 @@
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true SSL_CRT_FILE=/etc/letsencrypt/live/bsczoneapp.webtracktechnology.com/fullchain.pem SSL_KEY_FILE=/etc/letsencrypt/live/bsczoneapp.webtracktechnology.com/privkey.pem react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
