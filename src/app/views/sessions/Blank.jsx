@@ -26,6 +26,7 @@ import { $CombinedState } from 'redux'
 import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
 
 const Blank = ({ dispatch }) => {
 
@@ -313,7 +314,7 @@ const Blank = ({ dispatch }) => {
                                     {ads.map((add, index) => (
                                         <div className={"carousel-item " + (index == 0 ? 'active' : '')} key={index}> 
                                             <div className="slide_box">
-                                                <a href={add.title} target="_blank"><img src={add.ads} /></a>
+                                                <a href={add.title} target="_blank"><img src={SERVICE_URL+"/uploads/"+add.ads} /></a>
                                             </div>
                                         </div>
                                  
