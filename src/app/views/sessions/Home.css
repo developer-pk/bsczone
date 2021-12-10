@@ -327,6 +327,9 @@ div#add_alert2 .MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error.Mui
     font-size: 14px;
     vertical-align: middle;
 }
+.carousel-control-prev, .carousel-control-next {
+    width: 22%;
+}
 .alert_text:last-child {
     padding: 0;
     margin: 0;
