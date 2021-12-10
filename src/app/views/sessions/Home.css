@@ -86,7 +86,7 @@ li.nav-item.alert_icon a {
     margin-right: 10px;
     font-size: 22px;
     text-align: center;
-    color: #fff;
+    color: #9ca7b4;
     border-radius: 6px;
     padding: 3px;
 }
@@ -138,17 +138,20 @@ li.nav-item.alert_icon a:hover {
     margin: 15px 0;
     font-size: 10px;
     width: 100%;
-    font-weight: 300;
+    font-weight: 300;cursor: pointer;
 }
-.copy img {
+.copy:hover i{
+    color: #15dac7;
+}
+
+.copy i {
     float: right;
-    margin-top: 3px;
 }
 
 .market_cap p {
     font-weight: 600;
     margin-bottom: 12px;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .show_hover {
@@ -181,10 +184,13 @@ li.nav-item.alert_icon a:hover {
     float: right;
     display: inline-block;
     text-decoration: none;
+    background: #272f38;
+}.pans .media_icon a {
+    background: transparent;
 }
-
 .pans p a:hover {
     color: #fff;
+    background: #15dac7
 }
 
 p.media_icon {
@@ -299,14 +305,31 @@ div#promoted {
 }
 
 p.media_icon a:hover {
-    color: #fff;
+    color: #fff;background: transparent;
 }
 
 .alert_text h3 {
     font-weight: bold;
     margin: 20px 0 10px;
 }
-
+p.media_icon a:hover {
+    background: transparent;
+}
+div#add_alert2 .MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error.MuiFormHelperText-marginDense {
+    position: absolute;
+    top: 30px;
+    left: -2px;
+    font-weight: 700;
+    font-size: 10px;
+}
+.pans .tag_btn a i {
+    margin-left: 4px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+.carousel-control-prev, .carousel-control-next {
+    width: 22%;
+}
 .alert_text:last-child {
     padding: 0;
     margin: 0;
@@ -346,7 +369,7 @@ p.media_icon a:hover {
 }
 
 .sise_title {
-    font-size: 13px;
+    font-size: 10px;
     color: #5d6671;
     text-transform: uppercase;
 }
@@ -360,6 +383,7 @@ p.media_icon a:hover {
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     margin-right: 8px;
+    font-size: 12px;
 }
 
 .sise_title span a {
@@ -368,7 +392,7 @@ p.media_icon a:hover {
 }
 
 .slide_box {
-    height: 210px;
+    height: 120px;
     background: #fff;
     text-align: center;
     margin: 15px 15px;
@@ -416,7 +440,7 @@ div#add_alert2 form li input, div#add_alert2 form li button {
     font-size: 12px;
     background: #ef5350;
     color: #fff;
-    font-weight: 600;height: 37px;
+    font-weight: 600;
 }
 div#add_alert2 ul {
     padding: 0;
@@ -431,7 +455,7 @@ button.accept {
     text-transform: uppercase;
 }
 div#add_alert2 form li:last-child {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 div#add_alert2 form button:hover {
     opacity: 1;
@@ -439,7 +463,7 @@ div#add_alert2 form button:hover {
 div#add_alert2 form button {
     text-transform: uppercase;
     opacity: 0.9;
-    cursor: pointer;
+    cursor: pointer;height: 37px;
     letter-spacing: 5px;
 }div#add_alert2 form li:last-child button:last-child {
     background: #15dac7;
@@ -480,19 +504,14 @@ p.media_icon a {
     font-size: 20px;
 }
 
-.pricing-table {
+.pricing-table table{
     background: #2c343e;
     border-radius: 12px;
 }
-/* div#cruncy-chart {
-    margin-bottom: 30px;
-    background: #131722;
-    border-radius: 12px;
-    padding: 11px;
-} */
+
 div#cruncy-chart {
     margin-bottom: 30px;
-    height: 68.5vh;
+    height: 61.5vh;
 }
 div#cruncy-chart article {
     margin-bottom: 30px;
@@ -508,9 +527,10 @@ table .buy {
 }
 
 .content.main-content .col-md-2 {
-    flex: 20%;
-    max-width: 20%;
-}.content.main-content .col-md-10 {
+    flex: 18%;
+    max-width: 18%;
+}
+.content.main-content .col-md-10 {
     flex: 80%;
     max-width: 80%;
 }
@@ -539,6 +559,7 @@ table .buy {
     font-weight: 400;
     font-size: 12px;
     background: #fff;
+    margin-bottom: 20px!important;
 }
 div#add_alert2 form li .MuiFormControl-root input {
     background: transparent;
