@@ -16,7 +16,6 @@ import useAuth from 'app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import { connect } from 'react-redux';
 import TradingViewWidget, {Themes} from 'react-tradingview-widget';
-import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import './Home.css';
 import axios from 'axios'
 import {createAlert} from 'app/redux/actions/common/AlertActions'
@@ -25,6 +24,7 @@ import 'material-react-toastify/dist/ReactToastify.css';
 import {getAds, deleteAds} from 'app/redux/actions/admin/ads/AdsActions'
 import { $CombinedState } from 'redux'
 import { Modal, Form } from "react-bootstrap";
+import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 const Blank = ({ dispatch }) => {
@@ -240,7 +240,7 @@ const Blank = ({ dispatch }) => {
                                     </div>
                                     <div className="copy">
                                         0x3ee2......435d47{' '}
-                                        <CopyToClipboard text="0x3ee2......435d47"
+                                        <CopyToClipboard text="0x3ee2f7d3d7f4s435d47"
                                             onCopy={() => setCopy(true)}>
                                             <span><i className="far fa-copy"></i></span>
                                             </CopyToClipboard>
@@ -761,9 +761,10 @@ const Blank = ({ dispatch }) => {
             <Modal id="add_alert2" show={show} onHide={handleClose}>
             
                 <Modal.Body>
-                <Modal.Header closeButton>
+                <i className="fas fa-times pull-right" onClick={handleClose} />
+                {/* <Modal.Header closeButton>
                
-               </Modal.Header>
+               </Modal.Header> */}
                 <div className="alert_text2 text-center">
                                 <img alt="img-text" src={process.env.PUBLIC_URL + "/images/noti.png"} />
                                 <h4>Set up an alarm</h4>
@@ -848,11 +849,6 @@ const Blank = ({ dispatch }) => {
                                 </ValidatorForm>
                             </div>
                 </Modal.Body>
-                <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close Modal
-                </Button>
-                </Modal.Footer>
             </Modal>
             <div
                 className="modal fade "
