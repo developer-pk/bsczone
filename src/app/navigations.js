@@ -1,6 +1,6 @@
 import { authRoles } from './auth/authRoles'
 const role = localStorage.getItem('userRole');
-console.log(authRoles.admin[1],'get role');
+
 export const navigations = [
     {
         name: 'Dashboard',
@@ -26,6 +26,11 @@ export const navigations = [
     {
         name: 'Alerts',
         path: '/alert/list',
+        icon: 'location_city',
+    },
+    {
+        name: 'Contact Us',
+        path: '/contacts/list',
         icon: 'location_city',
     },
 

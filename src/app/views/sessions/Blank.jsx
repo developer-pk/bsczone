@@ -291,7 +291,7 @@ const Blank = ({ dispatch }) => {
                                 <div className="sise_title">
                                     <b className="ads">ADS</b> APP ADS -{' '}
                                     <span>
-                                        <a href="#" target="_blank">Contact us!</a>
+                                        <a href="/contact-us" target="_blank">Contact us!</a>
                                     </span>
                                 </div>
                                 <div
