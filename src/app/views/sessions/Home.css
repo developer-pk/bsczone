@@ -392,7 +392,7 @@ div#add_alert2 .MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error.Mui
 }
 
 .slide_box {
-    height: 210px;
+    height: 120px;
     background: #fff;
     text-align: center;
     margin: 15px 15px;
@@ -508,15 +508,10 @@ p.media_icon a {
     background: #2c343e;
     border-radius: 12px;
 }
-/* div#cruncy-chart {
-    margin-bottom: 30px;
-    background: #131722;
-    border-radius: 12px;
-    padding: 11px;
-} */
+
 div#cruncy-chart {
     margin-bottom: 30px;
-    height: 68.5vh;
+    height: 61.5vh;
 }
 div#cruncy-chart article {
     margin-bottom: 30px;
