@@ -252,7 +252,7 @@ const Blank = ({ dispatch }) => {
                                         <p>
                                             PANCAKESWAP <a href="/">TRADE</a>
                                         </p>
-                                        <p>
+                                        <p className="tag_btn">
                                             <img
                                                 alt="img-text"
                                                 src={process.env.PUBLIC_URL + "/images/bscscan.png"}
@@ -260,10 +260,7 @@ const Blank = ({ dispatch }) => {
                                             BSC SCAN{' '}
                                             <a href="/">
                                                 TRADE{' '}
-                                                <img
-                                                    alt="img-text"
-                                                    src={process.env.PUBLIC_URL + "/images/down.png"}
-                                                />
+                                                <i class="fas fa-angle-down"></i>
                                             </a>
                                         </p>
                                         <p>MEDIA</p>

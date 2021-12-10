@@ -322,6 +322,11 @@ div#add_alert2 .MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error.Mui
     font-weight: 700;
     font-size: 10px;
 }
+.pans .tag_btn a i {
+    margin-left: 4px;
+    font-size: 14px;
+    vertical-align: middle;
+}
 .alert_text:last-child {
     padding: 0;
     margin: 0;
