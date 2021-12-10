@@ -4,7 +4,9 @@ body {
     /* padding: 0px 30px;   */
     /*font-family: 'Montserrat'!important;*/
 }
-
+.min-h-full-screen{
+    background: #232a32;
+}
 nav#mainNav {
     background: #131722;
     border-bottom-left-radius: 15px;
@@ -274,6 +276,11 @@ div#promoted {
 .promo_tab li {
     line-height: 32px;
     list-style: none;
+}.promo_tab .nav-tabs li:last-child {
+    margin-right: 0;
+}
+.promo_tab .nav-tabs li {
+    margin-right: 10px;
 }
 
 .promo_tab {
@@ -290,12 +297,13 @@ div#promoted {
 .promo_tab .nav-tabs a {
     background: #232a32;
     color: #9ca7b4;
-    padding: 5px 6px;
+    padding: 5px 15px;
     border-radius: 100px;
     text-transform: uppercase;
     font-size: 10px;
     font-weight: 500;
     margin: 0 2px;
+    font-weight: 600;
 }
 
 .promo_tab .nav-tabs li .active {
@@ -508,7 +516,9 @@ p.media_icon a {
     background: #2c343e;
     border-radius: 12px;
 }
-
+.pricing-table .table thead th {
+    text-align: center;
+}
 div#cruncy-chart {
     margin-bottom: 30px;
     height: 61.5vh;
@@ -531,8 +541,11 @@ table .buy {
     max-width: 18%;
 }
 .content.main-content .col-md-10 {
-    flex: 80%;
-    max-width: 80%;
+    flex: 82%;
+    max-width: 82%;
+}
+p.tag_btn img {
+    margin-top: -1px;
 }
 .navbar-brand {
     display: inline-block;
