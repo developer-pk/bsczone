@@ -278,7 +278,17 @@ div#promoted {
 div#promoted li {
     border-bottom: 1px solid rgb(255 255 255 / 8%);
 }
-
+div#add_alert2 i.fas.fa-times.pull-right {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    color: #fff;
+    opacity: .7;
+    font-size: 21px;
+}
+div#add_alert2 i.fas.fa-times.pull-right:hover {
+    opacity:1;
+}
 
 .promo_tab li {
     line-height: 36px;
