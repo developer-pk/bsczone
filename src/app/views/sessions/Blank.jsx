@@ -783,7 +783,8 @@ const Blank = ({ dispatch }) => {
                                                 validators={['required']}
                                                 errorMessages={['this field is required']}
                                                 onInput={(e)=>{ 
-                                                    e.target.value = Math.max(0, e.target.value ).toString().slice(0,9)
+                                                    e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1') 
+                                                    //Math.max(0, e.target.value ).toString().slice(0,9)
                                                 }}
                                             />
                                             {/* <input
@@ -812,7 +813,8 @@ const Blank = ({ dispatch }) => {
                                                 validators={['required']}
                                                 errorMessages={['this field is required']}
                                                 onInput={(e)=>{ 
-                                                    e.target.value = Math.max(0, e.target.value ).toString().slice(0,9)
+                                                    e.target.value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1') 
+                                                    //Math.max(0, e.target.value ).toString().slice(0,9)
                                                 }}
                                             />
                                              <Button

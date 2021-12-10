@@ -5,7 +5,7 @@ import {
     FormControlLabel,
     Grid,
     Button,
-    Icon,
+    Icon
 } from '@material-ui/core'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 
@@ -143,12 +143,33 @@ const ContactUs = ({ dispatch }) => {
                             validators={['required']}
                             errorMessages={['this field is required']}
                         />
-                        <RichTextEditor
+
+                        {/* <TextField
+                            variant="outlined"
+                            className="mb-4 w-full"
+                            label="Message"
+                            onChange={handleChange}
+                            type="text"
+                            name="message"
+                            value={message || ''}
+                            validators={['required']}
+                            errorMessages={['this field is required']}
+                        /> */}
+                        <textarea className="mb-4 w-full"
+                        variant="outlined"
+                            label="Message"
+                            onChange={handleChange}
+                            type="text"
+                            placeholder="insert message here..."
+                            name="message" rows={5}
+                            cols={5} />
+
+                        {/* <RichTextEditor
                             content={content}
                             handleContentChange={(content) => setContent(content)}
                             placeholder="insert message here..."
                             name="message"
-                         />
+                         /> */}
 
                         <Button color="primary" variant="contained" type="submit">
                             <Icon>send</Icon>
