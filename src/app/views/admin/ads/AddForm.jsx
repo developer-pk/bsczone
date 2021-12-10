@@ -66,7 +66,17 @@ const AddForm = ({ dispatch }) => {
     const handleSubmit = (event) => {
 
           //console.log(selectedFile[0].base64,'form data');
-          const params = {title:state.title,ads:selectedFile[0].base64,status:state.Status};
+          // Create an object of formData
+                const formData = new FormData();
+                
+                // Update the formData object
+                formData.append(
+                    "myFile",
+                    selectedFile,
+                    selectedFile.name
+                );
+                console.log(formData.get('myFile'),'my file',formData);
+          const params = {title:state.title,ads:formData.get('myFile'),status:state.Status};
             dispatch(createAds(params));
           //  toast.success("Ads added successfully.");
           history.push('/ads/list')
@@ -120,11 +130,11 @@ const AddForm = ({ dispatch }) => {
                             errorMessages={['this field is required']}
                         />
                         <div className="mb-3">
-                            {/* <input type="file" name="file" onChange={onFileChange} /> */}
+                            <input type="file" name="file" onChange={onFileChange} />
 
-                            <FileBase64
+                            {/* <FileBase64
                             multiple={ true }
-                            onDone={ getFiles.bind(this) } />
+                            onDone={ getFiles.bind(this) } /> */}
                         </div>
 
                        

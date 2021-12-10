@@ -131,11 +131,11 @@ const AdsTable = ({ dispatch }) => {
                                     {indus.createdAt}
                                 </TableCell>
                                 <TableCell className="px-0">
-                                    <Link to="/industry/edit">
+                                    {/* <Link to="/industry/edit">
                                     <IconButton>
                                         <Icon color="primary">edit</Icon>
                                     </IconButton>
-                                    </Link>
+                                    </Link> */}
                                     <IconButton onClick={() => handleClickOpen(indus.id)}>
                                         <Icon color="error">close</Icon>
                                     </IconButton>
