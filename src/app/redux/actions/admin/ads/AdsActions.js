@@ -47,7 +47,7 @@ export const createAds = (ads) => (dispatch) => {
         .post(
             `${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/ads',
             ads,
-            { headers: { Authorization: 'Bearer ' + accessToken,"Content-type": "multipart/form-data" } }
+            { headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': "multipart/form-data; boundary=<calculated when request is sent>" } }
         )
         .then((res) => {
             dispatch({

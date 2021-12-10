@@ -118,7 +118,7 @@ const AdsTable = ({ dispatch }) => {
                                     className="px-0 capitalize"
                                     align="left"
                                 >
-                                    {(indus.ads) ? <img src={indus.ads} style={{height: "100px", width: "100px"}} /> : ''}
+                                    {(indus.ads) ? <img src={SERVICE_URL+"/uploads/"+indus.ads} style={{height: "100px", width: "100px"}} /> : ''}
                                     
                                 </TableCell>
                                 <TableCell className="px-0 capitalize">
