@@ -66,7 +66,7 @@ nav#sidebar h4 {
 }
 
 .sidebar .nav:not(.sub-menu) {
-    margin: 0 10px;
+    margin: 0 20px;
     border-bottom: 1px solid #5d666a;
 }
 
@@ -261,7 +261,9 @@ span.pro_title {
 
 div#promoted {
     color: #979797;
+    margin-top: 8px;
 }
+
 
 .pro_price {
     color: #15dac7;
@@ -273,10 +275,17 @@ div#promoted {
     border: none;
 }
 
+div#promoted li {
+    border-bottom: 1px solid rgb(255 255 255 / 8%);
+}
+
+
 .promo_tab li {
-    line-height: 32px;
+    line-height: 36px;
     list-style: none;
-}.promo_tab .nav-tabs li:last-child {
+}
+.promo_tab li {border-bottom: 0}
+.promo_tab .nav-tabs li:last-child {
     margin-right: 0;
 }
 .promo_tab .nav-tabs li {
@@ -417,6 +426,30 @@ nav#sidebar {
 .alert_text2.text-center h4 {
     color: #fff;
 }
+button.btn-close {
+    background: transparent;
+    border: none;
+    color: #fff;
+    position: absolute;
+    right: 6%;
+    top: 10%;
+    z-index: 9999;
+    opacity: .8;
+}
+button.btn-close:before {
+    content: "\f00d";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    font-size: 42px;
+}
+button.btn-close:hover {
+    
+    opacity: 1;
+}
+button.btn-close i {
+    font-size: 33px;
+    font-weight: 600;
+}
 div#add_alert2 .modal-body {
     background: #131722;
     border: 1px solid #15dac7;
@@ -512,9 +545,11 @@ p.media_icon a {
     font-size: 20px;
 }
 
-.pricing-table table{
+.pricing-table table {
     background: #2c343e;
     border-radius: 12px;
+    padding: 10px 18px;
+    display: inline-block;
 }
 .pricing-table .table thead th {
     text-align: center;
