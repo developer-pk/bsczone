@@ -628,3 +628,6 @@ div#add_alert2 .MuiOutlinedInput-notchedOutline{
 .slide_box a img {
     width: 100%;
 }
+.fa-copy{
+    cursor: pointer !important;
+}

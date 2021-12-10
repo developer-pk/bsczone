@@ -24,6 +24,8 @@ import { ToastContainer, toast } from 'material-react-toastify';
 import 'material-react-toastify/dist/ReactToastify.css';
 import {getAds, deleteAds} from 'app/redux/actions/admin/ads/AdsActions'
 import { $CombinedState } from 'redux'
+import { Modal, Form } from "react-bootstrap";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 const Blank = ({ dispatch }) => {
 
@@ -31,7 +33,14 @@ const Blank = ({ dispatch }) => {
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
     const {ads} = useSelector(state=>state);
-    const [show, setShow] = useState({})
+   // const [show, setShow] = useState({})
+
+    const [show, setShow] = useState(false);
+    const [copied, setCopy] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
     //creating function to load ip address from the API
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -60,6 +69,7 @@ const Blank = ({ dispatch }) => {
         dispatch(createAlert(params));
         toast.success("Alert added successfully.");
         setState({highPrice:'',lowPrice:''});
+        setShow(false);
         //history.push('/home')
         //$("#add_alert2").modal('hide');
   }
@@ -172,8 +182,9 @@ const Blank = ({ dispatch }) => {
                                 <button
                                     type="button"
                                     className="nav-link py-3 px-0 px-lg-3 button"
-                                    data-toggle="modal"
-                                    data-target="#add_alert2"
+                                    // data-toggle="modal"
+                                    // data-target="#add_alert2"
+                                    onClick={handleShow}
                                 >
                                     Add Alert
                                 </button>
@@ -229,7 +240,12 @@ const Blank = ({ dispatch }) => {
                                     </div>
                                     <div className="copy">
                                         0x3ee2......435d47{' '}
-                                        <i class="far fa-copy"></i>
+                                        <CopyToClipboard text="0x3ee2......435d47"
+                                            onCopy={() => setCopy(true)}>
+                                            <span><i className="far fa-copy"></i></span>
+                                            </CopyToClipboard>
+                                            {copied ? <span style={{color: 'red'}}>Copied.</span> : null}
+                                       
                                     </div>
                                     <div className="market_cap">
                                         <p>
@@ -260,7 +276,7 @@ const Blank = ({ dispatch }) => {
                                             BSC SCAN{' '}
                                             <a href="/">
                                                 TRADE{' '}
-                                                <i class="fas fa-angle-down"></i>
+                                                <i className="fas fa-angle-down"></i>
                                             </a>
                                         </p>
                                         <p>MEDIA</p>
@@ -285,7 +301,7 @@ const Blank = ({ dispatch }) => {
                                 <div className="sise_title">
                                     <b className="ads">ADS</b> APP ADS -{' '}
                                     <span>
-                                        <a href="#" target="_blank">Contact us!</a>
+                                        <a href="/contact-us" target="_blank">Contact us!</a>
                                     </span>
                                 </div>
                                 <div
@@ -742,6 +758,102 @@ const Blank = ({ dispatch }) => {
                 {/* Left and right controls  */}
             </div>
             </div>
+            <Modal id="add_alert2" show={show} onHide={handleClose}>
+            
+                <Modal.Body>
+                <Modal.Header closeButton>
+               
+               </Modal.Header>
+                <div className="alert_text2 text-center">
+                                <img alt="img-text" src={process.env.PUBLIC_URL + "/images/noti.png"} />
+                                <h4>Set up an alarm</h4>
+                                <ValidatorForm onSubmit={handleFormSubmit}>
+                                    <ul>
+                                        <li>
+                                        <TextValidator
+                                                className="mb-6 w-full"
+                                                variant="outlined"
+                                                size="small"
+                                                placeholder="High price...."
+                                                onChange={handleChange}
+                                                type="text"
+                                                name="highPrice"
+                                                value={highPrice || ''}
+                                                validators={['required']}
+                                                errorMessages={['this field is required']}
+                                                onInput={(e)=>{ 
+                                                    e.target.value = Math.max(0, e.target.value ).toString().slice(0,9)
+                                                }}
+                                            />
+                                            {/* <input
+                                                type="text"
+                                                placeholder="High price...."
+                                            /> */}
+                                             <Button
+                                                className="capitalize clear"
+                                                variant="contained"
+                                                type="button"
+                                                onClick={clearHighPrice}
+                                            >
+                                                CLEAR
+                                            </Button>
+                                        </li>
+                                        <li>
+                                        <TextValidator
+                                                className="mb-6 w-full"
+                                                variant="outlined"
+                                                size="small"
+                                                placeholder="Low price...."
+                                                onChange={handleChange}
+                                                type="text"
+                                                name="lowPrice"
+                                                value={lowPrice || ''}
+                                                validators={['required']}
+                                                errorMessages={['this field is required']}
+                                                onInput={(e)=>{ 
+                                                    e.target.value = Math.max(0, e.target.value ).toString().slice(0,9)
+                                                }}
+                                            />
+                                             <Button
+                                                className="capitalize clear"
+                                                variant="contained"
+                                                type="button"
+                                                onClick={clearLowPrice}
+                                            >
+                                                CLEAR
+                                            </Button>
+                                        </li>
+                                        <li>
+                                            <Button
+                                                className="capitalize clear"
+                                                variant="contained"
+                                                type="button"
+                                                onClick={clearPrice}
+                                            >
+                                                CLEAR
+                                            </Button>
+                                            <Button
+                                                className="capitalize accept"
+                                                variant="contained"
+                                                type="submit"
+                                            >
+                                                ACCEPT
+                                            </Button>
+
+                                            {message && (
+                                                    <p className="text-success">{message}</p>
+                                                )}
+                                        </li>
+                                    </ul>
+                                </ValidatorForm>
+                            </div>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close Modal
+                </Button>
+                </Modal.Footer>
+            </Modal>
             <div
                 className="modal fade "
                 id="add_alert2"

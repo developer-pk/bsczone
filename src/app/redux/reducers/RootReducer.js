@@ -16,6 +16,7 @@ import ServiceOfferReducer from './admin/service_offer/ServiceOfferReducer'
 import CollegeReducer from './admin/college/CollegeReducer'
 import AdsReducer from './admin/ads/AdsReducer'
 import AlertReducer from './common/AlertReducer'
+import ContactUsReducer from './frontend/ContactUsReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
@@ -35,6 +36,7 @@ const RootReducer = combineReducers({
     college:CollegeReducer,
     ads:AdsReducer,
     alert:AlertReducer,
+    contactus:ContactUsReducer,
 })
 
 export default RootReducer

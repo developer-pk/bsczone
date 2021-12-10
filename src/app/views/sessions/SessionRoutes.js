@@ -4,6 +4,7 @@ import JwtRegister from './register/JwtRegister'
 import JwtLogin from './login/JwtLogin'
 import JwtRegisterNextStep from './register/JwtRegisterNextStep'
 import Blank from './Blank'
+import ContactUs from './ContactUs'
 
 const sessionRoutes = [
     {
@@ -13,6 +14,10 @@ const sessionRoutes = [
     {
         path: '/home',
         component: Blank,
+    },
+    {
+        path: '/contact-us',
+        component: ContactUs,
     },
     {
         path: '/session/signin',
