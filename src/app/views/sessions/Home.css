@@ -641,3 +641,39 @@ div#add_alert2 .MuiOutlinedInput-notchedOutline{
 .fa-copy,.fa-times{
     cursor: pointer !important;
 }
+.trade_sub .dropdown-menu.show {
+    position: relative!important;
+    width: 100%;
+    -webkit-transform: none!important;
+    transform: none!important;
+    background: #272f38;
+    border: none;
+       border-radius: 100px;
+    display: flex;
+    font-size: 11px;justify-content: space-between;
+    margin-top: 10px;    padding: 5px 0;
+}
+.trade_sub .dropdown-menu.show a:hover {
+    background: transparent;
+    color: #15dac7;
+}
+
+.trade_sub .dropdown-menu.show a {
+    border-right: 1px solid rgb(255 255 255 / 24%);
+    border-radius: 0;
+    font-weight: 400;
+    text-transform: uppercase;background: transparent;
+}
+a#dropdownMenuButton {
+    margin-top: -19px;
+}.pans {
+    width: 100%;
+}.dropdown.trade_sub.show a#dropdownMenuButton {
+    background: #15dac7;
+    color: #fff;
+}
+.trade_sub .dropdown-toggle::after{display: none;}
+.trade_sub .dropdown-menu.show a:last-child {
+    border-right: 0;
+}
+
