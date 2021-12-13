@@ -83,11 +83,10 @@ const AddForm = ({ dispatch }) => {
                     selectedFile,
                     selectedFile.name
                 );
-                console.log(formData.get('myFile'),'my file',formData);
-          const params = {title:state.title,ads:formData,status:state.Status};
+            const params = {title:state.title,ads:formData,status:state.Status};
             dispatch(createAds(formData));
-          //  toast.success("Ads added successfully.");
-          history.push('/ads/list')
+         //   toast.success("Ads added successfully.");
+            history.push('/ads/list')
 
       
     }
