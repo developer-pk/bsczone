@@ -103,6 +103,8 @@ export const AuthProvider = ({ children }) => {
         console.log(response.data,'login data');
         localStorage.setItem('step', response.data.user.steps)
         localStorage.setItem('userRole', response.data.user.role)
+        localStorage.setItem('email', response.data.user.email)
+        localStorage.setItem('refreshToken', response.data.token.refreshToken);
         dispatch({
             type: 'LOGIN',
             payload: {

@@ -24,6 +24,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { ToastContainer } from 'material-react-toastify';
+
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -91,7 +93,15 @@ const AdsTable = ({ dispatch }) => {
             <Button variant="contained" color="primary" className={classes.button}><Icon>add</Icon> Add Ads</Button>
             </Link>
             </div>
-           
+            <ToastContainer position="top-right"
+                                autoClose={3000}
+                                hideProgressBar
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover />
             <Table className="whitespace-pre">
                 <TableHead>
                     <TableRow>
@@ -118,7 +128,7 @@ const AdsTable = ({ dispatch }) => {
                                     className="px-0 capitalize"
                                     align="left"
                                 >
-                                    {(indus.ads) ? <img src={indus.ads} style={{height: "100px", width: "100px"}} /> : ''}
+                                    {(indus.ads) ? <img src={SERVICE_URL+"/uploads/"+indus.ads} style={{height: "100px", width: "100px"}} /> : ''}
                                     
                                 </TableCell>
                                 <TableCell className="px-0 capitalize">

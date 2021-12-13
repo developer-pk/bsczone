@@ -71,15 +71,22 @@ const AddForm = ({ dispatch }) => {
                 
                 // Update the formData object
                 formData.append(
-                    "myFile",
+                    "title",
+                    state.title
+                );
+                formData.append(
+                    "status",
+                    state.Status
+                );
+                formData.append(
+                    "ads",
                     selectedFile,
                     selectedFile.name
                 );
-                console.log(formData.get('myFile'),'my file',formData);
-          const params = {title:state.title,ads:formData.get('myFile'),status:state.Status};
-            dispatch(createAds(params));
-          //  toast.success("Ads added successfully.");
-          history.push('/ads/list')
+            const params = {title:state.title,ads:formData,status:state.Status};
+            dispatch(createAds(formData));
+         //   toast.success("Ads added successfully.");
+            history.push('/ads/list')
 
       
     }
