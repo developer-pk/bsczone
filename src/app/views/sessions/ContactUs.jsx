@@ -62,17 +62,15 @@ const ContactUs = ({ dispatch }) => {
                 'flex justify-center items-center  min-h-full-screen'
             )}
         >
-            <div className="contact-us-wrapper">
+            <div className="contact-us-wrapper container">
                 <h3 className="m-8">Feel Free to Contact Us</h3>
             <Grid container>
                     <Grid item lg={5} md={5} sm={5} xs={12}>
-                        <div className="p-8 flex justify-center items-center h-full">
-                            <div className="p-8 flex justify-center items-center h-full">Contact Us</div><br></br>
-                            <div className="p-8 flex justify-center items-center h-full">Email : query@yopmail.com</div>
+                        <div className="contact_section">
+                            <div className="heading"><h4>Contact Us</h4></div>
+                            <div className="email_area contact_common"><i class="far fa-envelope"></i> Email : query@yopmail.com</div>
 
-                            <div className="p-8 flex justify-center items-center h-full">Follow Us on</div>
-                            <div className="p-8 flex justify-center items-center h-full">
-                                <p>MEDIA</p>
+                            <div className="contact_media">Follow Us on</div>
                                 <p className="media_icon">
                                     <a href="/" target="_blank">
                                         <i className="fas fa-globe-africa" />
@@ -87,7 +85,6 @@ const ContactUs = ({ dispatch }) => {
                                         <i className="fab fa-reddit-alien" />
                                     </a>
                                 </p>
-                            </div>
 
                             <img
                                 className="w-200"
@@ -97,7 +94,7 @@ const ContactUs = ({ dispatch }) => {
                         </div>
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>
-                        <div className="p-8 h-full bg-light-gray relative">
+                        <div className="">
                         <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
                         <TextValidator
                             variant="outlined"

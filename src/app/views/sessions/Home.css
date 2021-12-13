@@ -677,3 +677,69 @@ a#dropdownMenuButton {
     border-right: 0;
 }
 
+/*--------------------------contact page--------------------------*/
+
+.contact-us-wrapper {
+    background: #2c343e;
+    padding: 42px;
+    color: #fff;
+}
+.contact-us-wrapper h3 {
+    text-align: center;
+    font-size: 36px;
+}
+.contact-us-wrapper form input {
+    background: #131722;
+    border-radius: 100px;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 18px;
+}
+.MuiOutlinedInput-notchedOutline {
+    display: none;
+}
+.contact-us-wrapper form textarea {
+    background: #131722;
+    border-radius: 12px;
+    border: none;padding: 15px;color: #fff;    outline: none;
+}
+.contact-us-wrapper form button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary:hover {opacity:1}
+.contact-us-wrapper form button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
+    background: #15dac7;
+    font-size: 20px;
+    text-transform: uppercase;
+    border-radius: 100px;
+    padding: 10px 37px;    opacity: .8;
+}
+.contact_section {
+    background: #131722;
+    border-radius: 12px;
+    padding: 80px 50px;
+    color: #9ca7b4;
+}
+.contact-us-wrapper .MuiInputLabel-outlined {
+    color: rgb(117 116 120)
+}
+
+.contact_section .media_icon {
+    justify-content: flex-start;
+}.contact_media {
+    font-size: 20px;
+    margin-top: 40px;
+}
+.contact-us-wrapper form {justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;padding: 0 30px;
+}.contact-us-wrapper form div {
+    width: 48%;
+}.contact-us-wrapper form div .MuiOutlinedInput-root {
+    width: 100%;
+}
+.contact-us-wrapper form .MuiOutlinedInput-input{
+    width: 100%;
+}.contact-us-wrapper form .MuiFormControl-root{
+    width: 100%;
+}
+
+/*--------------------------contact page--------------------------*/
