@@ -6,6 +6,8 @@ import JwtRegisterNextStep from './register/JwtRegisterNextStep'
 import Blank from './Blank'
 import ContactUs from './ContactUs'
 import AboutUs from './AboutUs'
+import TermsAndCondition from './TermsAndCondition'
+import PrivacyPolicy from './PrivacyPolicy'
 
 const sessionRoutes = [
     {
@@ -23,6 +25,14 @@ const sessionRoutes = [
     {
         path: '/about-us',
         component: AboutUs,
+    },
+    {
+        path: '/terms-and-conditions',
+        component: TermsAndCondition,
+    },
+    {
+        path: '/privacy-policy',
+        component: PrivacyPolicy,
     },
     {
         path: '/session/signin',

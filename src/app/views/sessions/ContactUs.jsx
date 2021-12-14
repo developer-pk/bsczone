@@ -5,7 +5,7 @@ import {
     FormControlLabel,
     Grid,
     Button,
-    Icon
+    Icon,
 } from '@material-ui/core'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 
@@ -24,6 +24,8 @@ import { ToastContainer, toast } from 'material-react-toastify'
 import 'material-react-toastify/dist/ReactToastify.css'
 import { getContactUs } from 'app/redux/actions/frontend/ContactUsActions'
 import { RichTextEditor, Breadcrumb } from 'app/components'
+import Header from './common/Header'
+import Footer from './common/Footer'
 
 const ContactUs = ({ dispatch }) => {
     const [state, setState] = useState({})
@@ -41,107 +43,137 @@ const ContactUs = ({ dispatch }) => {
             ...state,
             [name]: value,
         })
-        setContent(value);
+        setContent(value)
     }
     const handleSubmit = (event) => {
         const params = {
-            name:state.name,
-            email:state.email,
-            subject:state.subject,
-            message:content
+            name: state.name,
+            phoneNumber: state.phone,
+            email: state.email,
+            subject: state.subject,
+            message: content,
+            status: 'unread',
         }
         dispatch(createContactUs(params))
-        toast.success('Your Query has been submitted succesfully.')
+        history.push('/home')
     }
 
-
-    let { name, email, subject, message,phone } = state
+    let { name, email, subject, message, phone } = state
     return (
-        <div
-            className={clsx(
-                'flex justify-center items-center  min-h-full-screen'
-            )}
-        >
-            <div className="contact-us-wrapper container">
-                <h3 className="m-8">Feel Free to Contact Us</h3>
-            <Grid container>
-                    <Grid item lg={5} md={5} sm={5} xs={12}>
-                        <div className="contact_section">
-                            <div className="heading"><h4>Contact Us</h4></div>
-                            <div className="email_area contact_common"><i class="far fa-envelope"></i> Email : query@yopmail.com</div>
+        <div>
+            <Header />
+            <div
+                className={clsx(
+                    'flex justify-center items-center  min-h-full-screen'
+                )}
+            >
+                <div className="contact-us-wrapper container">
+                    <h3 className="m-8">Feel Free to Contact Us</h3>
+                    <Grid container>
+                        <Grid item lg={5} md={5} sm={5} xs={12}>
+                            <div className="contact_section">
+                                <div className="heading">
+                                    <h4>Contact Us</h4>
+                                </div>
+                                <div className="email_area contact_common">
+                                    <i className="far fa-envelope"></i> Email :
+                                    query@yopmail.com
+                                </div>
 
-                            <div className="contact_media">Follow Us on</div>
+                                <div className="contact_media">
+                                    Follow Us on
+                                </div>
                                 <p className="media_icon">
                                     <a href="/" target="_blank">
                                         <i className="fas fa-globe-africa" />
                                     </a>
-                                    <a href="https://twitter.com/" target="_blank">
+                                    <a
+                                        href="https://twitter.com/"
+                                        target="_blank"
+                                    >
                                         <i className="fab fa-twitter" />
                                     </a>
-                                    <a href="https://telegram.org/" target="_blank">
+                                    <a
+                                        href="https://telegram.org/"
+                                        target="_blank"
+                                    >
                                         <i className="fab fa-telegram-plane" />
                                     </a>
-                                    <a href="https://www.reddit.com/" target="_blank">
+                                    <a
+                                        href="https://www.reddit.com/"
+                                        target="_blank"
+                                    >
                                         <i className="fab fa-reddit-alien" />
                                     </a>
                                 </p>
 
-                            <img
-                                className="w-200"
-                                src="/assets/images/illustrations/dreamer.svg"
-                                alt=""
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item lg={7} md={7} sm={7} xs={12}>
-                        <div className="">
-                        <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
-                        <TextValidator
-                            variant="outlined"
-                            className="mb-4 w-full"
-                            label="Name"
-                            onChange={handleChange}
-                            type="text"
-                            name="name"
-                            value={name || ''}
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                        />
-                        <TextValidator
-                            variant="outlined"
-                            className="mb-4 w-full"
-                            label="Email"
-                            onChange={handleChange}
-                            type="text"
-                            name="email"
-                            value={email || ''}
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                        />
-                        <TextValidator
-                            variant="outlined"
-                            className="mb-4 w-full"
-                            label="Phone"
-                            onChange={handleChange}
-                            type="text"
-                            name="phone"
-                            value={phone || ''}
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                        />
-                         <TextValidator
-                            variant="outlined"
-                            className="mb-4 w-full"
-                            label="Subject"
-                            onChange={handleChange}
-                            type="text"
-                            name="subject"
-                            value={subject || ''}
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                        />
+                                <img
+                                    className="w-200"
+                                    src="/assets/images/illustrations/dreamer.svg"
+                                    alt=""
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item lg={7} md={7} sm={7} xs={12}>
+                            <div className="">
+                                <ValidatorForm
+                                    onSubmit={handleSubmit}
+                                    onError={() => null}
+                                >
+                                    <TextValidator
+                                        variant="outlined"
+                                        className="mb-4 w-full"
+                                        label="Name"
+                                        onChange={handleChange}
+                                        type="text"
+                                        name="name"
+                                        value={name || ''}
+                                        validators={['required']}
+                                        errorMessages={[
+                                            'this field is required',
+                                        ]}
+                                    />
+                                    <TextValidator
+                                        variant="outlined"
+                                        className="mb-4 w-full"
+                                        label="Email"
+                                        onChange={handleChange}
+                                        type="text"
+                                        name="email"
+                                        value={email || ''}
+                                        validators={['required']}
+                                        errorMessages={[
+                                            'this field is required',
+                                        ]}
+                                    />
+                                    <TextValidator
+                                        variant="outlined"
+                                        className="mb-4 w-full"
+                                        label="Phone"
+                                        onChange={handleChange}
+                                        type="text"
+                                        name="phone"
+                                        value={phone || ''}
+                                        validators={['required']}
+                                        errorMessages={[
+                                            'this field is required',
+                                        ]}
+                                    />
+                                    <TextValidator
+                                        variant="outlined"
+                                        className="mb-4 w-full"
+                                        label="Subject"
+                                        onChange={handleChange}
+                                        type="text"
+                                        name="subject"
+                                        value={subject || ''}
+                                        validators={['required']}
+                                        errorMessages={[
+                                            'this field is required',
+                                        ]}
+                                    />
 
-                        {/* <TextField
+                                    {/* <TextField
                             variant="outlined"
                             className="mb-4 w-full"
                             label="Message"
@@ -152,31 +184,40 @@ const ContactUs = ({ dispatch }) => {
                             validators={['required']}
                             errorMessages={['this field is required']}
                         /> */}
-                        <textarea className="mb-4 w-full"
-                        variant="outlined"
-                            label="Message"
-                            onChange={handleChange}
-                            type="text"
-                            placeholder="insert message here..."
-                            name="message" rows={5}
-                            cols={5} />
+                                    <textarea
+                                        className="mb-4 w-full"
+                                        variant="outlined"
+                                        label="Message"
+                                        onChange={handleChange}
+                                        type="text"
+                                        placeholder="insert message here..."
+                                        name="message"
+                                        rows={5}
+                                        cols={5}
+                                    />
 
-                        {/* <RichTextEditor
+                                    {/* <RichTextEditor
                             content={content}
                             handleContentChange={(content) => setContent(content)}
                             placeholder="insert message here..."
                             name="message"
                          /> */}
 
-                        <Button color="primary" variant="contained" type="submit">
-                            <Icon>send</Icon>
-                            <span className="pl-2 capitalize">Save</span>
-                        </Button>
-                    </ValidatorForm>
-                        </div>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        type="submit"
+                                    >
+                                        <Icon>send</Icon>
+                                        <span className="pl-2 capitalize">
+                                            Save
+                                        </span>
+                                    </Button>
+                                </ValidatorForm>
+                            </div>
+                        </Grid>
                     </Grid>
-                </Grid>
-            {/* <div className="m-sm-30">
+                    {/* <div className="m-sm-30">
                 <div className="mb-sm-30">
                     <Breadcrumb
                         routeSegments={[
@@ -248,8 +289,9 @@ const ContactUs = ({ dispatch }) => {
             </ValidatorForm>
                 </Card>
             </div> */}
-            
+                </div>
             </div>
+            <Footer />
         </div>
     )
 }
