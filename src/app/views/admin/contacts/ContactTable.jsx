@@ -130,6 +130,11 @@ const ContactTable = ({ dispatch }) => {
                                     {contact.createdAt}
                                 </TableCell>
                                 <TableCell className="px-0">
+                                    <Link to="/industry/edit">
+                                    <IconButton>
+                                        <Icon color="primary">edit</Icon>
+                                    </IconButton>
+                                    </Link> 
                                     <IconButton onClick={() => handleClickOpen(contact.id)}>
                                         <Icon color="error">close</Icon>
                                     </IconButton>
