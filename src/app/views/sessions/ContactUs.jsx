@@ -121,7 +121,7 @@ const ContactUs = ({ dispatch }) => {
                         <TextValidator
                             variant="outlined"
                             className="mb-4 w-full"
-                            label="Phone"
+                            pacehol="Phone"
                             onChange={handleChange}
                             type="text"
                             name="phone"
