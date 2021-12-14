@@ -107,71 +107,60 @@ const ContactUs = ({ dispatch }) => {
                                     </a>
                                 </p>
 
-                                <img
-                                    className="w-200"
-                                    src="/assets/images/illustrations/dreamer.svg"
-                                    alt=""
-                                />
-                            </div>
-                        </Grid>
-                        <Grid item lg={7} md={7} sm={7} xs={12}>
-                            <div className="">
-                                <ValidatorForm
-                                    onSubmit={handleSubmit}
-                                    onError={() => null}
-                                >
-                                    <TextValidator
-                                        variant="outlined"
-                                        className="mb-4 w-full"
-                                        label="Name"
-                                        onChange={handleChange}
-                                        type="text"
-                                        name="name"
-                                        value={name || ''}
-                                        validators={['required']}
-                                        errorMessages={[
-                                            'this field is required',
-                                        ]}
-                                    />
-                                    <TextValidator
-                                        variant="outlined"
-                                        className="mb-4 w-full"
-                                        label="Email"
-                                        onChange={handleChange}
-                                        type="text"
-                                        name="email"
-                                        value={email || ''}
-                                        validators={['required']}
-                                        errorMessages={[
-                                            'this field is required',
-                                        ]}
-                                    />
-                                    <TextValidator
-                                        variant="outlined"
-                                        className="mb-4 w-full"
-                                        label="Phone"
-                                        onChange={handleChange}
-                                        type="text"
-                                        name="phone"
-                                        value={phone || ''}
-                                        validators={['required']}
-                                        errorMessages={[
-                                            'this field is required',
-                                        ]}
-                                    />
-                                    <TextValidator
-                                        variant="outlined"
-                                        className="mb-4 w-full"
-                                        label="Subject"
-                                        onChange={handleChange}
-                                        type="text"
-                                        name="subject"
-                                        value={subject || ''}
-                                        validators={['required']}
-                                        errorMessages={[
-                                            'this field is required',
-                                        ]}
-                                    />
+                            <img
+                                className="w-200"
+                                src="/assets/images/illustrations/dreamer.svg"
+                                alt=""
+                            />
+                        </div>
+                    </Grid>
+                    <Grid item lg={7} md={7} sm={7} xs={12}>
+                        <div className="">
+                        <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
+                        <TextValidator
+                            variant="outlined"
+                            className="mb-4 w-full"
+                            label="Name"
+                            onChange={handleChange}
+                            type="text"
+                            name="name"
+                            value={name || ''}
+                            validators={['required']}
+                            errorMessages={['this field is required']}
+                        />
+                        <TextValidator
+                            variant="outlined"
+                            className="mb-4 w-full"
+                            label="Email"
+                            onChange={handleChange}
+                            type="text"
+                            name="email"
+                            value={email || ''}
+                            validators={['required']}
+                            errorMessages={['this field is required']}
+                        />
+                        <TextValidator
+                            variant="outlined"
+                            className="mb-4 w-full"
+                            label="Phone"
+                            onChange={handleChange}
+                            type="text"
+                            name="phone"
+                            value={phone || ''}
+                            validators={['required']}
+                            errorMessages={['this field is required']}
+                        />
+                         <TextValidator
+                            variant="outlined"
+                            className="mb-4 w-full"
+                            label="Subject"
+                            onChange={handleChange}
+                            type="text"
+                            name="subject"
+                            value={subject || ''}
+                            validators={['required']}
+                            errorMessages={['this field is required']}
+                        />
 
                                     {/* <TextField
                             variant="outlined"
