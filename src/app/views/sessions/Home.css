@@ -704,6 +704,13 @@ a#dropdownMenuButton {
     border-radius: 12px;
     border: none;padding: 15px;color: #fff;    outline: none;
 }
+.about_text {
+    color: #a9a4a4;
+}
+.about_text {
+    text-align: center;
+    color: #87919d;
+}
 .contact-us-wrapper form button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary:hover {opacity:1}
 .contact-us-wrapper form button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
     background: #15dac7;
