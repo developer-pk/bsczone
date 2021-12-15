@@ -17,6 +17,8 @@ import CollegeReducer from './admin/college/CollegeReducer'
 import AdsReducer from './admin/ads/AdsReducer'
 import AlertReducer from './common/AlertReducer'
 import ContactUsReducer from './frontend/ContactUsReducer'
+import TokenApiReducer from './frontend/TokenApiReducer'
+import TokenInfoReducer from './frontend/TokenInfoReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
@@ -37,6 +39,8 @@ const RootReducer = combineReducers({
     ads:AdsReducer,
     alert:AlertReducer,
     contactus:ContactUsReducer,
+    symbols:TokenApiReducer,
+    tokeninfo:TokenInfoReducer,
 })
 
 export default RootReducer

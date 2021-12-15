@@ -743,3 +743,16 @@ a#dropdownMenuButton {
 }
 
 /*--------------------------contact page--------------------------*/
+#show-search-symbols{
+    height: 300px;
+    overflow: scroll;
+    background-color: white;
+    list-style-type: none;
+
+}
+
+#show-search-symbols li:hover {
+    padding: 7px;
+    background-color: #ccc;
+    cursor: pointer;
+}
