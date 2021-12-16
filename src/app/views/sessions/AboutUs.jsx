@@ -21,10 +21,16 @@ const AboutUs = ({ dispatch }) => {
                 'flex justify-center items-center  min-h-full-screen'
             )}
         >
+
+ 
+  
+
+
+
             <div className="AboutUs">
                 <div className="about-us-wrapper">
                     <div className="container">
-                    <div className="col-8">
+                    <div className="col-12">
                     <div className="about_text">
                     <h2>About Us</h2>
                     <p>Lorem Ipsum is simply dummy text of the printing 

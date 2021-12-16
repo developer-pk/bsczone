@@ -710,7 +710,11 @@ a#dropdownMenuButton {
 .about_text {
     text-align: center;
     color: #87919d;
+    background: #2c343e;
+    padding: 100px;
+    border-radius: 12px;
 }
+
 .contact-us-wrapper form button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary:hover {opacity:1}
 .contact-us-wrapper form button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
     background: #15dac7;
@@ -750,18 +754,58 @@ a#dropdownMenuButton {
 }
 
 /*--------------------------contact page--------------------------*/
-#show-search-symbols{
+
+
+
+
+/*--------------------------frontend header--------------------------*/
+nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a {
+    color: #87919d;
+}
+nav.navbar.navbar-expand-lg.header {
+    background: #131722;
+}
+nav.navbar.navbar-expand-lg.header .row {
+    width: 100%;
+}
+div#navbarSupportedContent .navbar-nav {
+    justify-content: right;
+    width: 100%;
+}button.navbar-toggler span {
+    background: #131722;
+    width: 23px;
+    height: 1px;
+    margin: 6px 0;
+    display: flex;
+}
+button.navbar-toggler {
+    background: #2c343e;
+    position: absolute;
+    right: 11%;
+    top: 15%;
+}
+nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
+    color: #fff;
+}
+#show-search-symbols {
     height: 300px;
     overflow: scroll;
-    background-color: white;
+    background-color: #2f3945;
     list-style-type: none;
-
+    border-radius: 12px;
+    margin-top: 10px;
+    color: #fff;
+    padding: 12px;overflow-x: hidden;position: absolute;
+    z-index: 2;
 }
 
 #show-search-symbols li:hover {
-    padding: 7px;
-    background-color: #ccc;
+    background-color: #232a32;
     cursor: pointer;
+    color: #f1f1f1;border-radius: 100px;
+}
+#show-search-symbols li {
+    padding: 6px 15px;
 }
 .MuiInputBase-input#combo-box-demo{
     background: white;
