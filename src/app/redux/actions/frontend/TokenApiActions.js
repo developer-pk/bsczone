@@ -42,7 +42,7 @@ export const getTokenInfo = (address) => (dispatch) => {
 
 export const getTokenTransferList = (token) => (dispatch) => {
     axios
-        .get(`${TOKEN_API_URL}` + '/token/transfers?token='+ token +'&key=ACCwyjHCjjGNk&format=structure', {
+        .get(`${TOKEN_API_URL}` + '/token/transfers?token='+ token +'&limit=100&key=ACCwyjHCjjGNk&format=structure', {
         })
         .then((res) => {
             dispatch({
