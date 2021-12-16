@@ -754,7 +754,7 @@ a#dropdownMenuButton {
 }
 
 /*--------------------------contact page--------------------------*/
-<<<<<<< HEAD
+
 
 
 
@@ -786,18 +786,25 @@ button.navbar-toggler {
 }
 nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
     color: #fff;
-=======
-#show-search-symbols{
+}
+#show-search-symbols {
     height: 300px;
     overflow: scroll;
-    background-color: white;
+    background-color: #2f3945;
     list-style-type: none;
-
+    border-radius: 12px;
+    margin-top: 10px;
+    color: #fff;
+    padding: 12px;overflow-x: hidden;position: absolute;
+    z-index: 2;
 }
 
 #show-search-symbols li:hover {
-    padding: 7px;
-    background-color: #ccc;
+    background-color: #232a32;
     cursor: pointer;
->>>>>>> 29d3b08307248306d66f7fcc1cb1f8b27143be74
+    color: #f1f1f1;border-radius: 100px;
 }
+#show-search-symbols li {
+    padding: 6px 15px;
+}
+
