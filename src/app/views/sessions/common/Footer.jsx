@@ -21,6 +21,7 @@ const Footer = ({ dispatch }) => {
 
     return (
             <div className="common-footer-wrapper">
+            footer
             </div>
     )
 }
