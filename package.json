@@ -74,7 +74,7 @@
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true SSL_CRT_FILE=/etc/letsencrypt/live/bsczoneapp.webtracktechnology.com/fullchain.pem SSL_KEY_FILE=/etc/letsencrypt/live/bsczoneapp.webtracktechnology.com/privkey.pem react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
