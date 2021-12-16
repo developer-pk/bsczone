@@ -5,12 +5,16 @@ import {
     FormControlLabel,
     Grid,
     Button,
-    CircularProgress,
-    Select,
-    FormControl,
-    InputLabel,
-    MenuItem,
+    Table,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell,
+    Icon,
+    TablePagination,
 } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -31,7 +35,9 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList} from 'app/redux/actions/frontend/TokenApiActions'
+import Moment from 'react-moment';
+import moment from 'moment';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -45,20 +51,29 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
 const Blank = ({ dispatch }) => {
-
+    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+    const [page, setPage] = React.useState(0)
     const [state, setState] = useState({})
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers} = useSelector(state=>state);
     const classes = useStyles()
    // const [show, setShow] = useState({})
 
     const [show, setShow] = useState(false);
     const [copied, setCopy] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
   console.log(symbols,'show symbol in it',tokeninfo);
+  const start = moment().add(-4, 'm');
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage)
+    }
 
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value)
+        setPage(0)
+    }
     //creating function to load ip address from the API
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -70,8 +85,6 @@ const Blank = ({ dispatch }) => {
        getData()
        const params={type:'GET_ADS'};
        dispatch(getAds(params));
-
-       
     }, [])
 
 
@@ -128,6 +141,7 @@ const Blank = ({ dispatch }) => {
       // which is pressed
      
       dispatch(getTokenInfo(address));
+      dispatch(getTokenTransferList(address));
     };
 
   let { highPrice, lowPrice } = state
@@ -158,14 +172,23 @@ const Blank = ({ dispatch }) => {
                         Logo
                     </a>
                     <div className="search">
-                        <input
+                        {/* <input
                             type="text"
                             id="search"
                             name="search"
                             placeholder="Search BY SYMBOL / ADDRESS ...."
                             onChange={handler}
-                        />
-                        {((symbols.length > 0 )
+                        /> */}
+                        <Autocomplete
+                            id="combo-box-demo"
+                            options={symbols}
+                            getOptionLabel={(option) => option.name}
+                            style={{ width: 300 }}
+                            onInputChange={handler}
+                            onChange={(event,value) => handleSymbolInfo(value.address)}
+                            renderInput={(params) => <TextField {...params} label="Search By Symbol" variant="outlined" />}
+                            />
+                        {/* {((symbols.length > 0 )
                          ? 
                         ( <ul id="show-search-symbols">
                         { symbols.map((val,index) => (
@@ -180,7 +203,7 @@ const Blank = ({ dispatch }) => {
                                         ))}
                         </ul>) : ('')
 
-                        )}
+                        )} */}
                         
                     </div>
                     <button
@@ -408,7 +431,7 @@ const Blank = ({ dispatch }) => {
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol="SHIBUSDT"
+                                    symbol={(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'SHIBUSDT')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
@@ -417,6 +440,75 @@ const Blank = ({ dispatch }) => {
                         </div>
                         <div className="row">
                             <div className="col-8 col-xl-8 mb-12 mb-xl-0 pricing-table">
+                            {/* <Table className="whitespace-pre">
+                <TableHead>
+                    <TableRow>
+                        <TableCell className="px-0">TYPE</TableCell>
+                        <TableCell className="px-0">TOKEN</TableCell>
+                        <TableCell className="px-0">PRICE</TableCell>
+                        <TableCell className="px-0">PRICE/TOKEN</TableCell>
+                        <TableCell className="px-0">TIME</TableCell>
+                        <TableCell className="px-0">TX</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {transfers.slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                        ).map((transfer, index) => (
+                            <TableRow key={index}>
+                                <TableCell
+                                    className="px-0 capitalize"
+                                    align="left"
+                                >
+                                    BUY
+                                </TableCell>
+                                <TableCell
+                                    className="px-0 capitalize"
+                                    align="left"
+                                >
+                                   
+                                    
+                                </TableCell>
+                                <TableCell className="px-0 capitalize">
+                                    
+                                </TableCell>
+                                <TableCell
+                                    className="px-0 capitalize"
+                                    align="left"
+                                >
+                                    
+                                </TableCell>
+                                <TableCell
+                                    className="px-0 capitalize"
+                                    align="left"
+                                >
+                                    <Moment date={start} format="hh:mm:ss" durationFromNow />
+                                </TableCell>
+                                <TableCell className="px-0">
+                                    {transfer.tx_hash}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                </TableBody>
+            </Table>
+
+            <TablePagination
+                className="px-4"
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={ads.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                backIconButtonProps={{
+                    'aria-label': 'Previous Page',
+                }}
+                nextIconButtonProps={{
+                    'aria-label': 'Next Page',
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            /> */}
                                 <div className="table-responsive">
                                     <table className="table">
                                         <thead>

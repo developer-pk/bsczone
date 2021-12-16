@@ -763,3 +763,6 @@ a#dropdownMenuButton {
     background-color: #ccc;
     cursor: pointer;
 }
+.MuiInputBase-input#combo-box-demo{
+    background: white;
+}
