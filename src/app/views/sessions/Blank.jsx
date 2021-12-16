@@ -6,6 +6,10 @@ import {
     Grid,
     Button,
     CircularProgress,
+    Select,
+    FormControl,
+    InputLabel,
+    MenuItem,
 } from '@material-ui/core'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 
@@ -27,20 +31,33 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
+import {getTokenBySymbol, getTokenInfo} from 'app/redux/actions/frontend/TokenApiActions'
+
+const useStyles = makeStyles(({ palette, ...theme }) => ({
+    cardHolder: {
+        background: '#1A2038',
+    },
+    card: {
+        maxWidth: 800,
+        borderRadius: 12,
+        margin: '1rem',
+    },
+}))
 
 const Blank = ({ dispatch }) => {
 
     const [state, setState] = useState({})
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo} = useSelector(state=>state);
+    const classes = useStyles()
    // const [show, setShow] = useState({})
 
     const [show, setShow] = useState(false);
     const [copied, setCopy] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  console.log(symbols,'show symbol in it',tokeninfo);
 
     //creating function to load ip address from the API
     const getData = async () => {
@@ -53,6 +70,8 @@ const Blank = ({ dispatch }) => {
        getData()
        const params={type:'GET_ADS'};
        dispatch(getAds(params));
+
+       
     }, [])
 
 
@@ -66,7 +85,6 @@ const Blank = ({ dispatch }) => {
     }
     const handleFormSubmit = (event) => {
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:'SHIBUSDT',ip:ip};
-        console.log(params,'get it');
         dispatch(createAlert(params));
         toast.success("Alert added successfully.");
         setState({highPrice:'',lowPrice:''});
@@ -97,6 +115,20 @@ const Blank = ({ dispatch }) => {
             lowPrice:''
         })
     }
+
+    const handler = ({ target: { name, value } }) => {
+        // changing the state to the name of the key
+      // which is pressed
+     
+      dispatch(getTokenBySymbol(value));
+    };
+    
+    const handleSymbolInfo = (address) => {
+        // changing the state to the name of the key
+      // which is pressed
+     
+      dispatch(getTokenInfo(address));
+    };
 
   let { highPrice, lowPrice } = state
     return (
@@ -129,8 +161,27 @@ const Blank = ({ dispatch }) => {
                         <input
                             type="text"
                             id="search"
+                            name="search"
                             placeholder="Search BY SYMBOL / ADDRESS ...."
-                        />{' '}
+                            onChange={handler}
+                        />
+                        {((symbols.length > 0 )
+                         ? 
+                        ( <ul id="show-search-symbols">
+                        { symbols.map((val,index) => (
+                                            <li
+                                            key={index}
+                                            data-src={val.id}
+                                            value={val.id}
+                                            onClick={() => handleSymbolInfo(val.address)}
+                                            >
+                                            {val.name}
+                                            </li>
+                                        ))}
+                        </ul>) : ('')
+
+                        )}
+                        
                     </div>
                     <button
                         className="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded"
@@ -240,12 +291,19 @@ const Blank = ({ dispatch }) => {
                                         <p>PRICE 24h CHANGE: <span>+5%</span></p>
                                     </div>
                                     <div className="copy">
-                                        0x3ee2......435d47{' '}
-                                        <CopyToClipboard text="0x3ee2f7d3d7f4s435d47"
+                                        {/* 0x3ee2......435d47{' '} */}
+                                        {(tokeninfo.length > 0 ? tokeninfo[0].address : '0x3ee2......435d47')}
+                                        {(tokeninfo.length > 0) ? 
+                                        <CopyToClipboard text={tokeninfo[0].address}
+                                            onCopy={() => setCopy(true)}>
+                                            <span><i className="far fa-copy"></i></span>
+                                            </CopyToClipboard> : <CopyToClipboard text='0x3ee2f7d3d7f4s435d47 '
                                             onCopy={() => setCopy(true)}>
                                             <span><i className="far fa-copy"></i></span>
                                             </CopyToClipboard>
+                                        }
                                             {copied ? <span style={{color: 'red'}}>Copied.</span> : null}
+                                    
                                        
                                     </div>
                                     <div className="market_cap">

@@ -754,6 +754,7 @@ a#dropdownMenuButton {
 }
 
 /*--------------------------contact page--------------------------*/
+<<<<<<< HEAD
 
 
 
@@ -785,4 +786,18 @@ button.navbar-toggler {
 }
 nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
     color: #fff;
+=======
+#show-search-symbols{
+    height: 300px;
+    overflow: scroll;
+    background-color: white;
+    list-style-type: none;
+
+}
+
+#show-search-symbols li:hover {
+    padding: 7px;
+    background-color: #ccc;
+    cursor: pointer;
+>>>>>>> 29d3b08307248306d66f7fcc1cb1f8b27143be74
 }

@@ -88,8 +88,7 @@ export const createContactUs = (contact) => (dispatch) => {
     axios
         .post(
             `${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/message',
-            contact,
-            { headers: { Authorization: 'Bearer ' + accessToken } }
+            contact
         )
         .then((res) => {
             if (res.status == 201) {
