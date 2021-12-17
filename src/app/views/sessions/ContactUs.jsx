@@ -68,7 +68,7 @@ const ContactUs = ({ dispatch }) => {
                 )}
             >
                 <div className="contact-us-wrapper container">
-                    <h3 className="m-8">Feel Free to Contact Us</h3>
+                    <h3>Feel Free to Contact Us</h3>
                     <Grid container>
                         <Grid item lg={5} md={5} sm={5} xs={12}>
                             <div className="contact_section">
