@@ -35,11 +35,12 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo} from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
+import NumberFormat from 'react-number-format';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -58,9 +59,8 @@ const Blank = ({ dispatch }) => {
     const [state, setState] = useState({})
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo,transfers} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers,tokenotherinfo} = useSelector(state=>state);
     const classes = useStyles()
-   // const [show, setShow] = useState({})
    const columns = [
     {
       id: 1,
@@ -103,59 +103,11 @@ const Blank = ({ dispatch }) => {
       }
   ];
 
-//   const data = [
-//     {
-//         id: 1,
-//         type: 'BUY',
-//         token: '0.001673169 ADA',
-//         price: '0.05976700 WBNB |<span>$24.22</span>',
-//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
-//         time:'11:44:16',
-//         tx:'...c9758aac9b',
-//     },
-//     {
-//         id: 2,
-//         type: 'BUY',
-//         token: '0.001673169 ADA',
-//         price: '0.05976700 WBNB |<span>$24.22</span>',
-//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
-//         time:'11:44:16',
-//         tx:'...c9758aac9b',
-//     },
-//     {
-//         id: 3,
-//         type: 'BUY',
-//         token: '0.001673169 ADA',
-//         price: '0.05976700 WBNB |<span>$24.22</span>',
-//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
-//         time:'11:44:16',
-//         tx:'...c9758aac9b',
-//     },
-//     {
-//         id: 4,
-//         type: 'BUY',
-//         token: '0.001673169 ADA',
-//         price: '0.05976700 WBNB |<span>$24.22</span>',
-//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
-//         time:'11:44:16',
-//         tx:'...c9758aac9b',
-//     },
-//     {
-//         id: 5,
-//         type: 'BUY',
-//         token: '0.001673169 ADA',
-//         price: '0.05976700 WBNB |<span>$24.22</span>',
-//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
-//         time:'11:44:16',
-//         tx:'...c9758aac9b',
-//     },
-// ]
-
     const [show, setShow] = useState(false);
     const [copied, setCopy] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-  console.log(transfers,'show symbol in it',tokeninfo);
+  console.log(transfers,'show symbol in it',tokenotherinfo);
   const start = moment().add(-4, 'm');
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
@@ -177,6 +129,7 @@ const Blank = ({ dispatch }) => {
        const params={type:'GET_ADS'};
        dispatch(getAds(params));
        dispatch(getTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+       dispatch(getTokenOtherInfo('BNB'));
       dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
     }, [])
 
@@ -229,14 +182,15 @@ const Blank = ({ dispatch }) => {
       dispatch(getTokenBySymbol(value));
     };
     
-    const handleSymbolInfo = (address) => {
+    const handleSymbolInfo = (address,symbol) => {
         // changing the state to the name of the key
       // which is pressed
      
       dispatch(getTokenInfo(address));
+      dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
     };
-
+    console.log(tokenotherinfo,'token in');
   let { highPrice, lowPrice } = state
     return (
         <div
@@ -372,10 +326,18 @@ const Blank = ({ dispatch }) => {
                                             className="nav-link"
                                             href="index.html"
                                         >
-                                            <img
+                                            {(tokenotherinfo.length > 0 ? 
+                                                tokenotherinfo[0].data.map((token, index) =>
+                                                <img
+                                                alt="img-text"
+                                                src={token.images['16x16']}
+                                            />
+                                            )
+                                                : "<img alt='img-text' src={process.env.PUBLIC_URL + '/images/cardano-ada-logo.png'} />") }
+                                            {/* <img
                                                 alt="img-text"
                                                 src={process.env.PUBLIC_URL + "/images/cardano-ada-logo.png"}
-                                            />{' '}
+                                            />{' '} */}
                                             <b>
                                             {(tokeninfo.length > 0 ? '' : 'ADA/')}
                                                 <span>{(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB')}</span>
@@ -402,9 +364,20 @@ const Blank = ({ dispatch }) => {
                                     </li>
                                     <div className="price">
                                         <h5>
-                                            PRICE: <span>$2.4226</span>
+                                            PRICE: {(tokenotherinfo.length > 0 ? 
+                                                tokenotherinfo[0].data.map((token, index) =>
+                                                <NumberFormat value={token.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                            )
+                                                : '<span>$2.4226</span>') }
+                                                {/* <span>$2.4226</span> */}
                                         </h5>
-                                        <p>PRICE 24h CHANGE: <span>+5%</span></p>
+                                        <p>PRICE 24h CHANGE: {(tokenotherinfo.length > 0 ? 
+                                                tokenotherinfo[0].data.map((token, index) =>
+                                                <span className="number">{token.values.USD.percentChange24h}</span>
+                                            )
+                                                : '<span>+5%</span>>') }
+                                                {/* <span>+5%</span> */}
+                                                </p>
                                     </div>
                                     <div className="copy">
                                         {/* 0x3ee2......435d47{' '} */}
@@ -425,15 +398,30 @@ const Blank = ({ dispatch }) => {
                                     <div className="market_cap">
                                         <p>
                                             MARKET CAP:{' '}
-                                            <span>$76,871,158,103</span>
+                                            {(tokenotherinfo.length > 0 ? 
+                                                tokenotherinfo[0].data.map((token, index) =>
+                                                <NumberFormat value={token.values.USD.marketCap} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                            )
+                                                : '<span>$76,871,158,103</span>') }
+                                            
                                         </p>
                                         <p>
                                             VOLUME 24H:{' '}
-                                            <span>$4,832,839,159</span>
+                                            {(tokenotherinfo.length > 0 ? 
+                                                tokenotherinfo[0].data.map((token, index) =>
+                                                <NumberFormat value={token.values.USD.volume24h} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                            )
+                                                : '<span>$4,832,839,159</span>') }
+                                            {/* <span>$4,832,839,159</span> */}
                                         </p>
                                         <p>
                                             TOTAL SUPPLY:{' '}
-                                            <span>33,117,618,880</span>
+                                            {(tokenotherinfo.length > 0 ? 
+                                                tokenotherinfo[0].data.map((token, index) =>
+                                                <span className="number">{token.totalSupply}</span>
+                                            )
+                                                : '<span>33,117,618,880</span>') }
+                                            {/* <span>33,117,618,880</span> */}
                                         </p>
                                         <p>
                                             LIQUIDITY: <span>$500,000</span>
@@ -524,7 +512,7 @@ const Blank = ({ dispatch }) => {
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol={(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'SHIBUSDT')}
+                                    symbol={(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
