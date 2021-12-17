@@ -5,12 +5,16 @@ import {
     FormControlLabel,
     Grid,
     Button,
-    CircularProgress,
-    Select,
-    FormControl,
-    InputLabel,
-    MenuItem,
+    Table,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell,
+    Icon,
+    TablePagination,
 } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -31,7 +35,11 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList} from 'app/redux/actions/frontend/TokenApiActions'
+import Moment from 'react-moment';
+import moment from 'moment';
+import DataTable from "react-data-table-component";
+import SortIcon from "@material-ui/icons/ArrowDownward";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -45,20 +53,118 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
 const Blank = ({ dispatch }) => {
-
+    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+    const [page, setPage] = React.useState(0)
     const [state, setState] = useState({})
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers} = useSelector(state=>state);
     const classes = useStyles()
    // const [show, setShow] = useState({})
+   const columns = [
+    {
+      id: 1,
+      name: "TYPE",
+      selector: (row) => 'Buy',
+      sortable: true,
+      reorder: true
+    },
+    {
+      id: 2,
+      name: "TOKEN",
+      selector: (row) => row.tx_from,
+      sortable: true,
+      reorder: true
+    },
+    {
+      id: 3,
+      name: "PRICE",
+      selector: (row) => row.amount +' '+row.symbol,
+      sortable: true,
+      right: true,
+      reorder: true
+    },
+      {
+        id: 4,
+        name: "TIME",
+        selector: (row) => row.tx_time,
+        format: (row) => moment(row.tx_time).format('hh:mm:ss'),
+        sortable: true,
+        right: true,
+        reorder: true
+      },
+      {
+        id: 5,
+        name: "TX",
+        selector: (row) => row.tx_hash,
+        sortable: true,
+        right: true,
+        reorder: true
+      }
+  ];
+
+//   const data = [
+//     {
+//         id: 1,
+//         type: 'BUY',
+//         token: '0.001673169 ADA',
+//         price: '0.05976700 WBNB |<span>$24.22</span>',
+//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
+//         time:'11:44:16',
+//         tx:'...c9758aac9b',
+//     },
+//     {
+//         id: 2,
+//         type: 'BUY',
+//         token: '0.001673169 ADA',
+//         price: '0.05976700 WBNB |<span>$24.22</span>',
+//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
+//         time:'11:44:16',
+//         tx:'...c9758aac9b',
+//     },
+//     {
+//         id: 3,
+//         type: 'BUY',
+//         token: '0.001673169 ADA',
+//         price: '0.05976700 WBNB |<span>$24.22</span>',
+//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
+//         time:'11:44:16',
+//         tx:'...c9758aac9b',
+//     },
+//     {
+//         id: 4,
+//         type: 'BUY',
+//         token: '0.001673169 ADA',
+//         price: '0.05976700 WBNB |<span>$24.22</span>',
+//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
+//         time:'11:44:16',
+//         tx:'...c9758aac9b',
+//     },
+//     {
+//         id: 5,
+//         type: 'BUY',
+//         token: '0.001673169 ADA',
+//         price: '0.05976700 WBNB |<span>$24.22</span>',
+//         price_token: '0.005940283 WBNB | <span>$2.40712144</span>',
+//         time:'11:44:16',
+//         tx:'...c9758aac9b',
+//     },
+// ]
 
     const [show, setShow] = useState(false);
     const [copied, setCopy] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  console.log(symbols,'show symbol in it',tokeninfo);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+  console.log(transfers,'show symbol in it',tokeninfo);
+  const start = moment().add(-4, 'm');
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage)
+    }
 
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value)
+        setPage(0)
+    }
     //creating function to load ip address from the API
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -70,8 +176,6 @@ const Blank = ({ dispatch }) => {
        getData()
        const params={type:'GET_ADS'};
        dispatch(getAds(params));
-
-       
     }, [])
 
 
@@ -128,6 +232,7 @@ const Blank = ({ dispatch }) => {
       // which is pressed
      
       dispatch(getTokenInfo(address));
+      dispatch(getTokenTransferList(address));
     };
 
   let { highPrice, lowPrice } = state
@@ -158,14 +263,23 @@ const Blank = ({ dispatch }) => {
                         Logo
                     </a>
                     <div className="search">
-                        <input
+                        {/* <input
                             type="text"
                             id="search"
                             name="search"
                             placeholder="Search BY SYMBOL / ADDRESS ...."
                             onChange={handler}
-                        />
-                        {((symbols.length > 0 )
+                        /> */}
+                        <Autocomplete
+                            id="combo-box-demo"
+                            options={symbols}
+                            getOptionLabel={(option) => option.name}
+                            style={{ width: 300 }}
+                            onInputChange={handler}
+                            onChange={(event,value) => handleSymbolInfo(value.address)}
+                            renderInput={(params) => <TextField {...params} label="Search By Symbol" variant="outlined" />}
+                            />
+                        {/* {((symbols.length > 0 )
                          ? 
                         ( <ul id="show-search-symbols">
                         { symbols.map((val,index) => (
@@ -180,7 +294,7 @@ const Blank = ({ dispatch }) => {
                                         ))}
                         </ul>) : ('')
 
-                        )}
+                        )} */}
                         
                     </div>
                     <button
@@ -261,8 +375,8 @@ const Blank = ({ dispatch }) => {
                                                 src={process.env.PUBLIC_URL + "/images/cardano-ada-logo.png"}
                                             />{' '}
                                             <b>
-                                                ADA/
-                                                <span>BNB</span>
+                                            {(tokeninfo.length > 0 ? '' : 'ADA/')}
+                                                <span>{(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB')}</span>
                                             </b>
                                         </a>
                                     </li>
@@ -408,7 +522,7 @@ const Blank = ({ dispatch }) => {
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol="SHIBUSDT"
+                                    symbol={(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'SHIBUSDT')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
@@ -417,7 +531,17 @@ const Blank = ({ dispatch }) => {
                         </div>
                         <div className="row">
                             <div className="col-8 col-xl-8 mb-12 mb-xl-0 pricing-table">
-                                <div className="table-responsive">
+                            <Card>
+                                    <DataTable
+                                    columns={columns}
+                                    data={transfers}
+                                    defaultSortFieldId={1}
+                                    sortIcon={<SortIcon />}
+                                    pagination
+                                    selectableRows
+                                    />
+                                </Card>
+                                {/* <div className="table-responsive">
                                     <table className="table">
                                         <thead>
                                             <tr>
@@ -512,7 +636,7 @@ const Blank = ({ dispatch }) => {
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="col-4 col-xl-4 mb-12 mb-xl-0">
                                 <div className="promo_tab">

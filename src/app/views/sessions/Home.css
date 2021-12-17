@@ -807,6 +807,7 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
 #show-search-symbols li {
     padding: 6px 15px;
 }
+<<<<<<< HEAD
 .footer {
     background: #131722;
     color: #87919d;text-align: center;    padding: 15px 0;
@@ -853,4 +854,6 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
 }
 
 
-
+.MuiInputBase-input#combo-box-demo{
+    background: white;
+}
