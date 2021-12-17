@@ -326,10 +326,18 @@ const Blank = ({ dispatch }) => {
                                             className="nav-link"
                                             href="index.html"
                                         >
-                                            <img
+                                            {(tokenotherinfo.length > 0 ? 
+                                                tokenotherinfo[0].data.map((token, index) =>
+                                                <img
+                                                alt="img-text"
+                                                src={token.images['16x16']}
+                                            />
+                                            )
+                                                : "<img alt='img-text' src={process.env.PUBLIC_URL + '/images/cardano-ada-logo.png'} />") }
+                                            {/* <img
                                                 alt="img-text"
                                                 src={process.env.PUBLIC_URL + "/images/cardano-ada-logo.png"}
-                                            />{' '}
+                                            />{' '} */}
                                             <b>
                                             {(tokeninfo.length > 0 ? '' : 'ADA/')}
                                                 <span>{(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB')}</span>
