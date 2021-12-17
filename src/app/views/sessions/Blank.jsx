@@ -65,16 +65,16 @@ const Blank = ({ dispatch }) => {
     {
       id: 1,
       name: "TYPE",
-      selector: (row) => 'Buy',
+      selector: (row) => <span className='buy-type'>Buy</span>,
       sortable: true,
-      reorder: true
+      reorder: true,
     },
     {
       id: 2,
       name: "TOKEN",
       selector: (row) => row.tx_from,
       sortable: true,
-      reorder: true
+      reorder: true,
     },
     {
       id: 3,
@@ -96,7 +96,7 @@ const Blank = ({ dispatch }) => {
       {
         id: 5,
         name: "TX",
-        selector: (row) => row.tx_hash,
+        selector: (row) => <span className='tx_hash-type'>{row.tx_hash}</span>,
         sortable: true,
         right: true,
         reorder: true
@@ -373,7 +373,8 @@ const Blank = ({ dispatch }) => {
                                         </h5>
                                         <p>PRICE 24h CHANGE: {(tokenotherinfo.length > 0 ? 
                                                 tokenotherinfo[0].data.map((token, index) =>
-                                                <span className="number">{token.values.USD.percentChange24h}</span>
+                                                (token.values.USD.percentChange24h > 0 ? <span className="positive-number">+{token.values.USD.percentChange24h}%</span> : <span className="negative-number">{token.values.USD.percentChange24h}%</span>)
+                                                
                                             )
                                                 : '<span>+5%</span>>') }
                                                 {/* <span>+5%</span> */}
