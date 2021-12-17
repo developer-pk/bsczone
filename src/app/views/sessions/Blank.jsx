@@ -512,7 +512,7 @@ const Blank = ({ dispatch }) => {
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol={(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'SHIBUSDT')}
+                                    symbol={(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
