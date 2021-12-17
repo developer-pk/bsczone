@@ -878,7 +878,7 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
 .pricing-table .fhCFWO:hover {
     background: #262e37;
 }
-\
+
 .pricing-table .fvAeSn {
     text-align: center;
     margin: 0 auto;
@@ -901,5 +901,9 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
     overflow-y: auto
 }
 .pricing-table nav.sc-iJKOTD.bhoXfZ.rdt_Pagination {
-    background: #2c343e;
+    background: #2c343e;color: #656d78;
 }
+button#pagination-next-page {
+    BACKGROUND: #656d78;
+}
+.search .MuiInputBase-root{padding-top: 0!important}
