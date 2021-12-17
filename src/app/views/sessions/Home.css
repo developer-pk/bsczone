@@ -904,6 +904,7 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
     background: #2c343e;color: #656d78;
 }
 button#pagination-next-page {
-    BACKGROUND: #656d78;
+    background: #656d78;
 }
 .search .MuiInputBase-root{padding-top: 0!important}
+.pricing-table .MuiPaper-root{background: transparent;}
