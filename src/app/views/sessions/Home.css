@@ -807,6 +807,53 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
 #show-search-symbols li {
     padding: 6px 15px;
 }
+<<<<<<< HEAD
+.footer {
+    background: #131722;
+    color: #87919d;text-align: center;    padding: 15px 0;
+
+}
+.footer li {
+    list-style: none;
+    margin: 0 10px;
+}
+.footer ul {
+    padding: 0 0 10px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgb(44 52 62);
+}.footer li a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+.search .MuiAutocomplete-hasPopupIcon {
+    height: 38px;
+    width: 360px;
+    color: #fff;
+    background: #2f3945;
+    border-radius: 100px;
+    padding: 0 15px;
+    border: none;
+}
+.search .MuiAutocomplete-root.MuiAutocomplete-hasClearIcon.MuiAutocomplete-hasPopupIcon {
+    width: 450px!important;
+    background: #2c343e;
+    border-radius: 100px;}
+    .search .MuiInputBase-input#combo-box-demo {
+    background: transparent;
+    color: #fff;
+}
+.pricing-table .hLGqlg .kntihR {
+    background: #2c343e;
+    border-radius: 12px;
+    color: #87919d;
+}.pricing-table .hLGqlg {
+    background: #2c343e;
+    border-radius: 12px;
+    color: #87919d;
+}
+
+
 .MuiInputBase-input#combo-box-demo{
     background: white;
 }
