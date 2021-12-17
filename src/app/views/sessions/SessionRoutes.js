@@ -8,6 +8,7 @@ import ContactUs from './ContactUs'
 import AboutUs from './AboutUs'
 import TermsAndCondition from './TermsAndCondition'
 import PrivacyPolicy from './PrivacyPolicy'
+import Otp from './otp/Otp'
 
 const sessionRoutes = [
     {
@@ -33,6 +34,14 @@ const sessionRoutes = [
     {
         path: '/privacy-policy',
         component: PrivacyPolicy,
+    },
+    {
+        path: '/otp-verify',
+        component: Otp,
+    },
+    {
+        path: '/resend-otp',
+        component: Otp,
     },
     {
         path: '/session/signin',
