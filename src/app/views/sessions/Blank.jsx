@@ -176,6 +176,8 @@ const Blank = ({ dispatch }) => {
        getData()
        const params={type:'GET_ADS'};
        dispatch(getAds(params));
+       dispatch(getTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+      dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
     }, [])
 
 
@@ -277,7 +279,7 @@ const Blank = ({ dispatch }) => {
                             style={{ width: 300 }}
                             onInputChange={handler}
                             onChange={(event,value) => handleSymbolInfo(value.address)}
-                            renderInput={(params) => <TextField {...params} label="Search By Symbol" variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} placeholder="Search By Symbol" variant="outlined" />}
                             />
                         {/* {((symbols.length > 0 )
                          ? 
@@ -406,7 +408,7 @@ const Blank = ({ dispatch }) => {
                                     </div>
                                     <div className="copy">
                                         {/* 0x3ee2......435d47{' '} */}
-                                        {(tokeninfo.length > 0 ? tokeninfo[0].address : '0x3ee2......435d47')}
+                                        {(tokeninfo.length > 0 ? tokeninfo[0].address.substring(0, 18)+'... ' : '0x3ee2......435d47')}
                                         {(tokeninfo.length > 0) ? 
                                         <CopyToClipboard text={tokeninfo[0].address}
                                             onCopy={() => setCopy(true)}>
@@ -538,7 +540,6 @@ const Blank = ({ dispatch }) => {
                                     defaultSortFieldId={1}
                                     sortIcon={<SortIcon />}
                                     pagination
-                                    selectableRows
                                     />
                                 </Card>
                                 {/* <div className="table-responsive">

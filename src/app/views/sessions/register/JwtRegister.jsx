@@ -40,7 +40,7 @@ const JwtRegister = () => {
         try {
             register(state.email, state.firstname,state.lastname, state.password,'1')
            // login(state.email,state.password)
-            history.push('/session/signup-step-2')
+            history.push('/otp-verify')
             //history.push('/');
         } catch (e) {
             console.log(e)
