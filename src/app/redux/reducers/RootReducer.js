@@ -20,6 +20,7 @@ import ContactUsReducer from './frontend/ContactUsReducer'
 import TokenApiReducer from './frontend/TokenApiReducer'
 import TokenInfoReducer from './frontend/TokenInfoReducer'
 import TokenTransferListReducer from './frontend/TokenTransferListReducer'
+import OtpReducer from './frontend/OtpReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
@@ -42,7 +43,8 @@ const RootReducer = combineReducers({
     contactus:ContactUsReducer,
     symbols:TokenApiReducer,
     tokeninfo:TokenInfoReducer,
-    transfers:TokenTransferListReducer
+    transfers:TokenTransferListReducer,
+    otp:OtpReducer
 })
 
 export default RootReducer
