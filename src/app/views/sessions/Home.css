@@ -140,7 +140,15 @@ li.nav-item.alert_icon a:hover {
     margin: 15px 0;
     font-size: 10px;
     width: 100%;
-    font-weight: 300;cursor: pointer;
+    font-weight: 300;cursor: pointer;    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-right: 38px;
+    position: relative;
+}
+.copy span {
+    position: absolute;
+    right: 7px;
 }
 .copy:hover i{
     color: #15dac7;
@@ -856,4 +864,35 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
 
 .MuiInputBase-input#combo-box-demo{
     background: white;
+}
+
+.pricing-table .sc-dkPtRN.hCBnvI.rdt_TableHeadRow {
+    background: #2c343e;
+    border-radius: inherit;
+    color: #9ca7b4;
+}
+.pricing-table .fhCFWO {
+    background: #2c343e;
+    color: #656d78;border-radius: 100px;
+}
+.pricing-table .fhCFWO:hover {
+    background: #262e37;
+}
+.pricing-table .sc-hGPBjI.fuBVgf.rdt_TableBody {
+    padding: 0 5px;
+}
+.pricing-table .fvAeSn {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.pricing-table .sc-hKwDye.sc-eCImPb.sc-iqseJM.bVYdcq.dzcLoW.iwmeYY.rdt_TableCol {
+    text-align: center;
+    justify-content: center;
+}
+.pricing-table .dzcLoW {
+    text-align: center;
+    justify-content: center;
 }
