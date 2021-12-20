@@ -12,6 +12,8 @@ import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import history from 'history.js'
+import Header from '../common/Header'
+import Footer from '../common/Footer'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -51,6 +53,9 @@ const JwtRegister = () => {
     let { firstname, lastname, email, password,agreement } = state
 
     return (
+        <div>
+            <Header />
+        
         <div
             className={clsx(
                 'flex justify-center items-center  min-h-full-screen',
@@ -163,6 +168,8 @@ const JwtRegister = () => {
                     </Grid>
                 </Grid>
             </Card>
+        </div>
+        <Footer />
         </div>
     )
 }

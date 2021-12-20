@@ -4,6 +4,8 @@ import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import Header from './common/Header'
+import Footer from './common/Footer'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -34,6 +36,8 @@ const ForgotPassword = () => {
     let { email } = state
 
     return (
+        <div>
+            <Header />
         <div
             className={clsx(
                 'flex justify-center items-center  min-h-full-screen',
@@ -89,6 +93,8 @@ const ForgotPassword = () => {
                     </Grid>
                 </Grid>
             </Card>
+        </div>
+        <Footer />
         </div>
     )
 }

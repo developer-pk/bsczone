@@ -15,6 +15,8 @@ import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import { connect } from 'react-redux';
+import Header from '../common/Header'
+import Footer from '../common/Footer'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -92,6 +94,9 @@ const JwtLogin = () => {
     }
 
     return (
+        <div>
+            <Header />
+       
         <div
             className={clsx(
                 'flex justify-center items-center  min-h-full-screen',
@@ -208,6 +213,8 @@ const JwtLogin = () => {
                     </Grid>
                 </Grid>
             </Card>
+        </div>
+        <Footer />
         </div>
     )
 }
