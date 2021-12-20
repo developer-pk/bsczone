@@ -510,7 +510,7 @@ button.accept {
 }
 .alert_text2.text-center h4 {
     color: #fff;
-    margin: 38px 0 42px;
+    /* margin: 38px 0 42px; */
     font-size: 18px!important;
     text-transform: uppercase;
 }
@@ -816,7 +816,7 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
 #show-search-symbols li {
     padding: 6px 15px;
 }
-<<<<<<< HEAD
+
 .footer {
     background: #131722;
     color: #87919d;text-align: center;    padding: 15px 0;
@@ -992,4 +992,9 @@ span.buy-type {
     background: #2c343e;
     color: #7e8087;
     text-align: center;    padding: 15px 0;
+}
+.alert_text2.text-center h5{
+    color: white;
+    font-size: 12px;
+    margin: 10px;
 }

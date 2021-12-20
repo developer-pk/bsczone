@@ -28,7 +28,7 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo} from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
@@ -143,6 +143,9 @@ const Blank = ({ dispatch }) => {
        dispatch(getTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
        dispatch(getTokenOtherInfo('BNB'));
       dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+      if(authenticated){
+        dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+      }
     }, [])
 
 
@@ -158,7 +161,9 @@ const Blank = ({ dispatch }) => {
       //  setlowPrice(value);
     }
     const handleFormSubmit = (event) => {
-        const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:'SHIBUSDT',ip:ip};
+         const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
+        const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,token:tokenAddress};
         dispatch(createAlert(params));
         toast.success("Alert added successfully.");
         setState({highPrice:'',lowPrice:''});
@@ -393,14 +398,14 @@ const Blank = ({ dispatch }) => {
                                     <li className="nav-item alert_icon">
                                         <a
                                             className="nav-link"
-                                            href="index.html"
+                                            href="#"
                                         >
                                             <i className="far fa-heart hide_hover" />
                                             <i className="fas fa-heart show_hover" />
                                         </a>
                                         <a
                                             className="nav-link"
-                                            href="index.html"
+                                            href="#"
                                         >
                                             <i className="far fa-bell hide_hover" />
                                             <i className="fas fa-bell show_hover" />
@@ -975,7 +980,7 @@ const Blank = ({ dispatch }) => {
                 {/* Left and right controls  */}
             </div>
             </div>
-            <Modal id="add_alert2" show={show} onHide={handleClose}>
+            <Modal id="add_alert2" className="modal-popup-class" show={show} onHide={handleClose}>
             
                 <Modal.Body>
                 <i className="fas fa-times pull-right" onClick={handleClose} />
@@ -984,7 +989,8 @@ const Blank = ({ dispatch }) => {
                </Modal.Header> */}
                 <div className="alert_text2 text-center">
                                 <img alt="img-text" src={process.env.PUBLIC_URL + "/images/noti.png"} />
-                                <h4>Set up an alarm</h4>
+                                <h4>Set up an alarm For {(tokeninfo.length > 0 ? '('+tokeninfo[0].symbol+')' : '(BNB)'  )}</h4>
+                                <h5>{(tokeninfo.length > 0 ? tokeninfo[0].address : '')}</h5>
                                 <ValidatorForm onSubmit={handleFormSubmit}>
                                     <ul>
                                         <li>
@@ -1070,7 +1076,7 @@ const Blank = ({ dispatch }) => {
                 </Modal.Body>
             </Modal>
 
-            <Modal id="add_alert3" show={showLogin} onHide={handleLoginClose}>
+            <Modal id="add_alert3" className="modal-popup-class" show={showLogin} onHide={handleLoginClose}>
             
                 <Modal.Body>
                 <i className="fas fa-times pull-right" onClick={handleLoginClose} />

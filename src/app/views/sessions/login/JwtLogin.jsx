@@ -64,12 +64,17 @@ const JwtLogin = () => {
             console.log(userInfo,'login user info');//return false;
             await login(userInfo.email, userInfo.password)
             const role = localStorage.getItem('userRole');
-            // if(role == "admin"){
+            if(role == "admin"){
 
-            //     history.push('/dashboard')
+                history.push('/dashboard')
                 
-            // }else if(role == "user" && localStorage.getItem('step') == "1"){
-
+            }else if(role == "user"){
+                history.push('/home')
+            }else{
+                history.push('/home')
+            }
+           // else if(role == "user" && localStorage.getItem('step') == "1"){
+//
             //     history.push('/session/signup-step-2')
                 
             // }else if(role == "user" && localStorage.getItem('step') == "2"){
@@ -83,7 +88,7 @@ const JwtLogin = () => {
             // }else if(role == "user" && localStorage.getItem('step') == "5"){
             //     history.push('/session/signup-step-6')
             // }else{
-                history.push('/dashboard')
+                //history.push('/dashboard')
             //}
             
         } catch (e) {

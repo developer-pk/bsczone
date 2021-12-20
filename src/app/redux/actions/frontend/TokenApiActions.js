@@ -4,6 +4,7 @@ import {
     TOKEN_STAT_API_URL,
     DEFAULT_SERVICE_VERSION,
     CRYPTO_API_KEY,
+    SERVICE_URL,
 } from './../../../constants/utility'
 import { toast } from 'material-react-toastify'
 
@@ -11,6 +12,7 @@ export const GET_TOKEN_SYMBOL = 'GET_TOKEN_SYMBOL'
 export const GET_TOKEN_INFO = 'GET_TOKEN_INFO'
 export const GET_TOKEN_TRANSFER_LIST = 'GET_TOKEN_TRANSFER_LIST'
 export const GET_TOKEN_OTHER_INFO = 'GET_TOKEN_OTHER_INFO'
+export const GET_ALERT_TOKEN_INFO = 'GET_ALERT_TOKEN_INFO'
 
 export const getTokenBySymbol = (searchSymbol) => (dispatch) => {
     axios
@@ -67,6 +69,22 @@ export const getTokenOtherInfo = (symbol) => (dispatch) => {
         .then((res) => {
             dispatch({
                 type: GET_TOKEN_OTHER_INFO,
+                payload: res.data,
+            })
+        })
+        .catch((error) => {
+            console.log(error,'sdfdf');
+                //toast.error(error.response.data.errors[0].messages[0])
+        })
+}
+
+export const getAlertTokenInfo = (token) => (dispatch) => {
+    axios
+        .get(`${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/alert/get-saved-alert/'+ token, {
+        })
+        .then((res) => {
+            dispatch({
+                type: GET_ALERT_TOKEN_INFO,
                 payload: res.data,
             })
         })

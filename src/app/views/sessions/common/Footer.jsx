@@ -24,8 +24,8 @@ const Footer = ({ dispatch }) => {
             <div className="footer">
             <div className="container">
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="/about-us">About Us</a></li>
+                    <li><a href="/contact-us">Contact Us</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Terms & Conditions</a></li>
                 </ul>
