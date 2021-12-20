@@ -12,10 +12,15 @@ import { connect } from 'react-redux'
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css'
 import './Home.css'
 import 'material-react-toastify/dist/ReactToastify.css'
+import Header from './common/Header'
+import Footer from './common/Footer'
 
 const AboutUs = ({ dispatch }) => {
 
     return (
+        <div>
+            <Header />
+       
         <div
             className={clsx(
                 'flex justify-center items-center  min-h-full-screen'
@@ -45,6 +50,8 @@ const AboutUs = ({ dispatch }) => {
                     </div>
                 </div>
             </div>
+        </div>
+        <Footer />
         </div>
     )
 }

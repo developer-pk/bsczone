@@ -3,15 +3,8 @@ import {
     Card,
     Checkbox,
     FormControlLabel,
-    Grid,
     Button,
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Icon,
-    TablePagination,
+    CircularProgress
 } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -61,6 +54,21 @@ const Blank = ({ dispatch }) => {
     const [message, setMessage] = useState('')
     const {ads,symbols,tokeninfo,transfers,tokenotherinfo} = useSelector(state=>state);
     const classes = useStyles()
+    const [loading, setLoading] = useState(false)
+    const { login } = useAuth();
+    const {
+        isAuthenticated,
+        // user
+    } = useAuth()
+
+    let authenticated = isAuthenticated
+
+    const [userInfo, setUserInfo] = useState({
+        email: '',
+        password: '',
+    })
+
+    console.log(authenticated,'is auth');
    const columns = [
     {
       id: 1,
@@ -104,9 +112,13 @@ const Blank = ({ dispatch }) => {
   ];
 
     const [show, setShow] = useState(false);
+    const [showLogin, setLoginShow] = useState(false);
     const [copied, setCopy] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const handleLoginShow = () => setLoginShow(true);
+    const handleLoginClose = () => setLoginShow(false);
+    
   console.log(transfers,'show symbol in it',tokenotherinfo);
   const start = moment().add(-4, 'm');
     const handleChangePage = (event, newPage) => {
@@ -139,6 +151,9 @@ const Blank = ({ dispatch }) => {
             ...state,
             [name]: value,
         })
+        let temp = { ...userInfo }
+        temp[name] = value
+        setUserInfo(temp);
        // sethighPrice(value);
       //  setlowPrice(value);
     }
@@ -190,7 +205,24 @@ const Blank = ({ dispatch }) => {
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
     };
-    console.log(tokenotherinfo,'token in');
+
+    const handleLoginFormSubmit = async (event,values) => {
+        setLoading(true)
+        try {
+            console.log(userInfo,'login user info');//return false;
+            await login(userInfo.email, userInfo.password)
+            const role = localStorage.getItem('userRole');
+
+            history.push('/home')
+            
+        } catch (e) {
+            console.log(e)
+            setMessage(e.message)
+            setLoading(false)
+        }
+    }
+
+
   let { highPrice, lowPrice } = state
     return (
         <div
@@ -301,15 +333,27 @@ const Blank = ({ dispatch }) => {
                                 </a>
                             </li>
                             <li className="nav-item mx-0 mx-lg-1">
-                                <button
+                                {(authenticated ? 
+                                    <button
                                     type="button"
                                     className="nav-link py-3 px-0 px-lg-3 button"
                                     // data-toggle="modal"
                                     // data-target="#add_alert2"
                                     onClick={handleShow}
-                                >
-                                    Add Alert
-                                </button>
+                                        >
+                                            Add Alert
+                                        </button>
+                                        :
+                                        <button
+                                    type="button"
+                                    className="nav-link py-3 px-0 px-lg-3 button login"
+                                    onClick={handleLoginShow}
+                                        >
+                                            Add Alert
+                                        </button>
+
+                                )}
+                                
                             </li>
                         </ul>
                     </div>
@@ -1025,104 +1069,112 @@ const Blank = ({ dispatch }) => {
                             </div>
                 </Modal.Body>
             </Modal>
-            <div
-                className="modal fade "
-                id="add_alert2"
-                tabIndex={-1}
-                role="dialog"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-            >
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <div className="alert_text2 text-center">
-                                <img alt="img-text" src={process.env.PUBLIC_URL + "/images/noti.png"} />
-                                <h4>Set up an alarm</h4>
-                                <ValidatorForm onSubmit={handleFormSubmit}>
-                                    <ul>
-                                        <li>
-                                        <TextValidator
-                                                className="mb-6 w-full"
-                                                variant="outlined"
-                                                size="small"
-                                                placeholder="High price...."
-                                                onChange={handleChange}
-                                                type="text"
-                                                name="highPrice"
-                                                value={highPrice || ''}
-                                                validators={['required']}
-                                                errorMessages={['this field is required']}
-                                                onInput={(e)=>{ 
-                                                    e.target.value = Math.max(0, e.target.value ).toString().slice(0,9)
-                                                }}
-                                            />
-                                            {/* <input
-                                                type="text"
-                                                placeholder="High price...."
-                                            /> */}
-                                             <Button
-                                                className="capitalize clear"
-                                                variant="contained"
-                                                type="button"
-                                                onClick={clearHighPrice}
-                                            >
-                                                CLEAR
-                                            </Button>
-                                        </li>
-                                        <li>
-                                        <TextValidator
-                                                className="mb-6 w-full"
-                                                variant="outlined"
-                                                size="small"
-                                                placeholder="Low price...."
-                                                onChange={handleChange}
-                                                type="text"
-                                                name="lowPrice"
-                                                value={lowPrice || ''}
-                                                validators={['required']}
-                                                errorMessages={['this field is required']}
-                                                onInput={(e)=>{ 
-                                                    e.target.value = Math.max(0, e.target.value ).toString().slice(0,9)
-                                                }}
-                                            />
-                                             <Button
-                                                className="capitalize clear"
-                                                variant="contained"
-                                                type="button"
-                                                onClick={clearLowPrice}
-                                            >
-                                                CLEAR
-                                            </Button>
-                                        </li>
-                                        <li>
-                                            <Button
-                                                className="capitalize clear"
-                                                variant="contained"
-                                                type="button"
-                                                onClick={clearPrice}
-                                            >
-                                                CLEAR
-                                            </Button>
-                                            <Button
-                                                className="capitalize accept"
-                                                variant="contained"
-                                                type="submit"
-                                            >
-                                                ACCEPT
-                                            </Button>
 
-                                            {message && (
-                                                    <p className="text-success">{message}</p>
-                                                )}
-                                        </li>
-                                    </ul>
-                                </ValidatorForm>
+            <Modal id="add_alert3" show={showLogin} onHide={handleLoginClose}>
+            
+                <Modal.Body>
+                <i className="fas fa-times pull-right" onClick={handleLoginClose} />
+                {/* <Modal.Header closeButton>
+               
+               </Modal.Header> */}
+                <div className="alert_text2 text-center">
+                <ValidatorForm onSubmit={handleLoginFormSubmit}>
+                                <TextValidator
+                                    className="mb-3 w-full"
+                                    variant="outlined"
+                                    size="small"
+                                    placeholder="Email"
+                                    onChange={handleChange}
+                                    type="email"
+                                    name="email"
+                                    value={userInfo.email}
+                                    validators={['required', 'isEmail']}
+                                    errorMessages={[
+                                        'this field is required',
+                                        'email is not valid',
+                                    ]}
+                                />
+                                <TextValidator
+                                    className="mb-3 w-full"
+                                    placeholder="Password"
+                                    variant="outlined"
+                                    size="small"
+                                    onChange={handleChange}
+                                    name="password"
+                                    type="password"
+                                    value={userInfo.password}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
+                                />
+                                <FormControlLabel
+                                    className="mb-3 min-w-288"
+                                    name="agreement"
+                                    onChange={handleChange}
+                                    control={
+                                        <Checkbox
+                                            size="small"
+                                            onChange={({
+                                                target: { checked },
+                                            }) =>
+                                                handleChange({
+                                                    target: {
+                                                        name: 'agreement',
+                                                        value: checked,
+                                                    },
+                                                })
+                                            }
+                                            checked={userInfo.agreement || true}
+                                        />
+                                    }
+                                    label="Remeber me"
+                                />
+
+                                {message && (
+                                    <p className="text-error">{message}</p>
+                                )}
+
+                                <div className="flex flex-wrap items-center mb-4">
+                                    <div className="relative">
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={loading}
+                                            type="submit"
+                                        >
+                                            Sign in
+                                        </Button>
+                                        {loading && (
+                                            <CircularProgress
+                                                size={24}
+                                                className={
+                                                    classes.buttonProgress
+                                                }
+                                            />
+                                        )}
+                                    </div>
+                                    <span className="mr-2 ml-5">or</span>
+                                    <Button
+                                        className="capitalize"
+                                        onClick={() =>
+                                            history.push('/session/signup')
+                                        }
+                                    >
+                                        Sign up
+                                    </Button>
+                                </div>
+                                <Button
+                                    className="text-primary"
+                                    onClick={() =>
+                                        history.push('/session/forgot-password')
+                                    }
+                                >
+                                    Forgot password?
+                                </Button>
+                            </ValidatorForm>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </Modal.Body>
+            </Modal>
+
         </div>
         </div>
     )

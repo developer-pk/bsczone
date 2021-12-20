@@ -15,7 +15,9 @@ import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import { connect } from 'react-redux';
-import {verifyOtp} from 'app/redux/actions/frontend/OtpActions'
+import {verifyOtp, resendOtp} from 'app/redux/actions/frontend/OtpActions'
+import { ToastContainer, toast } from 'material-react-toastify';
+
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -45,6 +47,12 @@ const Otp = ({ dispatch }) => {
 
     const classes = useStyles()
 
+    const  resendOtpFunc = () => {
+        console.log('resend');
+        const params={type:'OTP_RESEND'};
+        dispatch(resendOtp(params))
+      };
+
     const handleChange = ({ target: { name, value } }) => {
         console.log(name,value,'handle change');
         let temp = { ...userInfo }
@@ -56,14 +64,16 @@ const Otp = ({ dispatch }) => {
         setLoading(true)
         try {
             console.log(userInfo,'login user info');//return false;
-            dispatch(verifyOtp(userInfo.otp))
-            
+            dispatch(verifyOtp({otp:userInfo.otp}))
+ 
         } catch (e) {
             console.log(e)
             setMessage(e.message)
             setLoading(false)
         }
     }
+
+
 
     return (
         <div
@@ -72,6 +82,15 @@ const Otp = ({ dispatch }) => {
                 classes.cardHolder
             )}
         >
+            <ToastContainer position="top-right"
+                                autoClose={3000}
+                                hideProgressBar
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover />
             <Card className={classes.card}>
                 <Grid container>
                     <Grid item lg={12} md={12} sm={12} xs={12}>
@@ -117,14 +136,14 @@ const Otp = ({ dispatch }) => {
                                         )}
                                     </div>
                                     <span className="mr-2 ml-5">or</span>
-                                    <Button
+                                    <a
                                         className="capitalize"
-                                        onClick={() =>
-                                            history.push('/resend-otp')
-                                        }
+                                        onClick={resendOtpFunc}
+                                        href="#"
                                     >
                                         Resend OTP
-                                    </Button>
+                                    </a>
+        
                                 </div>
                             </ValidatorForm>
                         </div>

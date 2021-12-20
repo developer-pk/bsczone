@@ -154,7 +154,7 @@ const JwtRegister = () => {
                                         color="primary"
                                         type="submit"
                                     >
-                                        Next
+                                        Sign up
                                     </Button>
                                     <span className="mx-2 ml-5">or</span>
                                     <Link to="/session/signin">

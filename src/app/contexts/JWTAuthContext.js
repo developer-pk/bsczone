@@ -131,6 +131,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('lastname', response.data.user.lastname)
         localStorage.setItem('email', response.data.user.email)
         localStorage.setItem('step', response.data.user.steps)
+        localStorage.setItem('refreshToken', response.data.token.refreshToken);
         login(email,password)
         dispatch({
             type: 'REGISTER',

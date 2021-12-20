@@ -64,27 +64,27 @@ const JwtLogin = () => {
             console.log(userInfo,'login user info');//return false;
             await login(userInfo.email, userInfo.password)
             const role = localStorage.getItem('userRole');
-            if(role == "admin"){
+            // if(role == "admin"){
 
+            //     history.push('/dashboard')
+                
+            // }else if(role == "user" && localStorage.getItem('step') == "1"){
+
+            //     history.push('/session/signup-step-2')
+                
+            // }else if(role == "user" && localStorage.getItem('step') == "2"){
+
+            //     history.push('/session/signup-step-3')
+
+            // }else if(role == "user" && localStorage.getItem('step') == "3"){
+            //     history.push('/session/signup-step-4')
+            // }else if(role == "user" && localStorage.getItem('step') == "4"){
+            //     history.push('/session/signup-step-5')
+            // }else if(role == "user" && localStorage.getItem('step') == "5"){
+            //     history.push('/session/signup-step-6')
+            // }else{
                 history.push('/dashboard')
-                
-            }else if(role == "user" && localStorage.getItem('step') == "1"){
-
-                history.push('/session/signup-step-2')
-                
-            }else if(role == "user" && localStorage.getItem('step') == "2"){
-
-                history.push('/session/signup-step-3')
-
-            }else if(role == "user" && localStorage.getItem('step') == "3"){
-                history.push('/session/signup-step-4')
-            }else if(role == "user" && localStorage.getItem('step') == "4"){
-                history.push('/session/signup-step-5')
-            }else if(role == "user" && localStorage.getItem('step') == "5"){
-                history.push('/session/signup-step-6')
-            }else{
-                history.push('/')
-            }
+            //}
             
         } catch (e) {
             console.log(e)
