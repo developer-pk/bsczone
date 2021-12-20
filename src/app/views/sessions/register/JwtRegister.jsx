@@ -73,7 +73,7 @@ const JwtRegister = () => {
                                     className="mb-6 w-full"
                                     variant="outlined"
                                     size="small"
-                                    label="First Name"
+                                    placeholder="First Name"
                                     onChange={handleChange}
                                     type="text"
                                     name="firstname"
@@ -85,7 +85,7 @@ const JwtRegister = () => {
                                     className="mb-6 w-full"
                                     variant="outlined"
                                     size="small"
-                                    label="Last name"
+                                    placeholder="Last name"
                                     onChange={handleChange}
                                     type="text"
                                     name="lastname"
@@ -97,7 +97,7 @@ const JwtRegister = () => {
                                     className="mb-6 w-full"
                                     variant="outlined"
                                     size="small"
-                                    label="Email"
+                                    placeholder="Email"
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
@@ -110,7 +110,7 @@ const JwtRegister = () => {
                                 />
                                 <TextValidator
                                     className="mb-4 w-full"
-                                    label="Password"
+                                    placeholder="Password"
                                     variant="outlined"
                                     size="small"
                                     onChange={handleChange}

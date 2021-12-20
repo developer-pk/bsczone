@@ -54,7 +54,7 @@ const ForgotPassword = () => {
                                 <TextValidator
                                     className="mb-6 w-full"
                                     variant="outlined"
-                                    label="Email"
+                                    placeholder="Email"
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
