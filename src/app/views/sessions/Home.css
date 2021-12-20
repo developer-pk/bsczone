@@ -148,7 +148,8 @@ li.nav-item.alert_icon a:hover {
 }
 .copy span {
     position: absolute;
-    right: 7px;
+    right: 9px;
+    top: 9px;
 }
 .copy:hover i{
     color: #15dac7;
@@ -893,6 +894,8 @@ nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a:hover {
 .pricing-table .dzcLoW {
     text-align: center;
     justify-content: center;
+    text-transform: uppercase;
+    font-weight: 500;
 }
 .search .MuiAutocomplete-hasPopupIcon{padding-top: 0;}
 .pricing-table .sc-hGPBjI.fuBVgf.rdt_TableBody {
@@ -908,3 +911,80 @@ button#pagination-next-page {
 }
 .search .MuiInputBase-root{padding-top: 0!important}
 .pricing-table .MuiPaper-root{background: transparent;}
+.price span.negative-number {
+    color: red;
+}
+span.buy-type {
+    color: #15dac7;
+    text-transform: uppercase;
+    font-weight: 500;
+}span.tx_hash-type {
+    color: #ebcc86;
+}.hkMDrI::-webkit-scrollbar {
+    width: 15px;    height: 15px;
+
+}
+ 
+.hkMDrI::-webkit-scrollbar-track {
+    background-color: #131722;
+    border-radius: 100px;
+}
+ 
+.hkMDrI::-webkit-scrollbar-thumb {
+    background-color: #232a32;
+    border-radius: 100px;
+}
+.pricing-table .sc-hGPBjI.fuBVgf.rdt_TableBody ::-webkit-scrollbar {
+    width: 5px;
+}
+.pricing-table .MuiCard-root{background: #2c343e;}
+
+ 
+.pricing-table .sc-hGPBjI.fuBVgf.rdt_TableBody ::-webkit-scrollbar-track {
+    background-color: #131722;
+    border-radius: 100px;
+}
+ 
+.pricing-table .sc-hGPBjI.fuBVgf.rdt_TableBody ::-webkit-scrollbar-thumb {
+    background-color: #232a32;
+    border-radius: 100px;
+}
+.login_form {
+    background: #2c343e;
+    padding: 15px;    text-align: center;
+    color: #9ca7b4;
+}
+
+.login_form .MuiInputBase-input {
+    background: #7e8087;
+    border-radius: 100px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.login_form button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
+    background: #15dac7;
+    border-radius: 100px;
+    color: #fff;
+}
+
+.login_form span.MuiButton-label{
+    color: #9ca7b4;}
+.buton-css {
+    justify-content: center;
+}
+.login_form {
+    background: #2c343e;
+    padding: 30px 70px;
+    text-align: center;
+    color: #9ca7b4;
+}
+.login_form .signin span.MuiButton-label{color: #fff}
+
+
+.login_form .MuiFormHelperText-root.Mui-error {
+    color: #FF3D57;
+    margin-top: -9px;
+}
+.login_form h4 {
+    padding-bottom: 20px;
+}
