@@ -105,17 +105,10 @@ const JwtLogin = () => {
         >
             <Card className={classes.card}>
                 <Grid container>
-                    <Grid item lg={5} md={5} sm={5} xs={12}>
-                        <div className="p-8 flex justify-center items-center h-full">
-                            <img
-                                className="w-200"
-                                src="/assets/images/illustrations/dreamer.svg"
-                                alt=""
-                            />
-                        </div>
-                    </Grid>
-                    <Grid item lg={7} md={7} sm={7} xs={12}>
-                        <div className="p-8 h-full bg-light-gray relative">
+                    
+                    <Grid>
+                        <div className="login_form">
+                        <h4>LOGIN</h4>
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator
                                     className="mb-6 w-full"
@@ -171,9 +164,9 @@ const JwtLogin = () => {
                                     <p className="text-error">{message}</p>
                                 )}
 
-                                <div className="flex flex-wrap items-center mb-4">
+                                <div className="flex flex-wrap items-center mb-4 buton-css">
                                     <div className="relative">
-                                        <Button
+                                        <Button className="signin"
                                             variant="contained"
                                             color="primary"
                                             disabled={loading}
