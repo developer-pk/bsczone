@@ -114,7 +114,7 @@ const JwtLogin = () => {
                                     className="mb-6 w-full"
                                     variant="outlined"
                                     size="small"
-                                    label="Email"
+                                    placeholder="Email"
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
@@ -127,7 +127,7 @@ const JwtLogin = () => {
                                 />
                                 <TextValidator
                                     className="mb-3 w-full"
-                                    label="Password"
+                                    placeholder="Password"
                                     variant="outlined"
                                     size="small"
                                     onChange={handleChange}
