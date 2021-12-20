@@ -79,7 +79,7 @@ const Blank = ({ dispatch }) => {
     {
       id: 3,
       name: "PRICE",
-      selector: (row) => row.amount +' '+row.symbol,
+      selector: (row) => <span className='price-type'>{row.amount} </span>,
       sortable: true,
       right: true,
       reorder: true
