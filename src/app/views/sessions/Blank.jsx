@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import TradingViewWidget, {Themes} from 'react-tradingview-widget';
 import './Home.css';
 import axios from 'axios'
-import {createAlert} from 'app/redux/actions/common/AlertActions'
+import {createAlert, removeAlert} from 'app/redux/actions/common/AlertActions'
 import { ToastContainer, toast } from 'material-react-toastify';
 import 'material-react-toastify/dist/ReactToastify.css';
 import {getAds, deleteAds} from 'app/redux/actions/admin/ads/AdsActions'
@@ -28,7 +28,7 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite} from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
@@ -62,6 +62,8 @@ const Blank = ({ dispatch }) => {
     const [loading, setLoading] = useState(false)
     const { login } = useAuth();
     const [open,setConfirmState] = React.useState(false)
+    const [openRem,setConfirmRemoveState] = React.useState(false)
+    const [openAlert,setRemoveAlertState] = React.useState(false)
     const {
         isAuthenticated,
         // user
@@ -136,6 +138,43 @@ const Blank = ({ dispatch }) => {
     const  handleConfirmClose = () => {
         setConfirmState(false);
     };
+
+    //Remove Fav
+    const  handleFavRemoveOpen = () => {
+        setConfirmRemoveState(true);
+      };
+      const  handleFavRemoveClose = () => {
+        setConfirmRemoveState(false);
+    };
+
+    const handleFavRemoveAgree = () => {
+        const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        dispatch(removeTokenFromFavourite({currencytoken:tokenAddress}))
+        handleFavRemoveClose();
+      };
+      const handleFavRemoveDisagree = () => {
+        console.log("I do not agree.");
+        handleFavRemoveClose();
+      };
+
+      //Remove Alert
+    const  handleAlertRemoveOpen = () => {
+        setRemoveAlertState(true);
+      };
+      const  handleAlertRemoveClose = () => {
+        setRemoveAlertState(false);
+    };
+
+    const handleAlertRemoveAgree = () => {
+        const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        dispatch(removeAlert({currencytoken:tokenAddress}))
+        handleAlertRemoveClose();
+      };
+      const handleAlertRemoveDisagree = () => {
+        console.log("I do not agree.");
+        handleAlertRemoveClose();
+      };
+    
 
     const handleAgree = () => {
         const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
@@ -228,6 +267,7 @@ const Blank = ({ dispatch }) => {
             const role = localStorage.getItem('userRole');
 
             setLoginShow(false);
+            setShow(true);
            toast.success("You are logged in successfully.");
             if(tokeninfo.length > 0){
                 dispatch(getAlertTokenInfo(tokeninfo[0].address));
@@ -406,7 +446,7 @@ const Blank = ({ dispatch }) => {
 
                                              {(authenticated ? 
                                                 (alertoken.length > 0 && alertoken[0].favorite == true ? 
-                                                    <a className="nav-link" href="#">
+                                                    <a className="nav-link" href="#" onClick={() => handleFavRemoveOpen()}>
                                                         <i className="fas fa-heart show_hover " /> 
                                                         <i className="fas fa-heart hide_hover " />
                                                     </a> :
@@ -434,6 +474,7 @@ const Blank = ({ dispatch }) => {
                                                     <a
                                                     className="nav-link"
                                                     href="#"
+                                                    onClick={() => handleAlertRemoveOpen()}
                                                 >  
                                                 <i className="fas fa-bell show_hover " />
                                                 <i className="fas fa-bell hide_hover " />
@@ -441,6 +482,7 @@ const Blank = ({ dispatch }) => {
                                                 <a
                                                 className="nav-link"
                                                 href="#"
+                                                onClick={handleShow}
                                             >  <i className="fas fa-bell hide_hover " />
                                             <i className="fas fa-bell show_hover " />
                                             </a>
@@ -466,7 +508,7 @@ const Blank = ({ dispatch }) => {
                                                 aria-describedby="alert-dialog-description"
                                                 >
                                                 <DialogTitle id="alert-dialog-title">
-                                                    {"Confirmation"}
+                                                    {"Add To Favourites"}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
@@ -478,6 +520,54 @@ const Blank = ({ dispatch }) => {
                                                     Cancel
                                                     </Button>
                                                     <Button onClick={handleAgree} color="primary" autoFocus>
+                                                    Ok
+                                                    </Button>
+                                                </DialogActions>
+                                                </Dialog>
+
+                                                <Dialog
+                                                open={openRem}
+                                                onClose={handleFavRemoveClose}
+                                                aria-labelledby="alert-dialog-title"
+                                                aria-describedby="alert-dialog-description"
+                                                >
+                                                <DialogTitle id="alert-dialog-title">
+                                                    {"Remove from Favourites"}
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText id="alert-dialog-description">
+                                                    Are you sure you want to remove this from your favourites?
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={handleFavRemoveDisagree} color="primary">
+                                                    Cancel
+                                                    </Button>
+                                                    <Button onClick={handleFavRemoveAgree} color="primary" autoFocus>
+                                                    Ok
+                                                    </Button>
+                                                </DialogActions>
+                                                </Dialog>
+
+                                                <Dialog
+                                                open={openAlert}
+                                                onClose={handleAlertRemoveClose}
+                                                aria-labelledby="alert-dialog-title"
+                                                aria-describedby="alert-dialog-description"
+                                                >
+                                                <DialogTitle id="alert-dialog-title">
+                                                    {"Remove Alert"}
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText id="alert-dialog-description">
+                                                    Are you sure you want to remove alert?
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={handleAlertRemoveDisagree} color="primary">
+                                                    Cancel
+                                                    </Button>
+                                                    <Button onClick={handleAlertRemoveAgree} color="primary" autoFocus>
                                                     Ok
                                                     </Button>
                                                 </DialogActions>

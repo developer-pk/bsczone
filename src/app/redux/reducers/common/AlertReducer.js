@@ -2,6 +2,7 @@ import {
     GET_ALERT,
     CREATE_ALERT,
     DELETE_ALERT,
+    REMOVE_ALERT,
 } from '../../actions/common/AlertActions'
 
 const initialState = []
@@ -15,6 +16,9 @@ const AlertReducer = function (state = initialState, action) {
             return [...state,action.payload]
         }
         case DELETE_ALERT: {
+            return [...state,action.payload]
+        }
+        case REMOVE_ALERT: {
             return [...state,action.payload]
         }
         default: {
