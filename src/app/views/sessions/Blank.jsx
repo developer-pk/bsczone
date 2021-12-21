@@ -407,23 +407,23 @@ const Blank = ({ dispatch }) => {
                                              {(authenticated ? 
                                                 (alertoken.length > 0 && alertoken[0].favorite == true ? 
                                                     <a className="nav-link" href="#">
-                                                        <i className="far fa-heart show_hover " /> 
+                                                        <i className="fas fa-heart show_hover " /> 
                                                         <i className="fas fa-heart hide_hover " />
                                                     </a> :
                                                     <a className="nav-link" href="#" onClick={() => handleClickOpen()}>
                                                         <i className="fas fa-heart hide_hover " />
-                                                        <i className="far fa-heart show_hover " /> 
+                                                        <i className="fas fa-heart show_hover " /> 
                                                     </a>
                                                 )
                                                 :
                                                 (alertoken.length > 0 && alertoken[0].favorite == true? 
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
                                                         <i className="fas fa-heart hide_hover " />
-                                                        <i className="far fa-heart show_hover "  />
+                                                        <i className="fas fa-heart show_hover "  />
                                                     </a> :
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
                                                         <i className="fas fa-heart hide_hover " />
-                                                        <i className="far fa-heart show_hover "  />
+                                                        <i className="fas fa-heart show_hover "  />
                                                     </a>
                                                 )
                                             )}
@@ -435,25 +435,25 @@ const Blank = ({ dispatch }) => {
                                                     className="nav-link"
                                                     href="#"
                                                 >  
-                                                <i className="far fa-bell show_hover " />
+                                                <i className="fas fa-bell show_hover " />
                                                 <i className="fas fa-bell hide_hover " />
                                                 </a> :
                                                 <a
                                                 className="nav-link"
                                                 href="#"
                                             >  <i className="fas fa-bell hide_hover " />
-                                            <i className="far fa-bell show_hover " />
+                                            <i className="fas fa-bell show_hover " />
                                             </a>
                                                 )
                                                 :
-                                                (alertoken.length > 0 && alertoken[0].favorite == true? 
+                                                (alertoken.length > 0 && alertoken[0].alert == true? 
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
-                                                        <i className="far fa-bell show_hover "  />
+                                                        <i className="fas fa-bell show_hover "  />
                                                         <i className="fas fa-bell hide_hover " />
                                                     </a> :
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
                                                         <i className="fas fa-bell hide_hover " />
-                                                        <i className="far fa-bell show_hover "  />
+                                                        <i className="fas fa-bell show_hover "  />
                                                     </a>
                                                 )
                                                 
