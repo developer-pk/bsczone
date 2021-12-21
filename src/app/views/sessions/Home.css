@@ -519,6 +519,7 @@ button.accept {
 }
 .modal-popup-class form button:hover {
     opacity: 1;
+    background: #ef5350;
 }
 .modal-popup-class form button {
     text-transform: uppercase;
@@ -629,7 +630,7 @@ p.tag_btn img {
     margin-bottom: 20px!important;
 }
 .modal-popup-class form li .MuiFormControl-root input {
-    background: transparent;
+    background: #fff;
     color: #4e5464;
     margin: 0;
     padding: 9px;
@@ -999,8 +1000,8 @@ span.buy-type {
     margin: 10px;
 }
 .modal-popup-class .MuiOutlinedInput-root {
-    position: relative;
-    background: #0b0d0f;
+    position: relative;/*
+    background: #0b0d0f;*/
     border-radius: 100px;
     border: none;
     outline: none;
@@ -1037,3 +1038,13 @@ span.buy-type {
     padding-left: 5px;
 }
 .modal-popup-class h4{margin:0px 0 25px}
+.modal-popup-class button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary span {
+    color: #fff;
+}.login_form button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary span {
+    color: #fff;
+}
+.modal-popup-class button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.capitalize span {
+    color: #fff;
+}.login_form span.MuiButton-label:hover {
+    color: #fff;
+}
