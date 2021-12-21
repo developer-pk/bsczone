@@ -52,7 +52,7 @@ const Blank = ({ dispatch }) => {
     const [state, setState] = useState({})
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo,transfers,tokenotherinfo} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken} = useSelector(state=>state);
     const classes = useStyles()
     const [loading, setLoading] = useState(false)
     const { login } = useAuth();
@@ -119,7 +119,7 @@ const Blank = ({ dispatch }) => {
     const handleLoginShow = () => setLoginShow(true);
     const handleLoginClose = () => setLoginShow(false);
     
-  console.log(transfers,'show symbol in it',tokenotherinfo);
+  //console.log(transfers,'show symbol in it',tokenotherinfo);
   const start = moment().add(-4, 'm');
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
@@ -145,6 +145,7 @@ const Blank = ({ dispatch }) => {
       dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
       if(authenticated){
         dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+        
       }
     }, [])
 
@@ -212,19 +213,18 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleLoginFormSubmit = async (event,values) => {
-        setLoading(true)
-        try {
             console.log(userInfo,'login user info');//return false;
             await login(userInfo.email, userInfo.password)
             const role = localStorage.getItem('userRole');
 
-            history.push('/home')
+            setLoginShow(false);
+            setShow(true);
+            if(tokeninfo.length > 0){
+                dispatch(getAlertTokenInfo(tokeninfo[0].address));
+            }else{
+                dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+            }
             
-        } catch (e) {
-            console.log(e)
-            setMessage(e.message)
-            setLoading(false)
-        }
     }
 
 
@@ -400,15 +400,41 @@ const Blank = ({ dispatch }) => {
                                             className="nav-link"
                                             href="#"
                                         >
-                                            <i className="far fa-heart hide_hover" />
-                                            <i className="fas fa-heart show_hover" />
+                                            {/* {(alertoken.favorite == false ? 
+                                                    <i className="far fa-heart hide_hover" /> 
+                                                    : 
+                                                    <i className="fas fa-heart show_hover" />
+                                            )} */}
+                                             {(authenticated ? 
+                                                (alertoken.length > 0 && alertoken[0].favorite == true ? 
+                                                    <i className="far fa-heart show_hover " /> :
+                                                    <i className="fas fa-heart hide_hover " />
+                                                )
+                                                :
+                                                (alertoken.length > 0 && alertoken[0].favorite == true? 
+                                                    <i className="far fa-heart show_hover " onClick={handleLoginShow} /> :
+                                                    <i className="fas fa-heart hide_hover " />
+                                                )
+                                            )}
+                                            
                                         </a>
                                         <a
                                             className="nav-link"
                                             href="#"
                                         >
-                                            <i className="far fa-bell hide_hover" />
-                                            <i className="fas fa-bell show_hover" />
+                                            {(authenticated ? 
+                                                (alertoken.length > 0 && alertoken[0].alert == true ? 
+                                                    <i className="far fa-bell show_hover " /> :
+                                                    <i className="fas fa-bell hide_hover " />
+                                                )
+                                                :
+                                                <i className="far fa-bell hide_hover anj" onClick={handleLoginShow} /> 
+                                                
+                                            )}
+                                            {/* {(alertoken.alert == false  ? 
+                                                <i className="far fa-bell hide_hover" /> :
+                                                <i className="fas fa-bell show_hover" />
+                                            )} */}
                                         </a>
                                     </li>
                                     <div className="price">
@@ -1084,6 +1110,7 @@ const Blank = ({ dispatch }) => {
                
                </Modal.Header> */}
                 <div className="alert_text2 text-center">
+                <h4>LOGIN</h4>
                 <ValidatorForm onSubmit={handleLoginFormSubmit}>
                                 <TextValidator
                                     className="mb-3 w-full"

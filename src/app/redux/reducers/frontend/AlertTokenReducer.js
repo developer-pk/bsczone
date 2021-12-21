@@ -7,7 +7,7 @@ const initialState = []
 const AlertTokenReducer = function (state = initialState, action) {
     switch (action.type) {
         case GET_ALERT_TOKEN_INFO: {
-            return [...action.payload]
+            return [...state,action.payload]
         }
         default: {
             return [...state]

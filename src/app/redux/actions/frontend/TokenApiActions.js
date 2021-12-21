@@ -13,6 +13,7 @@ export const GET_TOKEN_INFO = 'GET_TOKEN_INFO'
 export const GET_TOKEN_TRANSFER_LIST = 'GET_TOKEN_TRANSFER_LIST'
 export const GET_TOKEN_OTHER_INFO = 'GET_TOKEN_OTHER_INFO'
 export const GET_ALERT_TOKEN_INFO = 'GET_ALERT_TOKEN_INFO'
+const accessToken = window.localStorage.getItem('accessToken')
 
 export const getTokenBySymbol = (searchSymbol) => (dispatch) => {
     axios
@@ -81,6 +82,9 @@ export const getTokenOtherInfo = (symbol) => (dispatch) => {
 export const getAlertTokenInfo = (token) => (dispatch) => {
     axios
         .get(`${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/alert/get-saved-alert/'+ token, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken,
+            },
         })
         .then((res) => {
             dispatch({
