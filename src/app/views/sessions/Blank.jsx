@@ -28,12 +28,17 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite} from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
 import SortIcon from "@material-ui/icons/ArrowDownward";
 import NumberFormat from 'react-number-format';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -56,6 +61,7 @@ const Blank = ({ dispatch }) => {
     const classes = useStyles()
     const [loading, setLoading] = useState(false)
     const { login } = useAuth();
+    const [open,setConfirmState] = React.useState(false)
     const {
         isAuthenticated,
         // user
@@ -69,47 +75,47 @@ const Blank = ({ dispatch }) => {
     })
 
     console.log(authenticated,'is auth');
-   const columns = [
-    {
-      id: 1,
-      name: "TYPE",
-      selector: (row) => <span className='buy-type'>Buy</span>,
-      sortable: true,
-      reorder: true,
-    },
-    {
-      id: 2,
-      name: "TOKEN",
-      selector: (row) => row.tx_from,
-      sortable: true,
-      reorder: true,
-    },
-    {
-      id: 3,
-      name: "PRICE",
-      selector: (row) => <span className='price-type'>{row.amount} </span>,
-      sortable: true,
-      right: true,
-      reorder: true
-    },
-      {
-        id: 4,
-        name: "TIME",
-        selector: (row) => row.tx_time,
-        format: (row) => moment(row.tx_time).format('hh:mm:ss'),
+    const columns = [
+        {
+        id: 1,
+        name: "TYPE",
+        selector: (row) => <span className='buy-type'>Buy</span>,
+        sortable: true,
+        reorder: true,
+        },
+        {
+        id: 2,
+        name: "TOKEN",
+        selector: (row) => row.tx_from,
+        sortable: true,
+        reorder: true,
+        },
+        {
+        id: 3,
+        name: "PRICE",
+        selector: (row) => <span className='price-type'>{row.amount} </span>,
         sortable: true,
         right: true,
         reorder: true
-      },
-      {
-        id: 5,
-        name: "TX",
-        selector: (row) => <span className='tx_hash-type'>{row.tx_hash}</span>,
-        sortable: true,
-        right: true,
-        reorder: true
-      }
-  ];
+        },
+        {
+            id: 4,
+            name: "TIME",
+            selector: (row) => row.tx_time,
+            format: (row) => moment(row.tx_time).format('hh:mm:ss'),
+            sortable: true,
+            right: true,
+            reorder: true
+        },
+        {
+            id: 5,
+            name: "TX",
+            selector: (row) => <span className='tx_hash-type'>{row.tx_hash}</span>,
+            sortable: true,
+            right: true,
+            reorder: true
+        }
+    ];
 
     const [show, setShow] = useState(false);
     const [showLogin, setLoginShow] = useState(false);
@@ -119,11 +125,28 @@ const Blank = ({ dispatch }) => {
     const handleLoginShow = () => setLoginShow(true);
     const handleLoginClose = () => setLoginShow(false);
     
-  //console.log(transfers,'show symbol in it',tokenotherinfo);
-  const start = moment().add(-4, 'm');
+    const start = moment().add(-4, 'm');
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
     }
+
+    const  handleClickOpen = () => {
+        setConfirmState(true);
+      };
+    const  handleConfirmClose = () => {
+        setConfirmState(false);
+    };
+
+    const handleAgree = () => {
+        const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
+        const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
+        handleConfirmClose();
+      };
+      const handleDisagree = () => {
+        console.log("I do not agree.");
+        handleConfirmClose();
+      };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value)
@@ -137,16 +160,16 @@ const Blank = ({ dispatch }) => {
     }
 
     useEffect(() => {
-       getData()
-       const params={type:'GET_ADS'};
-       dispatch(getAds(params));
-       dispatch(getTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
-       dispatch(getTokenOtherInfo('BNB'));
-      dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
-      if(authenticated){
-        dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
-        
-      }
+        getData()
+        const params={type:'GET_ADS'};
+        dispatch(getAds(params));
+        dispatch(getTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+        dispatch(getTokenOtherInfo('BNB'));
+        dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+        if(authenticated){
+            dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+            
+        }
     }, [])
 
 
@@ -158,8 +181,6 @@ const Blank = ({ dispatch }) => {
         let temp = { ...userInfo }
         temp[name] = value
         setUserInfo(temp);
-       // sethighPrice(value);
-      //  setlowPrice(value);
     }
     const handleFormSubmit = (event) => {
          const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
@@ -169,12 +190,9 @@ const Blank = ({ dispatch }) => {
         toast.success("Alert added successfully.");
         setState({highPrice:'',lowPrice:''});
         setShow(false);
-        //history.push('/home')
-        //$("#add_alert2").modal('hide');
   }
 
   const clearHighPrice = (event) => {
-       //console.log(event,'asdsadasd');
        setState({
            ...state,
         highPrice:'',
@@ -182,7 +200,6 @@ const Blank = ({ dispatch }) => {
     }
 
     const clearLowPrice = (event) => {
-        //console.log(event,'asdsadasd');
         setState({
             ...state,
          lowPrice:'',
@@ -197,28 +214,21 @@ const Blank = ({ dispatch }) => {
     }
 
     const handler = ({ target: { name, value } }) => {
-        // changing the state to the name of the key
-      // which is pressed
-     
       dispatch(getTokenBySymbol(value));
     };
     
     const handleSymbolInfo = (address,symbol) => {
-        // changing the state to the name of the key
-      // which is pressed
-     
       dispatch(getTokenInfo(address));
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
     };
 
     const handleLoginFormSubmit = async (event,values) => {
-            console.log(userInfo,'login user info');//return false;
             await login(userInfo.email, userInfo.password)
             const role = localStorage.getItem('userRole');
 
             setLoginShow(false);
-            setShow(true);
+           toast.success("You are logged in successfully.");
             if(tokeninfo.length > 0){
                 dispatch(getAlertTokenInfo(tokeninfo[0].address));
             }else{
@@ -383,10 +393,7 @@ const Blank = ({ dispatch }) => {
                                             />
                                             )
                                                 : "<img alt='img-text' src={process.env.PUBLIC_URL + '/images/cardano-ada-logo.png'} />") }
-                                            {/* <img
-                                                alt="img-text"
-                                                src={process.env.PUBLIC_URL + "/images/cardano-ada-logo.png"}
-                                            />{' '} */}
+
                                             <b>
                                             {(tokeninfo.length > 0 ? '' : 'ADA/')}
                                                 <span>{(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB')}</span>
@@ -396,46 +403,89 @@ const Blank = ({ dispatch }) => {
                                 </ul>
                                 <ul className="nav">
                                     <li className="nav-item alert_icon">
-                                        <a
-                                            className="nav-link"
-                                            href="#"
-                                        >
-                                            {/* {(alertoken.favorite == false ? 
-                                                    <i className="far fa-heart hide_hover" /> 
-                                                    : 
-                                                    <i className="fas fa-heart show_hover" />
-                                            )} */}
+
                                              {(authenticated ? 
                                                 (alertoken.length > 0 && alertoken[0].favorite == true ? 
-                                                    <i className="far fa-heart show_hover " /> :
-                                                    <i className="fas fa-heart hide_hover " />
+                                                    <a className="nav-link" href="#">
+                                                        <i className="far fa-heart show_hover " /> 
+                                                        <i className="fas fa-heart hide_hover " />
+                                                    </a> :
+                                                    <a className="nav-link" href="#" onClick={() => handleClickOpen()}>
+                                                        <i className="fas fa-heart hide_hover " />
+                                                        <i className="far fa-heart show_hover " /> 
+                                                    </a>
                                                 )
                                                 :
                                                 (alertoken.length > 0 && alertoken[0].favorite == true? 
-                                                    <i className="far fa-heart show_hover " onClick={handleLoginShow} /> :
-                                                    <i className="fas fa-heart hide_hover " />
+                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                        <i className="fas fa-heart hide_hover " />
+                                                        <i className="far fa-heart show_hover "  />
+                                                    </a> :
+                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                        <i className="fas fa-heart hide_hover " />
+                                                        <i className="far fa-heart show_hover "  />
+                                                    </a>
                                                 )
                                             )}
                                             
-                                        </a>
-                                        <a
-                                            className="nav-link"
-                                            href="#"
-                                        >
+                                        
                                             {(authenticated ? 
                                                 (alertoken.length > 0 && alertoken[0].alert == true ? 
-                                                    <i className="far fa-bell show_hover " /> :
-                                                    <i className="fas fa-bell hide_hover " />
+                                                    <a
+                                                    className="nav-link"
+                                                    href="#"
+                                                >  
+                                                <i className="far fa-bell show_hover " />
+                                                <i className="fas fa-bell hide_hover " />
+                                                </a> :
+                                                <a
+                                                className="nav-link"
+                                                href="#"
+                                            >  <i className="fas fa-bell hide_hover " />
+                                            <i className="far fa-bell show_hover " />
+                                            </a>
                                                 )
                                                 :
-                                                <i className="far fa-bell hide_hover anj" onClick={handleLoginShow} /> 
+                                                (alertoken.length > 0 && alertoken[0].favorite == true? 
+                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                        <i className="far fa-bell show_hover "  />
+                                                        <i className="fas fa-bell hide_hover " />
+                                                    </a> :
+                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                        <i className="fas fa-bell hide_hover " />
+                                                        <i className="far fa-bell show_hover "  />
+                                                    </a>
+                                                )
                                                 
                                             )}
+
+                                        <Dialog
+                                                open={open}
+                                                onClose={handleConfirmClose}
+                                                aria-labelledby="alert-dialog-title"
+                                                aria-describedby="alert-dialog-description"
+                                                >
+                                                <DialogTitle id="alert-dialog-title">
+                                                    {"Confirmation"}
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText id="alert-dialog-description">
+                                                    Are you sure you want to add it in your favourites?
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={handleDisagree} color="primary">
+                                                    Cancel
+                                                    </Button>
+                                                    <Button onClick={handleAgree} color="primary" autoFocus>
+                                                    Ok
+                                                    </Button>
+                                                </DialogActions>
+                                                </Dialog>
                                             {/* {(alertoken.alert == false  ? 
                                                 <i className="far fa-bell hide_hover" /> :
                                                 <i className="fas fa-bell show_hover" />
                                             )} */}
-                                        </a>
                                     </li>
                                     <div className="price">
                                         <h5>

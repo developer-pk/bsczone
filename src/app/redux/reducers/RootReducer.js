@@ -23,6 +23,7 @@ import TokenTransferListReducer from './frontend/TokenTransferListReducer'
 import OtpReducer from './frontend/OtpReducer'
 import TokenOtherInfoReducer from './frontend/TokenOtherInfoReducer'
 import AlertTokenReducer from './frontend/AlertTokenReducer'
+import FavouriteReducer from './frontend/FavouriteReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
@@ -49,6 +50,7 @@ const RootReducer = combineReducers({
     otp:OtpReducer,
     tokenotherinfo:TokenOtherInfoReducer,
     alertoken:AlertTokenReducer,
+    favourite:FavouriteReducer,
 })
 
 export default RootReducer

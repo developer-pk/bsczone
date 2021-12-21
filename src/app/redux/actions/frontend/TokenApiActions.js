@@ -7,12 +7,14 @@ import {
     SERVICE_URL,
 } from './../../../constants/utility'
 import { toast } from 'material-react-toastify'
+import history from 'history.js'
 
 export const GET_TOKEN_SYMBOL = 'GET_TOKEN_SYMBOL'
 export const GET_TOKEN_INFO = 'GET_TOKEN_INFO'
 export const GET_TOKEN_TRANSFER_LIST = 'GET_TOKEN_TRANSFER_LIST'
 export const GET_TOKEN_OTHER_INFO = 'GET_TOKEN_OTHER_INFO'
 export const GET_ALERT_TOKEN_INFO = 'GET_ALERT_TOKEN_INFO'
+export const ADD_FAVOURITE = 'ADD_FAVOURITE'
 const accessToken = window.localStorage.getItem('accessToken')
 
 export const getTokenBySymbol = (searchSymbol) => (dispatch) => {
@@ -89,6 +91,29 @@ export const getAlertTokenInfo = (token) => (dispatch) => {
         .then((res) => {
             dispatch({
                 type: GET_ALERT_TOKEN_INFO,
+                payload: res.data,
+            })
+        })
+        .catch((error) => {
+            console.log(error,'sdfdf');
+                //toast.error(error.response.data.errors[0].messages[0])
+        })
+}
+
+export const addTokenInFavourite = (tokenInfo) => (dispatch) => {
+    axios
+        .post(`${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/alert/add-favorite', tokenInfo, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken,
+            },
+        })
+        .then((res) => {
+            if (res.status == 201 || res.status == 200) {
+                toast.success(res.data.message)
+                history.push('/home');
+            }
+            dispatch({
+                type: ADD_FAVOURITE,
                 payload: res.data,
             })
         })
