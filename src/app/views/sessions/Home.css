@@ -287,7 +287,7 @@ div#promoted {
 div#promoted li {
     border-bottom: 1px solid rgb(255 255 255 / 8%);
 }
-div#add_alert2 i.fas.fa-times.pull-right {
+.modal-popup-class i.fas.fa-times.pull-right {
     position: absolute;
     right: 16px;
     top: 16px;
@@ -295,7 +295,7 @@ div#add_alert2 i.fas.fa-times.pull-right {
     opacity: .7;
     font-size: 21px;
 }
-div#add_alert2 i.fas.fa-times.pull-right:hover {
+.modal-popup-class i.fas.fa-times.pull-right:hover {
     opacity:1;
 }
 
@@ -351,7 +351,7 @@ p.media_icon a:hover {
 p.media_icon a:hover {
     background: transparent;
 }
-div#add_alert2 .MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error.MuiFormHelperText-marginDense {
+.modal-popup-class .MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error.MuiFormHelperText-marginDense {
     position: absolute;
     top: 30px;
     left: -2px;
@@ -469,7 +469,7 @@ button.btn-close i {
     font-size: 33px;
     font-weight: 600;
 }
-div#add_alert2 .modal-body {
+.modal-popup-class .modal-body {
     background: #131722;
     border: 1px solid #15dac7;
     border-radius: 12px;
@@ -479,18 +479,18 @@ div#add_alert2 .modal-body {
     height: 416px;
     padding: 50px;
 }
-div#add_alert2 .modal-content {
+.modal-popup-class .modal-content {
     background: transparent;
 }
 button.clear {
     background: #ef5350;
     color: #fff;
 }
-div#add_alert2 form li {
+.modal-popup-class form li {
     display: flex;
     justify-content: space-between;
 }
-div#add_alert2 form li input, div#add_alert2 form li button {
+.modal-popup-class form li input, .modal-popup-class form li button {
     width: 184px;
     padding: 6px 12px;
     border: none;
@@ -502,7 +502,7 @@ div#add_alert2 form li input, div#add_alert2 form li button {
     color: #fff;
     font-weight: 600;
 }
-div#add_alert2 ul {
+.modal-popup-class ul {
     padding: 0;
 }
 button.accept {
@@ -514,26 +514,26 @@ button.accept {
     font-size: 18px!important;
     text-transform: uppercase;
 }
-div#add_alert2 form li:last-child {
+.modal-popup-class form li:last-child {
     margin-top: 20px;
 }
-div#add_alert2 form button:hover {
+.modal-popup-class form button:hover {
     opacity: 1;
 }
-div#add_alert2 form button {
+.modal-popup-class form button {
     text-transform: uppercase;
     opacity: 0.9;
     cursor: pointer;height: 37px;
     letter-spacing: 5px;
-}div#add_alert2 form li:last-child button:last-child {
+}.modal-popup-class form li:last-child button:last-child {
     background: #15dac7;
     color: #131722;
 }
-div#add_alert2 form li:last-child button {
+.modal-popup-class form li:last-child button {
     height: auto;
     padding: 7px;
 }
-div#add_alert2 form li:last-child button {
+.modal-popup-class form li:last-child button {
     margin-bottom: 0;
 }
 .home-wrapper {
@@ -628,7 +628,7 @@ p.tag_btn img {
     background: #fff;
     margin-bottom: 20px!important;
 }
-div#add_alert2 form li .MuiFormControl-root input {
+.modal-popup-class form li .MuiFormControl-root input {
     background: transparent;
     color: #4e5464;
     margin: 0;
@@ -637,11 +637,11 @@ div#add_alert2 form li .MuiFormControl-root input {
 i.fas.fa-heart.show_hover {
     color: #ec514e;
 }
-div#add_alert2 .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+.modal-popup-class .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
    
     border: none;
 }
-div#add_alert2 .MuiOutlinedInput-notchedOutline{  
+.modal-popup-class .MuiOutlinedInput-notchedOutline{  
     border: none;
 }
 .slide_box a img {
@@ -997,4 +997,42 @@ span.buy-type {
     color: white;
     font-size: 12px;
     margin: 10px;
+}
+.modal-popup-class .MuiOutlinedInput-root {
+    position: relative;
+    background: #0b0d0f;
+    border-radius: 100px;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 18px;
+}
+.modal-popup-class button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
+    background: #15dac7;
+    font-size: 18px;
+    text-transform: uppercase;
+    border-radius: 100px;
+    padding: 23px 25px;
+    opacity: .8;
+}
+.modal-popup-class .flex.flex-wrap.items-center.mb-4 {
+    text-align: center;
+    justify-content: center;
+}
+
+.modal-popup-class button.MuiButtonBase-root.MuiButton-root.MuiButton-text.text-primary span {
+    color: #9ca7b4;
+}.modal-popup-class button.MuiButtonBase-root.MuiButton-root.MuiButton-text.text-primary span:hover {
+    color: #fff;
+}
+.modal-popup-class {
+    color: #9ca7b4;
+}
+.modal-popup-class span.MuiButton-label {
+    color: #9ca7b4;
+}
+.modal-popup-class span.MuiButton-label:hover{color: #fff;}
+.modal-popup-class label.MuiFormControlLabel-root.mb-3.min-w-288 {
+    width: 100% !important;
+    padding-left: 5px;
 }
