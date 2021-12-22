@@ -11,6 +11,20 @@ const accessToken = window.localStorage.getItem('accessToken')
 const refreshToken = window.localStorage.getItem('refreshToken')
 const email = window.localStorage.getItem('email')
 
+export const generateRefreshToken = () => (dispatch) => {
+    axios
+        .post(
+            `${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/auth/refresh-token',
+            { email: email, refreshToken: refreshToken }
+        )
+        .then((res) => {
+            console.log(res, 'get token response ')
+            localStorage.setItem('accessToken', res.data.accessToken)
+            localStorage.setItem('refreshToken', res.data.refreshToken)
+        })
+        .catch((error) => {})
+}
+
 export const getAds = () => (dispatch) => {
     axios
         .get(`${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/ads', {
@@ -98,18 +112,4 @@ export const createAds = (ads) => (dispatch) => {
                 toast.error(error.response.data.errors[0].messages[0])
             }
         })
-}
-
-export const generateRefreshToken = () => (dispatch) => {
-    axios
-        .post(
-            `${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/auth/refresh-token',
-            { email: email, refreshToken: refreshToken }
-        )
-        .then((res) => {
-            console.log(res, 'get token response ')
-            localStorage.setItem('accessToken', res.accessToken)
-            localStorage.setItem('refreshToken', res.refreshToken)
-        })
-        .catch((error) => {})
 }

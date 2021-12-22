@@ -20,8 +20,8 @@ export const generateRefreshToken = () =>{
         )
         .then((res) => {
             console.log(res, 'get token response ')
-            localStorage.setItem('accessToken', res.accessToken)
-            localStorage.setItem('refreshToken', res.refreshToken)
+            localStorage.setItem('accessToken', res.data.accessToken)
+            localStorage.setItem('refreshToken', res.data.refreshToken)
         })
         .catch((error) => {})
 }

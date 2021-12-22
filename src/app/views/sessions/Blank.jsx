@@ -57,13 +57,14 @@ const Blank = ({ dispatch }) => {
     const [state, setState] = useState({})
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert} = useSelector(state=>state);
     const classes = useStyles()
     const [loading, setLoading] = useState(false)
     const { login } = useAuth();
     const [open,setConfirmState] = React.useState(false)
     const [openRem,setConfirmRemoveState] = React.useState(false)
     const [openAlert,setRemoveAlertState] = React.useState(false)
+    const bnbToken = '0xb8c77482e45f1f44de1745f52c74426c631bdd52';
     const {
         isAuthenticated,
         // user
@@ -76,7 +77,7 @@ const Blank = ({ dispatch }) => {
         password: '',
     })
 
-    console.log(authenticated,'is auth');
+    console.log(alert,'is auth');
     const columns = [
         {
         id: 1,
@@ -150,6 +151,7 @@ const Blank = ({ dispatch }) => {
     const handleFavRemoveAgree = () => {
         const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(removeTokenFromFavourite({currencytoken:tokenAddress}))
+        dispatch(getAlertTokenInfo(tokenAddress));
         handleFavRemoveClose();
       };
       const handleFavRemoveDisagree = () => {
@@ -168,6 +170,7 @@ const Blank = ({ dispatch }) => {
     const handleAlertRemoveAgree = () => {
         const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(removeAlert({currencytoken:tokenAddress}))
+        dispatch(getAlertTokenInfo(tokenAddress));
         handleAlertRemoveClose();
       };
       const handleAlertRemoveDisagree = () => {
@@ -180,6 +183,7 @@ const Blank = ({ dispatch }) => {
         const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
         const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
+        dispatch(getAlertTokenInfo(tokenAddress));
         handleConfirmClose();
       };
       const handleDisagree = () => {
@@ -224,9 +228,9 @@ const Blank = ({ dispatch }) => {
     const handleFormSubmit = (event) => {
          const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
         const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
-        const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,token:tokenAddress};
+        const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,currencytoken:tokenAddress};
         dispatch(createAlert(params));
-        toast.success("Alert added successfully.");
+        dispatch(getAlertTokenInfo(tokenAddress));
         setState({highPrice:'',lowPrice:''});
         setShow(false);
   }
@@ -252,11 +256,15 @@ const Blank = ({ dispatch }) => {
         })
     }
 
-    const handler = ({ target: { name, value } }) => {
-      dispatch(getTokenBySymbol(value));
+    const handler = ({ target: { name, value } }) => { 
+        if(value != undefined || value != null){
+            dispatch(getTokenBySymbol(value));
+        }
+     
     };
     
     const handleSymbolInfo = (address,symbol) => {
+ 
       dispatch(getTokenInfo(address));
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
@@ -319,7 +327,7 @@ const Blank = ({ dispatch }) => {
                             getOptionLabel={(option) => option.name}
                             style={{ width: 300 }}
                             onInputChange={handler}
-                            onChange={(event,value) => handleSymbolInfo(value.address)}
+                            onChange={(event,value) => value ? handleSymbolInfo(value.address): null}
                             renderInput={(params) => <TextField {...params} placeholder="Search By Symbol" variant="outlined" />}
                             />
                         {/* {((symbols.length > 0 )
@@ -447,55 +455,74 @@ const Blank = ({ dispatch }) => {
                                              {(authenticated ? 
                                                 (alertoken.length > 0 && alertoken[0].favorite == true ? 
                                                     <a className="nav-link" href="#" onClick={() => handleFavRemoveOpen()}>
-                                                        <i className="fas fa-heart show_hover " /> 
-                                                        <i className="fas fa-heart hide_hover " />
+                                                       <img className="heart-filled" src={process.env.PUBLIC_URL + "/images/heart.png"} />
                                                     </a> :
                                                     <a className="nav-link" href="#" onClick={() => handleClickOpen()}>
-                                                        <i className="fas fa-heart hide_hover " />
-                                                        <i className="fas fa-heart show_hover " /> 
+                                                        <i className="fas fa-heart" /> 
                                                     </a>
                                                 )
                                                 :
                                                 (alertoken.length > 0 && alertoken[0].favorite == true? 
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
-                                                        <i className="fas fa-heart hide_hover " />
-                                                        <i className="fas fa-heart show_hover "  />
+                                                       <img className="heart-filled" src={process.env.PUBLIC_URL + "/images/heart.png"} />
                                                     </a> :
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
-                                                        <i className="fas fa-heart hide_hover " />
-                                                        <i className="fas fa-heart show_hover "  />
+                                                        <i className="fas fa-heart " />
                                                     </a>
                                                 )
                                             )}
                                             
-                                        
-                                            {(authenticated ? 
-                                                (alertoken.length > 0 && alertoken[0].alert == true ? 
+                                            
+                                            {/* {(authenticated ? 
+                                                (alert.length > 0 && alert[0].alert == true ? 
                                                     <a
                                                     className="nav-link"
                                                     href="#"
                                                     onClick={() => handleAlertRemoveOpen()}
                                                 >  
-                                                <i className="fas fa-bell show_hover " />
-                                                <i className="fas fa-bell hide_hover " />
+                                                <img className="bell-filled" src={process.env.PUBLIC_URL + "/images/bell.png"} />
                                                 </a> :
                                                 <a
                                                 className="nav-link"
                                                 href="#"
                                                 onClick={handleShow}
-                                            >  <i className="fas fa-bell hide_hover " />
-                                            <i className="fas fa-bell show_hover " />
+                                            >  <i className="fas fa-bell " />
                                             </a>
                                                 )
                                                 :
-                                                (alertoken.length > 0 && alertoken[0].alert == true? 
+                                                (alert.length > 0 && alert[0].alert == true ? 
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
-                                                        <i className="fas fa-bell show_hover "  />
-                                                        <i className="fas fa-bell hide_hover " />
+                                                        <img className="bell-filled" src={process.env.PUBLIC_URL + "/images/bell.png"} />
                                                     </a> :
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
-                                                        <i className="fas fa-bell hide_hover " />
-                                                        <i className="fas fa-bell show_hover "  />
+                                                        <i className="fas fa-bell" />
+                                                    </a>
+                                                )
+                                                
+                                            )} */}
+                                            {(authenticated ? 
+                                                (alertoken.length > 0 && alertoken[0].alert == true? 
+                                                    <a
+                                                    className="nav-link"
+                                                    href="#"
+                                                    onClick={() => handleAlertRemoveOpen()}
+                                                >  
+                                                <img className="bell-filled" src={process.env.PUBLIC_URL + "/images/bell.png"} />
+                                                </a> :
+                                                <a
+                                                className="nav-link"
+                                                href="#"
+                                                onClick={handleShow}
+                                            >  <i className="fas fa-bell " />
+                                            </a>
+                                                )
+                                                :
+                                                ((alertoken.length > 0 && alertoken[0].alert == true) || (alert.length > 0 && alert[0].alert == true) ? 
+                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                        <img className="bell-filled" src={process.env.PUBLIC_URL + "/images/bell.png"} />
+                                                    </a> :
+                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                        <i className="fas fa-bell" />
                                                     </a>
                                                 )
                                                 
@@ -508,7 +535,7 @@ const Blank = ({ dispatch }) => {
                                                 aria-describedby="alert-dialog-description"
                                                 >
                                                 <DialogTitle id="alert-dialog-title">
-                                                    {"Add To Favourites"}
+                                                    {"Add "+(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB ')+ " To Favourites"}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
@@ -517,10 +544,10 @@ const Blank = ({ dispatch }) => {
                                                 </DialogContent>
                                                 <DialogActions>
                                                     <Button onClick={handleDisagree} color="primary">
-                                                    Cancel
+                                                    No
                                                     </Button>
                                                     <Button onClick={handleAgree} color="primary" autoFocus>
-                                                    Ok
+                                                    Yes
                                                     </Button>
                                                 </DialogActions>
                                                 </Dialog>
@@ -532,19 +559,19 @@ const Blank = ({ dispatch }) => {
                                                 aria-describedby="alert-dialog-description"
                                                 >
                                                 <DialogTitle id="alert-dialog-title">
-                                                    {"Remove from Favourites"}
+                                                    {"Remove "+(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB ')+ " from Favourites"}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
-                                                    Are you sure you want to remove this from your favourites?
+                                                    {"Are you sure you want to remove token address "+(tokeninfo.length > 0 ? tokeninfo[0].address.substr(0,30)+'...' : bnbToken.substr(0,30)+'...')+" from your favourites?"}
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
                                                     <Button onClick={handleFavRemoveDisagree} color="primary">
-                                                    Cancel
+                                                    No
                                                     </Button>
                                                     <Button onClick={handleFavRemoveAgree} color="primary" autoFocus>
-                                                    Ok
+                                                    Yes
                                                     </Button>
                                                 </DialogActions>
                                                 </Dialog>
@@ -556,19 +583,19 @@ const Blank = ({ dispatch }) => {
                                                 aria-describedby="alert-dialog-description"
                                                 >
                                                 <DialogTitle id="alert-dialog-title">
-                                                    {"Remove Alert"}
+                                                    {"Remove Alert For "+(tokeninfo.length > 0 ? tokeninfo[0].symbol: 'BNB')}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
-                                                    Are you sure you want to remove alert?
+                                                    {"Are you sure you want to remove alert for token "+(tokeninfo.length > 0 ? tokeninfo[0].address.substr(0,30)+'...' : bnbToken.substr(0,30)+'...')+ "?"}
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
                                                     <Button onClick={handleAlertRemoveDisagree} color="primary">
-                                                    Cancel
+                                                    No
                                                     </Button>
                                                     <Button onClick={handleAlertRemoveAgree} color="primary" autoFocus>
-                                                    Ok
+                                                    Yes
                                                     </Button>
                                                 </DialogActions>
                                                 </Dialog>

@@ -1048,3 +1048,8 @@ span.buy-type {
 }.login_form span.MuiButton-label:hover {
     color: #fff;
 }
+.heart-filled, .bell-filled{
+    width: 25px;
+    height: 25px;
+    margin-bottom: 5px;
+}
