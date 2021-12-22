@@ -22,8 +22,8 @@ const Header = ({ dispatch }) => {
   const { logout, user } = useAuth();
   const { isAuthenticated } = useAuth();
   let authenticated = isAuthenticated
-  let firstname = user.firstname;
-  let lastname = user.lastname;console.log(user);
+
+
     return (
 
             <div className="common-header-wrapper">
@@ -55,7 +55,7 @@ const Header = ({ dispatch }) => {
       {(authenticated ? 
       <div>
         <li className="nav-item">
-            <a className="nav-link" href="#">{firstname.substr(0,1).toUpperCase()} {lastname.substr(0,1).toUpperCase()}</a>
+            <a className="nav-link" href="#">{user.firstname.substr(0,1).toUpperCase()} {user.lastname.substr(0,1).toUpperCase()}</a>
           </li>
          <li className="nav-item">
             <a className="nav-link" href="/dashboard">Dashboard</a>
@@ -66,7 +66,9 @@ const Header = ({ dispatch }) => {
       </div>
          
          :
-        ''
+         <li className="nav-item">
+          <a className="nav-link" href="/session/signin">Login</a>
+          </li>
       )}
       
       {/*
