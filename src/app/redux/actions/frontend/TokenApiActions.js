@@ -90,6 +90,7 @@ export const getAlertTokenInfo = (token) => (dispatch) => {
             },
         })
         .then((res) => {
+            history.push('/home')
             dispatch({
                 type: GET_ALERT_TOKEN_INFO,
                 payload: res.data,

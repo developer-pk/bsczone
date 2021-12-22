@@ -16,9 +16,14 @@ import { connect } from 'react-redux'
 import '../../../../../node_modules/bootstrap/dist/css/bootstrap.css'
 import '../Home.css'
 import 'material-react-toastify/dist/ReactToastify.css'
+import useAuth from 'app/hooks/useAuth'
 
 const Header = ({ dispatch }) => {
-
+  const { logout, user } = useAuth();
+  const { isAuthenticated } = useAuth();
+  let authenticated = isAuthenticated
+  let firstname = user.firstname;
+  let lastname = user.lastname;console.log(user);
     return (
 
             <div className="common-header-wrapper">
@@ -47,6 +52,23 @@ const Header = ({ dispatch }) => {
       <li className="nav-item">
         <a className="nav-link" href="/contact-us">Contact Us</a>
       </li>
+      {(authenticated ? 
+      <div>
+        <li className="nav-item">
+            <a className="nav-link" href="#">{firstname.substr(0,1).toUpperCase()} {lastname.substr(0,1).toUpperCase()}</a>
+          </li>
+         <li className="nav-item">
+            <a className="nav-link" href="/dashboard">Dashboard</a>
+          </li>
+          <li className="nav-item">
+          <a className="nav-link" href="#" onClick={logout}>Logout</a>
+          </li>
+      </div>
+         
+         :
+        ''
+      )}
+      
       {/*
       <li className="nav-item dropdown">
         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

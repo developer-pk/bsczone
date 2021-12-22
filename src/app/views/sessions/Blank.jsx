@@ -60,7 +60,7 @@ const Blank = ({ dispatch }) => {
     const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert} = useSelector(state=>state);
     const classes = useStyles()
     const [loading, setLoading] = useState(false)
-    const { login } = useAuth();
+    const { login, logout } = useAuth();
     const [open,setConfirmState] = React.useState(false)
     const [openRem,setConfirmRemoveState] = React.useState(false)
     const [openAlert,setRemoveAlertState] = React.useState(false)
@@ -77,7 +77,7 @@ const Blank = ({ dispatch }) => {
         password: '',
     })
 
-    console.log(alert,'is auth');
+    console.log(alertoken,'is auth');
     const columns = [
         {
         id: 1,
@@ -152,6 +152,7 @@ const Blank = ({ dispatch }) => {
         const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(removeTokenFromFavourite({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
+        
         handleFavRemoveClose();
       };
       const handleFavRemoveDisagree = () => {
@@ -171,6 +172,7 @@ const Blank = ({ dispatch }) => {
         const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(removeAlert({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
+        
         handleAlertRemoveClose();
       };
       const handleAlertRemoveDisagree = () => {
@@ -184,6 +186,7 @@ const Blank = ({ dispatch }) => {
         const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
         dispatch(getAlertTokenInfo(tokenAddress));
+        
         handleConfirmClose();
       };
       const handleDisagree = () => {
@@ -231,6 +234,7 @@ const Blank = ({ dispatch }) => {
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,currencytoken:tokenAddress};
         dispatch(createAlert(params));
         dispatch(getAlertTokenInfo(tokenAddress));
+        
         setState({highPrice:'',lowPrice:''});
         setShow(false);
   }
@@ -418,6 +422,14 @@ const Blank = ({ dispatch }) => {
                                 )}
                                 
                             </li>
+                            {(authenticated ? 
+                            <li>
+
+                            <a className="nav-link py-3 px-0 px-lg-3 icon" href="#" onClick={logout}>
+                                    Logout
+                                </a>
+                            </li>:''
+                            )}
                         </ul>
                     </div>
             </nav>

@@ -4,6 +4,7 @@ import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "./../constants/utility"
 import { authRoles } from '../auth/authRoles'
+import history from 'history.js'
 
 const initialState = {
     isAuthenticated: false,
@@ -144,6 +145,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setSession(null)
         dispatch({ type: 'LOGOUT' })
+        history.push('/session/signin')
     }
 
     useEffect(() => {
