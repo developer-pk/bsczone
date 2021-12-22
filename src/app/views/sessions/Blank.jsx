@@ -261,8 +261,14 @@ const Blank = ({ dispatch }) => {
     }
 
     const handler = ({ target: { name, value } }) => { 
-        if(value != undefined || value != null){
+        if(value != undefined && value != null && value.length < 15){
             dispatch(getTokenBySymbol(value));
+        }else{
+            //hit for token address search
+            dispatch(getTokenInfo(value));
+            const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
+            dispatch(getTokenOtherInfo(symbol));
+            dispatch(getTokenTransferList(value));
         }
      
     };
