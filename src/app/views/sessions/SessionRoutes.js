@@ -9,6 +9,7 @@ import AboutUs from './AboutUs'
 import TermsAndCondition from './TermsAndCondition'
 import PrivacyPolicy from './PrivacyPolicy'
 import Otp from './otp/Otp'
+import ResetPassword from './ResetPassword'
 
 const sessionRoutes = [
     {
@@ -54,6 +55,10 @@ const sessionRoutes = [
     {
         path: '/session/404',
         component: NotFound,
+    },
+    {
+        path: '/reset-password/:token',
+        component: ResetPassword,
     },
 ]
 

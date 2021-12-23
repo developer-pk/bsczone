@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Grid, Button } from '@material-ui/core'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Link } from 'react-router-dom'
@@ -21,6 +21,18 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 const ResetPassword = () => {
     const [state, setState] = useState({})
     const classes = useStyles()
+
+    useEffect(() => {
+        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+            console.log(value)
+
+            if (value !== state.password) {
+                return false
+            }
+            return true
+        })
+        return () => ValidatorForm.removeValidationRule('isPasswordMatch')
+    }, [state.password])
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -49,7 +61,7 @@ const ResetPassword = () => {
                     
                     <Grid item>
                         <div className="login_form">
-                        <h4>FORGOT PASSWORD</h4>
+                        <h4>RESET PASSWORD</h4>
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator
                                     className="mb-6 w-full"
@@ -74,10 +86,8 @@ const ResetPassword = () => {
                                     name="confirm_password"
                                     size="small"
                                     value={confirm_password || ''}
-                                    validators={['required']}
-                                    errorMessages={[
-                                        'this field is required',
-                                    ]}
+                                    validators={['isPasswordMatch', 'required']}
+                                    errorMessages={['password mismatch', 'this field is required']}
                                 />
                                 <div className="flex items-center">
                                     <Button className="signin"

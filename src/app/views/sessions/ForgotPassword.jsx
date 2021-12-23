@@ -6,6 +6,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import Header from './common/Header'
 import Footer from './common/Footer'
+import { forgotPassword } from 'app/redux/actions/frontend/ForgotPasswordActions'
+import { useSelector } from 'react-redux'
+import { connect } from 'react-redux';
+import { ToastContainer, toast } from 'material-react-toastify';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -18,7 +22,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ dispatch }) => {
     const [state, setState] = useState({})
     const classes = useStyles()
 
@@ -31,6 +35,8 @@ const ForgotPassword = () => {
 
     const handleFormSubmit = (event) => {
         console.log(state)
+        dispatch(forgotPassword({email:state.email}));
+        setState({email:''})
     }
 
     let { email } = state
@@ -46,7 +52,15 @@ const ForgotPassword = () => {
         >
             <Card className={classes.card}>
                 <Grid container>
-                    
+                <ToastContainer position="top-right"
+                                autoClose={3000}
+                                hideProgressBar
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover />
                     <Grid item>
                         <div className="login_form">
                         <h4>FORGOT PASSWORD</h4>
@@ -92,4 +106,4 @@ const ForgotPassword = () => {
     )
 }
 
-export default ForgotPassword
+export default connect()(ForgotPassword)
