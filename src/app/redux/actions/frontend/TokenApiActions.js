@@ -16,7 +16,24 @@ export const GET_TOKEN_OTHER_INFO = 'GET_TOKEN_OTHER_INFO'
 export const GET_ALERT_TOKEN_INFO = 'GET_ALERT_TOKEN_INFO'
 export const ADD_FAVOURITE = 'ADD_FAVOURITE'
 export const REMOVE_FAVOURITE = 'REMOVE_FAVOURITE'
+export const REMOVE_ALERT = 'REMOVE_ALERT'
 const accessToken = window.localStorage.getItem('accessToken')
+const refreshToken = window.localStorage.getItem('refreshToken')
+const email = window.localStorage.getItem('email')
+
+export const generateRefreshToken = () => {
+    axios
+        .post(
+            `${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/auth/refresh-token',
+            { email: email, refreshToken: refreshToken }
+        )
+        .then((res) => {
+            console.log(res, 'get token response ')
+            localStorage.setItem('accessToken', res.data.accessToken)
+            localStorage.setItem('refreshToken', res.data.refreshToken)
+        })
+        .catch((error) => {})
+}
 
 export const getTokenBySymbol = (searchSymbol) => (dispatch) => {
     axios
@@ -97,8 +114,19 @@ export const getAlertTokenInfo = (token) => (dispatch) => {
             })
         })
         .catch((error) => {
-            console.log(error,'sdfdf');
-                //toast.error(error.response.data.errors[0].messages[0])
+            if(error){
+                if (
+                    error.response.data.code == 401 &&
+                    (error.response.data.message == 'jwt expired' ||
+                        error.response.data.message == 'jwt malformed')
+                ) {
+                    generateRefreshToken()
+                } else if (error.response.status == 400) {
+                    toast.error(error.response.data.message)
+                } else {
+                    toast.error(error.response.data.errors[0].messages[0])
+                }
+            }
         })
 }
 
@@ -120,8 +148,19 @@ export const addTokenInFavourite = (tokenInfo) => (dispatch) => {
             })
         })
         .catch((error) => {
-            console.log(error,'sdfdf');
-                //toast.error(error.response.data.errors[0].messages[0])
+            if(error){
+                if (
+                    error.response.data.code == 401 &&
+                    (error.response.data.message == 'jwt expired' ||
+                        error.response.data.message == 'jwt malformed')
+                ) {
+                    generateRefreshToken()
+                } else if (error.response.status == 400) {
+                    toast.error(error.response.data.message)
+                } else {
+                    toast.error(error.response.data.errors[0].messages[0])
+                }
+            }
         })
 }
 
@@ -139,6 +178,40 @@ export const removeTokenFromFavourite = (tokenInfo) => (dispatch) => {
             }
             dispatch({
                 type: REMOVE_FAVOURITE,
+                payload: res.data,
+            })
+        })
+        .catch((error) => {
+            if(error){
+                if (
+                    error.response.data.code == 401 &&
+                    (error.response.data.message == 'jwt expired' ||
+                        error.response.data.message == 'jwt malformed')
+                ) {
+                    generateRefreshToken()
+                } else if (error.response.status == 400) {
+                    toast.error(error.response.data.message)
+                } else {
+                    toast.error(error.response.data.errors[0].messages[0])
+                }
+            }
+        })
+}
+
+export const removeAlert = (tokenInfo) => (dispatch) => {
+    axios
+        .post(`${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/alert/remove-alert', tokenInfo, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken,
+            },
+        })
+        .then((res) => {
+            if (res.status == 201 || res.status == 200) {
+                toast.success(res.data.message)
+                history.push('/home');
+            }
+            dispatch({
+                type: REMOVE_ALERT,
                 payload: res.data,
             })
         })

@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import TradingViewWidget, {Themes} from 'react-tradingview-widget';
 import './Home.css';
 import axios from 'axios'
-import {createAlert, removeAlert} from 'app/redux/actions/common/AlertActions'
+import {createAlert} from 'app/redux/actions/common/AlertActions'
 import { ToastContainer, toast } from 'material-react-toastify';
 import 'material-react-toastify/dist/ReactToastify.css';
 import {getAds, deleteAds} from 'app/redux/actions/admin/ads/AdsActions'
@@ -28,7 +28,7 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert} from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
@@ -471,7 +471,7 @@ const Blank = ({ dispatch }) => {
                                     <li className="nav-item alert_icon">
 
                                              {(authenticated ? 
-                                                (alertoken.length > 0 && alertoken[0].favorite == true ? 
+                                                (alertoken.length > 0 && alertoken[1].favorite == true ? 
                                                     <a className="nav-link" href="#" onClick={() => handleFavRemoveOpen()}>
                                                        <img className="heart-filled" src={process.env.PUBLIC_URL + "/images/heart.png"} />
                                                     </a> :
@@ -480,7 +480,7 @@ const Blank = ({ dispatch }) => {
                                                     </a>
                                                 )
                                                 :
-                                                (alertoken.length > 0 && alertoken[0].favorite == true? 
+                                                (alertoken.length > 0 && alertoken[1].favorite == true? 
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
                                                        <img className="heart-filled" src={process.env.PUBLIC_URL + "/images/heart.png"} />
                                                     </a> :
@@ -519,7 +519,7 @@ const Blank = ({ dispatch }) => {
                                                 
                                             )} */}
                                             {(authenticated ? 
-                                                (alertoken.length > 0 && alertoken[0].alert == true? 
+                                                (alertoken.length > 0 && alertoken[1].alert == true? 
                                                     <a
                                                     className="nav-link"
                                                     href="#"
@@ -535,7 +535,7 @@ const Blank = ({ dispatch }) => {
                                             </a>
                                                 )
                                                 :
-                                                ((alertoken.length > 0 && alertoken[0].alert == true) || (alert.length > 0 && alert[0].alert == true) ? 
+                                                (alertoken.length > 0 && alertoken[1].alert == true ? 
                                                     <a className="nav-link" href="#" onClick={handleLoginShow}> 
                                                         <img className="bell-filled" src={process.env.PUBLIC_URL + "/images/bell.png"} />
                                                     </a> :
