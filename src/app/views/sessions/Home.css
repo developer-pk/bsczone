@@ -93,9 +93,7 @@ li.nav-item.alert_icon a {
     padding: 3px;
 }
 
-li.nav-item.alert_icon a:hover {
-    padding: 7px;
-}
+
 
 .alert_icon {
     width: 100%;
@@ -538,7 +536,7 @@ button.accept {
 }
 .home-wrapper {
     background: #232a32;
-      padding: 0 10px;
+      padding: 0 10px;width: 100%;
 }
 .content.main-content {
     margin: 0;
@@ -768,8 +766,29 @@ a#dropdownMenuButton {
 
 
 /*--------------------------frontend header--------------------------*/
+li.nav-item.dropdown.show .dropdown-menu {
+    display: block;
+}
+.sub_menu{
+    background: #131722;
+}
+li.nav-item.dropdown.user_profile .dropdown-toggle {
+    background: #232a32;
+    border-radius: 100px;
+    width: 48px;
+    height: 48px;
+}
+nav.navbar.navbar-expand-lg.header #navbarSupportedContent li div a {
+    padding: 10px 15px;
+    min-height: auto;
+}
 nav.navbar.navbar-expand-lg.header #navbarSupportedContent li a {
     color: #87919d;
+    min-height: 48px;
+    padding: 14px 10px;
+}
+.header a.navbar-brand {
+    padding: 10px 0;
 }
 nav.navbar.navbar-expand-lg.header {
     background: #131722;
