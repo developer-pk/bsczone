@@ -125,7 +125,10 @@ const Blank = ({ dispatch }) => {
     const [copied, setCopy] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const handleLoginShow = () => setLoginShow(true);
+    const handleLoginShow = (param) => {
+        localStorage.setItem('icon-click', param)
+        setLoginShow(true);
+    }
     const handleLoginClose = () => setLoginShow(false);
     
     const start = moment().add(-4, 'm');
@@ -283,9 +286,13 @@ const Blank = ({ dispatch }) => {
     const handleLoginFormSubmit = async (event,values) => {
             await login(userInfo.email, userInfo.password)
             const role = localStorage.getItem('userRole');
-
+            const iconGet = localStorage.getItem('icon-click');
             setLoginShow(false);
-            setShow(true);
+
+            if(iconGet == 'alert'){
+                setShow(true);
+            }
+            
            toast.success("You are logged in successfully.");
             if(tokeninfo.length > 0){
                 dispatch(getAlertTokenInfo(tokeninfo[0].address));
@@ -420,7 +427,7 @@ const Blank = ({ dispatch }) => {
                                         <button
                                     type="button"
                                     className="nav-link py-3 px-0 px-lg-3 button login"
-                                    onClick={handleLoginShow}
+                                    onClick={() => handleLoginShow('alert')}
                                         >
                                             Add Alert
                                         </button>
@@ -481,10 +488,10 @@ const Blank = ({ dispatch }) => {
                                                 )
                                                 :
                                                 (alertoken.length > 0 && alertoken[1].favorite == true? 
-                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                    <a className="nav-link" href="#" onClick={() => handleLoginShow('heart')}> 
                                                        <img className="heart-filled" src={process.env.PUBLIC_URL + "/images/heart.png"} />
                                                     </a> :
-                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                    <a className="nav-link" href="#" onClick={() => handleLoginShow('heart')}> 
                                                         <i className="fas fa-heart " />
                                                     </a>
                                                 )
@@ -536,10 +543,10 @@ const Blank = ({ dispatch }) => {
                                                 )
                                                 :
                                                 (alertoken.length > 0 && alertoken[1].alert == true ? 
-                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                    <a className="nav-link" href="#" onClick={() => handleLoginShow('alert')}> 
                                                         <img className="bell-filled" src={process.env.PUBLIC_URL + "/images/bell.png"} />
                                                     </a> :
-                                                    <a className="nav-link" href="#" onClick={handleLoginShow}> 
+                                                    <a className="nav-link" href="#" onClick={() => handleLoginShow('alert')}> 
                                                         <i className="fas fa-bell" />
                                                     </a>
                                                 )
