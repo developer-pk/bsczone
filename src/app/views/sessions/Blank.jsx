@@ -305,6 +305,7 @@ const Blank = ({ dispatch }) => {
             dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
             
         }
+        console.log(tokeninfo,'token add');
     }, [])
 
 
@@ -351,7 +352,13 @@ const Blank = ({ dispatch }) => {
 
     const handler = ({ target: { name, value } }) => { 
         if(value != undefined && value != null){
-            dispatch(getTokenBySymbol(value));
+        //    dispatch(getTokenBySymbol(value));
+        if(value.substring(0,2) == '0x'){
+            value = value;
+        }else{
+            value = value+'%';
+        }
+        console.log(value,'get val');
             setSearchKey(value);
             refetch();
 
@@ -368,6 +375,7 @@ const Blank = ({ dispatch }) => {
     const handleSymbolInfo = (address,symbol) => {
  console.log(symbol,address,'get new search icons');
       dispatch(getTokenInfo(address));
+      console.log(tokenotherinfo,'get val');
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
     };
@@ -430,7 +438,7 @@ const Blank = ({ dispatch }) => {
                         <Autocomplete
                             id="combo-box-demo"
                             options={searchArr}
-                            getOptionLabel={(option) => option.name+''+option.symbol+''+option.address|| "test"}
+                            getOptionLabel={(option) => option.name || "test"}
                             renderOption={(option) => {
                                 //display value in Popper elements
                                 return <div><h5>{`${option.name} (${option.symbol})`}</h5>

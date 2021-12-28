@@ -7,7 +7,7 @@ const initialState = []
 const TokenTransferListReducer = function (state = initialState, action) {
     switch (action.type) {
         case GET_TOKEN_TRANSFER_LIST: {
-            return [...action.payload]
+            return [...state,action.payload]
         }
         default: {
             return [...state]
