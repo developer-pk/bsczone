@@ -133,7 +133,7 @@ const Blank = ({ dispatch }) => {
                   "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu"
                 },
                 body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
-                  search(string: $token, offset: $offset, limit: $limit) {
+                  search(string: $token, offset: $offset, limit: $limit,  network: bsc) {
                     network {
                       network
                       protocol
@@ -353,11 +353,11 @@ const Blank = ({ dispatch }) => {
     const handler = ({ target: { name, value } }) => { 
         if(value != undefined && value != null){
         //    dispatch(getTokenBySymbol(value));
-        if(value.substring(0,2) == '0x'){
-            value = value;
-        }else{
+        // if(value.substring(0,2) == '0x'){
+        //     value = value;
+        // }else{
             value = value+'%';
-        }
+      //  }
         console.log(value,'get val');
             setSearchKey(value);
             refetch();
@@ -375,7 +375,7 @@ const Blank = ({ dispatch }) => {
     const handleSymbolInfo = (address,symbol) => {
  console.log(symbol,address,'get new search icons');
       dispatch(getTokenInfo(address));
-      console.log(tokenotherinfo,'get val');
+      console.log(transfers,'get val');
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
     };
