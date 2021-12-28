@@ -74,8 +74,7 @@ const Blank = ({ dispatch }) => {
     } = useAuth()
 
     let authenticated = isAuthenticated
-    const symbols1 = [];
-    console.log(searchArr,'symbol me');
+    
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
@@ -124,18 +123,9 @@ const Blank = ({ dispatch }) => {
         }
     ];
     const endpoint = "https://graphql.bitquery.io/";
-    const QUERY = `
-        {
-        bitcoin {
-            blocks(options: {limit: 2}){
-            height
-            blockHash
-            }
-        }
-        }
-        `;
-        const clickMeFun = () =>{console.log(searchKey,'search word');
-        if(searchKey){
+    
+        const clickMeFun = (value) =>{console.log(value,'search word');
+        //if(value){
             return fetch(endpoint, {
                 method: "POST",
                 headers: { 
@@ -175,24 +165,46 @@ const Blank = ({ dispatch }) => {
                     }
                   }
                 }`,
-                    variables: {"limit":10,"offset":0,"token":searchKey} }) // ({ QUERY })
+                    variables: {"limit":10,"offset":0,"token":value} }) // ({ QUERY })
               })
                 .then((response) => {
+                    
                   if (response.status >= 400) {
                     throw new Error("Error fetching data");
                   } else {
+                    
                     return response.json();
                   }
                 })
-                .then((data) => data.data);
-        }
+                .then((data) => {
+                    var symbols1 = [];
+                    data.data.search.map((search) => {
+                        // console.log(search,'yes there');
+                        
+                         symbols1.push(search.subject);
+                     });
+                     setSearchArr(symbols1)
+                } );
+        //}
 
         };
-    const { data, isLoading, error,refetch  } = useQuery("bitcoin", clickMeFun);
+    const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
       //if(data.length > 0){
+       
+       // console.log(symbols1,'symbol me');
+        // if(data){
+                
+        //     data.search.map((search) => {
+        //        // console.log(search,'yes there');
+        //        //setSearchArr(search.subject)
+        //         symbols1.push(search.subject);
+        //     });
 
- 
-     
+        //     //setSearchArr(symbols1);
+        // }
+                 
+        console.log(searchArr,'got');
+        //console.log('print me',symbols1);
 
     const [show, setShow] = useState(false);
     const [showLogin, setLoginShow] = useState(false);
@@ -342,17 +354,7 @@ const Blank = ({ dispatch }) => {
             dispatch(getTokenBySymbol(value));
             setSearchKey(value);
             refetch();
-            if(data){
-                
-                data.search.map((search) => {
-                   // console.log(search,'yes there');
-                    symbols1.push(search.subject);
-                });
 
-                setSearchArr(symbols1);
-            }
-
-            console.log('print me',symbols1);
         }else{
             //hit for token address search
             dispatch(getTokenInfo(value));
