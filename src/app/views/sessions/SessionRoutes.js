@@ -57,7 +57,7 @@ const sessionRoutes = [
         component: NotFound,
     },
     {
-        path: '/reset-password/:token',
+        path: '/reset-password/?token:token',
         component: ResetPassword,
     },
 ]

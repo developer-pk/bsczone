@@ -39,6 +39,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { useQuery } from "react-query";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -55,6 +56,8 @@ const Blank = ({ dispatch }) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
     const [state, setState] = useState({})
+    const [searchKey, setSearchKey] = React.useState()
+    const [searchArr, setSearchArr] = React.useState([])
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
     const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert} = useSelector(state=>state);
@@ -71,13 +74,14 @@ const Blank = ({ dispatch }) => {
     } = useAuth()
 
     let authenticated = isAuthenticated
-
+    const symbols1 = [];
+    console.log(searchArr,'symbol me');
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
     })
 
-    console.log(alertoken,'is auth');
+    console.log(tokenotherinfo,'is auth');
     const columns = [
         {
         id: 1,
@@ -119,6 +123,76 @@ const Blank = ({ dispatch }) => {
             reorder: true
         }
     ];
+    const endpoint = "https://graphql.bitquery.io/";
+    const QUERY = `
+        {
+        bitcoin {
+            blocks(options: {limit: 2}){
+            height
+            blockHash
+            }
+        }
+        }
+        `;
+        const clickMeFun = () =>{console.log(searchKey,'search word');
+        if(searchKey){
+            return fetch(endpoint, {
+                method: "POST",
+                headers: { 
+                  "Content-Type": "application/json",
+                  "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu"
+                },
+                body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
+                  search(string: $token, offset: $offset, limit: $limit) {
+                    network {
+                      network
+                      protocol
+                    }
+                    subject {
+                      ... on Address {
+                        address
+                        annotation
+                      }
+                      ... on Currency {
+                        address
+                        name
+                        symbol
+                        decimals
+                        tokenId
+                        tokenType
+                        
+                      }
+                      ... on SmartContract {
+                        address
+                        annotation
+                        contractType
+                        
+                      }
+                      ... on TransactionHash {
+                        __typename
+                        hash
+                      }
+                    }
+                  }
+                }`,
+                    variables: {"limit":10,"offset":0,"token":searchKey} }) // ({ QUERY })
+              })
+                .then((response) => {
+                  if (response.status >= 400) {
+                    throw new Error("Error fetching data");
+                  } else {
+                    return response.json();
+                  }
+                })
+                .then((data) => data.data);
+        }
+
+        };
+    const { data, isLoading, error,refetch  } = useQuery("bitcoin", clickMeFun);
+      //if(data.length > 0){
+
+ 
+     
 
     const [show, setShow] = useState(false);
     const [showLogin, setLoginShow] = useState(false);
@@ -264,8 +338,21 @@ const Blank = ({ dispatch }) => {
     }
 
     const handler = ({ target: { name, value } }) => { 
-        if(value != undefined && value != null && value.length < 15){
+        if(value != undefined && value != null){
             dispatch(getTokenBySymbol(value));
+            setSearchKey(value);
+            refetch();
+            if(data){
+                
+                data.search.map((search) => {
+                   // console.log(search,'yes there');
+                    symbols1.push(search.subject);
+                });
+
+                setSearchArr(symbols1);
+            }
+
+            console.log('print me',symbols1);
         }else{
             //hit for token address search
             dispatch(getTokenInfo(value));
@@ -277,7 +364,7 @@ const Blank = ({ dispatch }) => {
     };
     
     const handleSymbolInfo = (address,symbol) => {
- 
+ console.log(symbol,address,'get new search icons');
       dispatch(getTokenInfo(address));
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
@@ -340,11 +427,16 @@ const Blank = ({ dispatch }) => {
                         /> */}
                         <Autocomplete
                             id="combo-box-demo"
-                            options={symbols}
-                            getOptionLabel={(option) => option.name}
+                            options={searchArr}
+                            getOptionLabel={(option) => option.name+''+option.symbol+''+option.address|| "test"}
+                            renderOption={(option) => {
+                                //display value in Popper elements
+                                return <div><h5>{`${option.name} (${option.symbol})`}</h5>
+                                        <h6>{`${option.address}`}</h6></div>;
+                              }}
                             style={{ width: 300 }}
                             onInputChange={handler}
-                            onChange={(event,value) => value ? handleSymbolInfo(value.address): null}
+                            onChange={(event,value) => value ? handleSymbolInfo(value.address,value.symbol): null}
                             renderInput={(params) => <TextField {...params} placeholder="Search By Symbol" variant="outlined" />}
                             />
                         {/* {((symbols.length > 0 )

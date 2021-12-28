@@ -40,14 +40,15 @@ export const getAds = () => (dispatch) => {
             })
         })
         .catch((error) => {
-            if (
-                error.response.data.code == 401 &&
-                error.response.data.message == 'jwt expired'
-            ) {
-                generateRefreshToken();
-                
-            } else {
-                toast.error(error.response.data.errors[0].messages[0])
+            if (error) {
+                if (
+                    error.response.data.code == 401 &&
+                    error.response.data.message == 'jwt expired'
+                ) {
+                    generateRefreshToken()
+                } else {
+                    toast.error(error.response.data.errors[0].messages[0])
+                }
             }
         })
 }
@@ -74,8 +75,7 @@ export const deleteAds = (id) => (dispatch) => {
                 error.response.data.code == 401 &&
                 error.response.data.message == 'jwt expired'
             ) {
-                generateRefreshToken();
-                
+                generateRefreshToken()
             } else {
                 toast.error(error.response.data.errors[0].messages[0])
             }
@@ -106,8 +106,7 @@ export const createAds = (ads) => (dispatch) => {
                 error.response.data.code == 401 &&
                 error.response.data.message == 'jwt expired'
             ) {
-                generateRefreshToken();
-                
+                generateRefreshToken()
             } else {
                 toast.error(error.response.data.errors[0].messages[0])
             }

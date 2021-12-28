@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Grid, Button } from '@material-ui/core'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
-import { Link } from 'react-router-dom'
+import { Link, useParams  } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import Header from './common/Header'
 import Footer from './common/Footer'
+import { resetPassword } from 'app/redux/actions/frontend/ForgotPasswordActions'
+import { useSelector } from 'react-redux'
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -18,10 +21,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const ResetPassword = () => {
+const ResetPassword = ({ dispatch }) => {
     const [state, setState] = useState({})
     const classes = useStyles()
-
+    const { token } = useParams();
+    console.log(token,'get token address');
     useEffect(() => {
         ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
             console.log(value)
@@ -43,6 +47,8 @@ const ResetPassword = () => {
 
     const handleFormSubmit = (event) => {
         console.log(state)
+        dispatch(resetPassword({password:state.password,resetToken:token}));
+        setState({password:'',confirm_password:''})
     }
 
     let { password, confirm_password } = state
@@ -115,4 +121,4 @@ const ResetPassword = () => {
     )
 }
 
-export default ResetPassword
+export default connect()(ResetPassword)

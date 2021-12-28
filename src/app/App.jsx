@@ -11,11 +11,17 @@ import sessionRoutes from './views/sessions/SessionRoutes'
 import AuthGuard from './auth/AuthGuard'
 import { AuthProvider } from 'app/contexts/JWTAuthContext'
 import { SettingsProvider } from 'app/contexts/SettingsContext'
+import { QueryClient, QueryClientProvider } from "react-query";
+import Blank from './views/sessions/Blank'
 
+const client = new QueryClient();
 const App = () => {
     return (
+        
         <AppContext.Provider value={{ routes }}>
             <Provider store={Store}>
+            <QueryClientProvider client={client}>
+
                 <SettingsProvider>
                     <MatxTheme>
                         <GlobalCss />
@@ -44,6 +50,7 @@ const App = () => {
                         </BrowserRouter>
                     </MatxTheme>
                 </SettingsProvider>
+            </QueryClientProvider>
             </Provider>
         </AppContext.Provider>
     )
