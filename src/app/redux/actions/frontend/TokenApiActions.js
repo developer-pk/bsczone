@@ -36,7 +36,7 @@ export const generateRefreshToken = () => {
         .catch((error) => {})
 }
 
-export const getTokenBySymbol = (searchSymbol) => (dispatch) => {
+export const getTokenBySymbol = (symbol) => (dispatch) => {
     // axios
     //     .get(`${TOKEN_API_URL}` + '/token/token_search?search='+ searchSymbol +'&key=ACCwyjHCjjGNk&format=structure', {
     //     })
@@ -49,71 +49,11 @@ export const getTokenBySymbol = (searchSymbol) => (dispatch) => {
     //     .catch((error) => {
     //         console.log(error,'sdfdf');
     //     })
+  dispatch({
+                    type: GET_TOKEN_SYMBOL,
+                    payload: symbol ? symbol :[],
+                })
 
-    return fetch(endpoint, {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu"
-        },
-        body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
-          search(string: $token, offset: $offset, limit: $limit,  network: bsc) {
-            network {
-              network
-              protocol
-            }
-            subject {
-              ... on Address {
-                address
-                annotation
-              }
-              ... on Currency {
-                address
-                name
-                symbol
-                decimals
-                tokenId
-                tokenType
-                
-              }
-              ... on SmartContract {
-                address
-                annotation
-                contractType
-                
-              }
-              ... on TransactionHash {
-                __typename
-                hash
-              }
-            }
-          }
-        }`,
-            variables: {"limit":10,"offset":0,"token":searchSymbol} }) // ({ QUERY })
-      })
-        .then((response) => {
-            
-          if (response.status >= 400) {
-            throw new Error("Error fetching data");
-          } else {
-            
-            return response.json();
-          }
-        })
-        .then((data) => {
-            var symbols1 = [];
-            // data.data.search.map((search) => {
-            //     // console.log(search,'yes there');
-                
-            //      symbols1.push(search.subject);
-            //  });
-            //  dispatch({
-            //         type: GET_TOKEN_SYMBOL,
-            //         payload: symbols1,
-            //     })
-            console.log(data,'yes there');
-             //setSearchArr(symbols1)
-        });
 }
 
 export const getTokenInfo = (address) => (dispatch) => {

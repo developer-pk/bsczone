@@ -67,6 +67,8 @@ const Blank = ({ dispatch }) => {
     const [open,setConfirmState] = React.useState(false)
     const [openRem,setConfirmRemoveState] = React.useState(false)
     const [openAlert,setRemoveAlertState] = React.useState(false)
+    const [getSymbol, setSymbol] = React.useState('BNB')
+    const [getAddress, setAddress] = React.useState('0xb8c77482e45f1f44de1745f52c74426c631bdd52')
     const bnbToken = '0xb8c77482e45f1f44de1745f52c74426c631bdd52';
     const {
         isAuthenticated,
@@ -122,7 +124,7 @@ const Blank = ({ dispatch }) => {
             reorder: true
         }
     ];
-    const endpoint = "https://graphql.bitquery.io/";
+   const endpoint = "https://graphql.bitquery.io/";
     
         const clickMeFun = (value) =>{console.log(value,'search word');
         //if(value){
@@ -165,6 +167,7 @@ const Blank = ({ dispatch }) => {
                         
                          symbols1.push(search.subject);
                      });
+                     dispatch(getTokenBySymbol(symbols1));
                      setSearchArr(symbols1)
                 });
         //}
@@ -274,7 +277,7 @@ const Blank = ({ dispatch }) => {
         //console.log(tokeninfo,'token add');
     }, [])
     //console.log(tokenotherinfo.data.images['16x16'],Object.keys(tokenotherinfo).length,'is auth');
-console.log(searchArr,'token info');
+console.log(symbols.data,'token info');
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
@@ -327,7 +330,7 @@ console.log(searchArr,'token info');
         //console.log(value,'get val');
             setSearchKey(value);
             refetch();
-
+           
         }
         
         // else{
@@ -343,6 +346,11 @@ console.log(searchArr,'token info');
     const handleSymbolInfo = (address,symbol) => {
  console.log(symbol,address,'get new search icons');
       dispatch(getTokenInfo(address));
+      setSymbol(symbol);
+      setAddress(address);
+      if(!tokeninfo.data){
+        dispatch(getTokenInfo(address));
+      }
       //console.log(transfers,'get val');
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
@@ -405,7 +413,7 @@ console.log(searchArr,'token info');
                         /> */}
                         <Autocomplete
                             id="combo-box-demo"
-                            options={searchArr}
+                            options={symbols.data}
                             getOptionLabel={(option) => option.name || "test"}
                             renderOption={(option) => {
                                 //display value in Popper elements

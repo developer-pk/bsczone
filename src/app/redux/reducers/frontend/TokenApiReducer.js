@@ -2,15 +2,15 @@ import {
     GET_TOKEN_SYMBOL,
 } from '../../actions/frontend/TokenApiActions'
 
-const initialState = []
+const initialState = {data:[]}
 
 const TokenApiReducer = function (state = initialState, action) {
     switch (action.type) {
         case GET_TOKEN_SYMBOL: {
-            return [...state,action.payload]
+            return {...state,data:action.payload}
         }
         default: {
-            return [...state]
+            return {...state}
         }
     }
 }
