@@ -2,16 +2,16 @@ import {
     GET_TOKEN_OTHER_INFO,
 } from '../../actions/frontend/TokenApiActions'
 
-const initialState = []
+const initialState = {data:{}}
 
 const TokenOtherInfoReducer = function (state = initialState, action) {
     switch (action.type) {
         case GET_TOKEN_OTHER_INFO: {
-
-            return [action.payload]
+//console.log(action.payload,'anj');
+            return {...state, data: action.payload}
         }
         default: {
-            return [...state]
+            return {...state}
         }
     }
 }

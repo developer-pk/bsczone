@@ -80,7 +80,7 @@ const Blank = ({ dispatch }) => {
         password: '',
     })
 
-    console.log(tokenotherinfo,'is auth');
+   
     const columns = [
         {
         id: 1,
@@ -92,14 +92,14 @@ const Blank = ({ dispatch }) => {
         {
         id: 2,
         name: "TOKEN",
-        selector: (row) => row.tx_from,
+        selector: (row,index) => row.tx_from,
         sortable: true,
         reorder: true,
         },
         {
         id: 3,
         name: "PRICE",
-        selector: (row) => <span className='price-type'>{row.amount} </span>,
+        selector: (row,index) => <span className='price-type'>{row.amount} </span>,
         sortable: true,
         right: true,
         reorder: true
@@ -107,8 +107,8 @@ const Blank = ({ dispatch }) => {
         {
             id: 4,
             name: "TIME",
-            selector: (row) => row.tx_time,
-            format: (row) => moment(row.tx_time).format('hh:mm:ss'),
+            selector: (row,index) => row.tx_time,
+            format: (row,index) => moment(row.tx_time).format('hh:mm:ss'),
             sortable: true,
             right: true,
             reorder: true
@@ -116,7 +116,7 @@ const Blank = ({ dispatch }) => {
         {
             id: 5,
             name: "TX",
-            selector: (row) => <span className='tx_hash-type'>{row.tx_hash}</span>,
+            selector: (row,index) => <span className='tx_hash-type'>{row.tx_hash}</span>,
             sortable: true,
             right: true,
             reorder: true
@@ -133,37 +133,18 @@ const Blank = ({ dispatch }) => {
                   "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu"
                 },
                 body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
-                  search(string: $token, offset: $offset, limit: $limit,  network: bsc) {
-                    network {
-                      network
-                      protocol
-                    }
-                    subject {
-                      ... on Address {
-                        address
-                        annotation
+                    search(string: $token, offset: $offset, limit: $limit) {
+                        subject {
+                          ... on Currency {
+                            address
+                            name
+                            symbol
+                            decimals
+                            tokenId
+                            tokenType
+                          }
+                        }
                       }
-                      ... on Currency {
-                        address
-                        name
-                        symbol
-                        decimals
-                        tokenId
-                        tokenType
-                        
-                      }
-                      ... on SmartContract {
-                        address
-                        annotation
-                        contractType
-                        
-                      }
-                      ... on TransactionHash {
-                        __typename
-                        hash
-                      }
-                    }
-                  }
                 }`,
                     variables: {"limit":10,"offset":0,"token":value} }) // ({ QUERY })
               })
@@ -177,6 +158,7 @@ const Blank = ({ dispatch }) => {
                   }
                 })
                 .then((data) => {
+                    //console.log(data,'print symbol');
                     var symbols1 = [];
                     data.data.search.map((search) => {
                         // console.log(search,'yes there');
@@ -184,28 +166,12 @@ const Blank = ({ dispatch }) => {
                          symbols1.push(search.subject);
                      });
                      setSearchArr(symbols1)
-                } );
+                });
         //}
 
         };
+   // const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
     const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
-      //if(data.length > 0){
-       
-       // console.log(symbols1,'symbol me');
-        // if(data){
-                
-        //     data.search.map((search) => {
-        //        // console.log(search,'yes there');
-        //        //setSearchArr(search.subject)
-        //         symbols1.push(search.subject);
-        //     });
-
-        //     //setSearchArr(symbols1);
-        // }
-                 
-        console.log(searchArr,'got');
-        //console.log('print me',symbols1);
-
     const [show, setShow] = useState(false);
     const [showLogin, setLoginShow] = useState(false);
     const [copied, setCopy] = useState(false);
@@ -238,7 +204,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleFavRemoveAgree = () => {
-        const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(removeTokenFromFavourite({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -258,7 +224,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleAlertRemoveAgree = () => {
-        const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(removeAlert({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -271,8 +237,8 @@ const Blank = ({ dispatch }) => {
     
 
     const handleAgree = () => {
-        const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
-        const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
+        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -290,7 +256,7 @@ const Blank = ({ dispatch }) => {
     //creating function to load ip address from the API
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
-        console.log(res.data);
+       // console.log(res.data);
         setIP(res.data.IPv4)
     }
 
@@ -305,10 +271,10 @@ const Blank = ({ dispatch }) => {
             dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
             
         }
-        console.log(tokeninfo,'token add');
+        //console.log(tokeninfo,'token add');
     }, [])
-
-
+    //console.log(tokenotherinfo.data.images['16x16'],Object.keys(tokenotherinfo).length,'is auth');
+console.log(searchArr,'token info');
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
@@ -319,8 +285,8 @@ const Blank = ({ dispatch }) => {
         setUserInfo(temp);
     }
     const handleFormSubmit = (event) => {
-         const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
-        const tokenAddress =  (tokeninfo.length > 0 ? tokeninfo[0].address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+         const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
+        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,currencytoken:tokenAddress};
         dispatch(createAlert(params));
         dispatch(getAlertTokenInfo(tokenAddress));
@@ -358,24 +324,26 @@ const Blank = ({ dispatch }) => {
         // }else{
             value = value+'%';
       //  }
-        console.log(value,'get val');
+        //console.log(value,'get val');
             setSearchKey(value);
             refetch();
 
-        }else{
-            //hit for token address search
-            dispatch(getTokenInfo(value));
-            const symbol =  (tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB');
-            dispatch(getTokenOtherInfo(symbol));
-            dispatch(getTokenTransferList(value));
         }
+        
+        // else{
+        //     //hit for token address search
+        //     dispatch(getTokenInfo(value));
+        //     const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
+        //     dispatch(getTokenOtherInfo(symbol));
+        //     dispatch(getTokenTransferList(value));
+        // }
      
     };
     
     const handleSymbolInfo = (address,symbol) => {
  console.log(symbol,address,'get new search icons');
       dispatch(getTokenInfo(address));
-      console.log(transfers,'get val');
+      //console.log(transfers,'get val');
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
     };
@@ -391,8 +359,8 @@ const Blank = ({ dispatch }) => {
             }
             
            toast.success("You are logged in successfully.");
-            if(tokeninfo.length > 0){
-                dispatch(getAlertTokenInfo(tokeninfo[0].address));
+            if(tokeninfo.data.address){
+                dispatch(getAlertTokenInfo(tokeninfo.data.address));
             }else{
                 dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
             }
@@ -560,18 +528,18 @@ const Blank = ({ dispatch }) => {
                                             className="nav-link"
                                             href="index.html"
                                         >
-                                            {(tokenotherinfo.length > 0 ? 
-                                                tokenotherinfo[0].data.map((token, index) =>
+                                            {(tokenotherinfo.data.images ? 
+                                               
                                                 <img
                                                 alt="img-text"
-                                                src={token.images['16x16']}
+                                                src={tokenotherinfo.data.images['16x16']}
                                             />
-                                            )
-                                                : "<img alt='img-text' src={process.env.PUBLIC_URL + '/images/cardano-ada-logo.png'} />") }
+                                            
+                                                : <img alt='img-text' src={process.env.PUBLIC_URL + '/images/cardano-ada-logo.png'} />) }
 
                                             <b>
-                                            {(tokeninfo.length > 0 ? '' : 'ADA/')}
-                                                <span>{(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB')}</span>
+                                            {(tokeninfo.data.symbol ? '' : 'ADA/')}
+                                                <span>{(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB')}</span>
                                             </b>
                                         </a>
                                     </li>
@@ -662,7 +630,7 @@ const Blank = ({ dispatch }) => {
                                                 aria-describedby="alert-dialog-description"
                                                 >
                                                 <DialogTitle id="alert-dialog-title">
-                                                    {"Add "+(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB ')+ " To Favourites"}
+                                                    {"Add "+(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB ')+ " To Favourites"}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
@@ -686,11 +654,11 @@ const Blank = ({ dispatch }) => {
                                                 aria-describedby="alert-dialog-description"
                                                 >
                                                 <DialogTitle id="alert-dialog-title">
-                                                    {"Remove "+(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB ')+ " from Favourites"}
+                                                    {"Remove "+(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB ')+ " from Favourites"}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
-                                                    {"Are you sure you want to remove token address "+(tokeninfo.length > 0 ? tokeninfo[0].address.substr(0,30)+'...' : bnbToken.substr(0,30)+'...')+" from your favourites?"}
+                                                    {"Are you sure you want to remove token address "+(tokeninfo.data.address ? tokeninfo.data.address.substr(0,30)+'...' : bnbToken.substr(0,30)+'...')+" from your favourites?"}
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
@@ -710,11 +678,11 @@ const Blank = ({ dispatch }) => {
                                                 aria-describedby="alert-dialog-description"
                                                 >
                                                 <DialogTitle id="alert-dialog-title">
-                                                    {"Remove Alert For "+(tokeninfo.length > 0 ? tokeninfo[0].symbol: 'BNB')}
+                                                    {"Remove Alert For "+(tokeninfo.data.symbol ? tokeninfo.data.symbol: 'BNB')}
                                                 </DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
-                                                    {"Are you sure you want to remove alert for token "+(tokeninfo.length > 0 ? tokeninfo[0].address.substr(0,30)+'...' : bnbToken.substr(0,30)+'...')+ "?"}
+                                                    {"Are you sure you want to remove alert for token "+(tokeninfo.data.address ? tokeninfo.data.address.substr(0,30)+'...' : bnbToken.substr(0,30)+'...')+ "?"}
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
@@ -733,27 +701,28 @@ const Blank = ({ dispatch }) => {
                                     </li>
                                     <div className="price">
                                         <h5>
-                                            PRICE: {(tokenotherinfo.length > 0 ? 
-                                                tokenotherinfo[0].data.map((token, index) =>
-                                                <NumberFormat value={token.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
-                                            )
-                                                : '<span>$2.4226</span>') }
+                                            PRICE: {(tokenotherinfo.data.values ? 
+                                               // tokenotherinfo[0].data.map((token, index) =>
+                                                <NumberFormat value={tokenotherinfo.data.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                            //)
+                                                : <span>$2.4226</span>) }
                                                 {/* <span>$2.4226</span> */}
                                         </h5>
-                                        <p>PRICE 24h CHANGE: {(tokenotherinfo.length > 0 ? 
-                                                tokenotherinfo[0].data.map((token, index) =>
-                                                (token.values.USD.percentChange24h > 0 ? <span className="positive-number">+{token.values.USD.percentChange24h}%</span> : <span className="negative-number">{token.values.USD.percentChange24h}%</span>)
+                                        <p>PRICE 24h CHANGE: { tokenotherinfo.data.values ? 
                                                 
-                                            )
-                                                : '<span>+5%</span>>') }
+                                                tokenotherinfo.data.values.USD.percentChange24h > 0 ? 
+                                                    <span className="positive-number">+{tokenotherinfo.data.values.USD.percentChange24h}%</span> 
+                                                    : 
+                                                    <span className="negative-number">{tokenotherinfo.data.values.USD.percentChange24h}%</span>
+                                                : <span>+5%</span> }
                                                 {/* <span>+5%</span> */}
                                                 </p>
                                     </div>
                                     <div className="copy">
                                         {/* 0x3ee2......435d47{' '} */}
-                                        {(tokeninfo.length > 0 ? tokeninfo[0].address.substring(0, 18)+'... ' : '0x3ee2......435d47')}
-                                        {(tokeninfo.length > 0) ? 
-                                        <CopyToClipboard text={tokeninfo[0].address}
+                                        {(tokeninfo.data.address ? tokeninfo.data.address.substring(0, 18)+'... ' : '0x3ee2......435d47')}
+                                        {(tokeninfo.data.address) ? 
+                                        <CopyToClipboard text={tokeninfo.data.address}
                                             onCopy={() => setCopy(true)}>
                                             <span><i className="far fa-copy"></i></span>
                                             </CopyToClipboard> : <CopyToClipboard text='0x3ee2f7d3d7f4s435d47 '
@@ -768,29 +737,29 @@ const Blank = ({ dispatch }) => {
                                     <div className="market_cap">
                                         <p>
                                             MARKET CAP:{' '}
-                                            {(tokenotherinfo.length > 0 ? 
-                                                tokenotherinfo[0].data.map((token, index) =>
-                                                <NumberFormat value={token.values.USD.marketCap} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
-                                            )
-                                                : '<span>$76,871,158,103</span>') }
+                                            {tokenotherinfo.data.values ? 
+                                               // tokenotherinfo[0].data.map((token, index) =>
+                                                <NumberFormat value={tokenotherinfo.data.values.USD.marketCap} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                            //)
+                                                : <span>$76,871,158,103</span> }
                                             
                                         </p>
                                         <p>
                                             VOLUME 24H:{' '}
-                                            {(tokenotherinfo.length > 0 ? 
-                                                tokenotherinfo[0].data.map((token, index) =>
-                                                <NumberFormat value={token.values.USD.volume24h} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                                            )
-                                                : '<span>$4,832,839,159</span>') }
+                                            {tokenotherinfo.data.values ? 
+                                                //tokenotherinfo[0].data.map((token, index) =>
+                                                <NumberFormat value={tokenotherinfo.data.values.USD.volume24h} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                            
+                                                : <span>$4,832,839,159</span> }
                                             {/* <span>$4,832,839,159</span> */}
                                         </p>
                                         <p>
                                             TOTAL SUPPLY:{' '}
-                                            {(tokenotherinfo.length > 0 ? 
-                                                tokenotherinfo[0].data.map((token, index) =>
-                                                <span className="number">{token.totalSupply}</span>
-                                            )
-                                                : '<span>33,117,618,880</span>') }
+                                            {tokenotherinfo.data.totalSupply ? 
+                                                //tokenotherinfo[0].data.map((token, index) =>
+                                                <span className="number">{tokenotherinfo.data.totalSupply}</span>
+                                            //)
+                                                : <span>33,117,618,880</span> }
                                             {/* <span>33,117,618,880</span> */}
                                         </p>
                                         <p>
@@ -882,7 +851,7 @@ const Blank = ({ dispatch }) => {
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol={(tokeninfo.length > 0 ? tokeninfo[0].symbol : 'BNB')}
+                                    symbol={(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
@@ -892,13 +861,15 @@ const Blank = ({ dispatch }) => {
                         <div className="row">
                             <div className="col-8 col-xl-8 mb-12 mb-xl-0 pricing-table">
                             <Card>
+                            {transfers.data ? 
                                     <DataTable
                                     columns={columns}
-                                    data={transfers}
+                                    data={(transfers.data ) ? transfers.data : []}
                                     defaultSortFieldId={1}
                                     sortIcon={<SortIcon />}
                                     pagination
                                     />
+                            : <h5>There are not records to display.</h5>}
                                 </Card>
                                 {/* <div className="table-responsive">
                                     <table className="table">
@@ -1309,8 +1280,8 @@ const Blank = ({ dispatch }) => {
                </Modal.Header> */}
                 <div className="alert_text2 text-center">
                                 <img alt="img-text" src={process.env.PUBLIC_URL + "/images/noti.png"} />
-                                <h4>Set up an alarm For {(tokeninfo.length > 0 ? '('+tokeninfo[0].symbol+')' : '(BNB)'  )}</h4>
-                                <h5>{(tokeninfo.length > 0 ? tokeninfo[0].address : '')}</h5>
+                                <h4>Set up an alarm For {(tokeninfo.data.symbol ? '('+tokeninfo.data.symbol+')' : '(BNB)'  )}</h4>
+                                <h5>{(tokeninfo.data.address ? tokeninfo.data.address : '')}</h5>
                                 <ValidatorForm onSubmit={handleFormSubmit}>
                                     <ul>
                                         <li>

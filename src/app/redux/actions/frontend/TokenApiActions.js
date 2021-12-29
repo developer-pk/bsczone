@@ -20,6 +20,7 @@ export const REMOVE_ALERT = 'REMOVE_ALERT'
 const accessToken = window.localStorage.getItem('accessToken')
 const refreshToken = window.localStorage.getItem('refreshToken')
 const email = window.localStorage.getItem('email')
+const endpoint = "https://graphql.bitquery.io/";
 
 export const generateRefreshToken = () => {
     axios
@@ -36,19 +37,83 @@ export const generateRefreshToken = () => {
 }
 
 export const getTokenBySymbol = (searchSymbol) => (dispatch) => {
-    axios
-        .get(`${TOKEN_API_URL}` + '/token/token_search?search='+ searchSymbol +'&key=ACCwyjHCjjGNk&format=structure', {
+    // axios
+    //     .get(`${TOKEN_API_URL}` + '/token/token_search?search='+ searchSymbol +'&key=ACCwyjHCjjGNk&format=structure', {
+    //     })
+    //     .then((res) => {
+    //         dispatch({
+    //             type: GET_TOKEN_SYMBOL,
+    //             payload: res.data,
+    //         })
+    //     })
+    //     .catch((error) => {
+    //         console.log(error,'sdfdf');
+    //     })
+
+    return fetch(endpoint, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu"
+        },
+        body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
+          search(string: $token, offset: $offset, limit: $limit,  network: bsc) {
+            network {
+              network
+              protocol
+            }
+            subject {
+              ... on Address {
+                address
+                annotation
+              }
+              ... on Currency {
+                address
+                name
+                symbol
+                decimals
+                tokenId
+                tokenType
+                
+              }
+              ... on SmartContract {
+                address
+                annotation
+                contractType
+                
+              }
+              ... on TransactionHash {
+                __typename
+                hash
+              }
+            }
+          }
+        }`,
+            variables: {"limit":10,"offset":0,"token":searchSymbol} }) // ({ QUERY })
+      })
+        .then((response) => {
+            
+          if (response.status >= 400) {
+            throw new Error("Error fetching data");
+          } else {
+            
+            return response.json();
+          }
         })
-        .then((res) => {
-            dispatch({
-                type: GET_TOKEN_SYMBOL,
-                payload: res.data,
-            })
-        })
-        .catch((error) => {
-            console.log(error,'sdfdf');
-                //toast.error(error.response.data.errors[0].messages[0])
-        })
+        .then((data) => {
+            var symbols1 = [];
+            // data.data.search.map((search) => {
+            //     // console.log(search,'yes there');
+                
+            //      symbols1.push(search.subject);
+            //  });
+            //  dispatch({
+            //         type: GET_TOKEN_SYMBOL,
+            //         payload: symbols1,
+            //     })
+            console.log(data,'yes there');
+             //setSearchArr(symbols1)
+        });
 }
 
 export const getTokenInfo = (address) => (dispatch) => {
@@ -56,9 +121,10 @@ export const getTokenInfo = (address) => (dispatch) => {
         .get(`${TOKEN_API_URL}` + '/token/token_stat?token='+ address +'&key=ACCwyjHCjjGNk&format=structure', {
         })
         .then((res) => {
+            //console.log(res.data[0],'get token info');
             dispatch({
                 type: GET_TOKEN_INFO,
-                payload: res.data,
+                payload: res.data[0] ? res.data[0]:{},
             })
         })
         .catch((error) => {
@@ -72,6 +138,7 @@ export const getTokenTransferList = (token) => (dispatch) => {
         .get(`${TOKEN_API_URL}` + '/token/transfers?token='+ token +'&limit=100&key=ACCwyjHCjjGNk&format=structure', {
         })
         .then((res) => {
+            //console.log(res.data,'transfers');
             dispatch({
                 type: GET_TOKEN_TRANSFER_LIST,
                 payload: res.data,
@@ -88,9 +155,10 @@ export const getTokenOtherInfo = (symbol) => (dispatch) => {
         .get(`${TOKEN_STAT_API_URL}/${DEFAULT_SERVICE_VERSION}` + '/currencies?api_key='+ `${CRYPTO_API_KEY}` +'&symbols='+ symbol +'&optionalFields=images,links', {
         })
         .then((res) => {
+            //console.log(res,'anj123');
             dispatch({
                 type: GET_TOKEN_OTHER_INFO,
-                payload: res.data,
+                payload: res.data.data[0] ? res.data.data[0]:{},
             })
         })
         .catch((error) => {

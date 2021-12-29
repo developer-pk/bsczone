@@ -2,15 +2,15 @@ import {
     GET_TOKEN_INFO,
 } from '../../actions/frontend/TokenApiActions'
 
-const initialState = []
+const initialState = {data:{}}
 
 const TokenInfoReducer = function (state = initialState, action) {
     switch (action.type) {
         case GET_TOKEN_INFO: {
-            return [...action.payload]
+            return {...state, data: action.payload}
         }
         default: {
-            return [...state]
+            return {...state}
         }
     }
 }
