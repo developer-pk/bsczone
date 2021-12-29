@@ -1215,7 +1215,8 @@ console.log(favourite,'token info');
                                             </li>
                                         </div>
                                         <div id="fav" className="tab-pane fade">
-                                            {
+
+                                            { authenticated ? 
                                             (favourite[0] ? 
                                             favourite[0].data.map((fav, index) =>
                                                 <li>
@@ -1234,7 +1235,9 @@ console.log(favourite,'token info');
                                                 {fav.currencytoken.substr(0,32)+'...'}
                                                 </span>
                                             </li>
-                                            ) :  <h6>No Records.</h6> )}
+                                            ) :  <h6>No Records.</h6> )
+                                        : <div className="sise_title text-center"><span><a href="#" onClick={() => handleLoginShow()}>Login</a></span></div>
+                                        }
                                         </div>
                                     </div>
                                 </div>
