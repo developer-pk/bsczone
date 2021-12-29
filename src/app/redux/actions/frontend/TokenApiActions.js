@@ -17,6 +17,7 @@ export const GET_ALERT_TOKEN_INFO = 'GET_ALERT_TOKEN_INFO'
 export const ADD_FAVOURITE = 'ADD_FAVOURITE'
 export const REMOVE_FAVOURITE = 'REMOVE_FAVOURITE'
 export const REMOVE_ALERT = 'REMOVE_ALERT'
+export const GET_FAVOURITE_LIST = 'GET_FAVOURITE_LIST'
 const accessToken = window.localStorage.getItem('accessToken')
 const refreshToken = window.localStorage.getItem('refreshToken')
 const email = window.localStorage.getItem('email')
@@ -221,6 +222,31 @@ export const removeAlert = (tokenInfo) => (dispatch) => {
             dispatch({
                 type: REMOVE_ALERT,
                 payload: res.data,
+            })
+        })
+        .catch((error) => {
+            console.log(error,'sdfdf');
+                //toast.error(error.response.data.errors[0].messages[0])
+        })
+}
+
+export const getFavouriteList = () => (dispatch) => {
+    axios
+        .get(`${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/alert/my-favorite-tokens', {
+            headers: {
+                Authorization: 'Bearer ' + accessToken,
+            },
+        })
+        .then((res) => {
+
+            if (res.status == 201 || res.status == 200) {
+               // toast.success(res.data.message)
+              //  history.push('/home');
+            }
+
+            dispatch({
+                type: GET_FAVOURITE_LIST,
+                payload: res.data ? res.data: [],
             })
         })
         .catch((error) => {

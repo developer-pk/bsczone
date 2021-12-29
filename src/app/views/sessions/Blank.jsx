@@ -28,7 +28,7 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert, getFavouriteList } from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
@@ -60,7 +60,7 @@ const Blank = ({ dispatch }) => {
     const [searchArr, setSearchArr] = React.useState([])
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert, favourite} = useSelector(state=>state);
     const classes = useStyles()
     const [loading, setLoading] = useState(false)
     const { login, logout } = useAuth();
@@ -132,7 +132,8 @@ const Blank = ({ dispatch }) => {
                 method: "POST",
                 headers: { 
                   "Content-Type": "application/json",
-                  "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu"
+                  "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu",
+                  'Access-Control-Allow-Origin': '*',
                 },
                 body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
                     search(string: $token, offset: $offset, limit: $limit) {
@@ -148,7 +149,10 @@ const Blank = ({ dispatch }) => {
                         }
                       }
                 }`,
-                    variables: {"limit":10,"offset":0,"token":value} }) // ({ QUERY })
+                    variables: {"limit":10,"offset":0,"token":value},
+                    mode: 'cors',
+
+                }) // ({ QUERY })
               })
                 .then((response) => {
                     
@@ -272,12 +276,12 @@ const Blank = ({ dispatch }) => {
         dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
         if(authenticated){
             dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
-            
+            dispatch(getFavouriteList());
         }
         //console.log(tokeninfo,'token add');
     }, [])
     //console.log(tokenotherinfo.data.images['16x16'],Object.keys(tokenotherinfo).length,'is auth');
-console.log(symbols.data,'token info');
+console.log(favourite,'token info');
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
@@ -287,6 +291,7 @@ console.log(symbols.data,'token info');
         temp[name] = value
         setUserInfo(temp);
     }
+
     const handleFormSubmit = (event) => {
          const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
         const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
@@ -415,6 +420,7 @@ console.log(symbols.data,'token info');
                             id="combo-box-demo"
                             options={symbols.data}
                             getOptionLabel={(option) => option.name || "test"}
+                            getOptionSelected={(option, value) => option.symbol === value.symbol}
                             renderOption={(option) => {
                                 //display value in Popper elements
                                 return <div><h5>{`${option.name} (${option.symbol})`}</h5>
@@ -791,17 +797,21 @@ console.log(symbols.data,'token info');
                                         </p>
                                         <p>MEDIA</p>
                                         <p className="media_icon">
-                                            <a href="/" target="_blank">
-                                                <i className="fas fa-globe-africa" />
-                                            </a>
-                                            <a href="https://twitter.com/" target="_blank">
+                                            
+                                            <a href="https://twitter.com/tcake_official" target="_blank">
                                                 <i className="fab fa-twitter" />
                                             </a>
-                                            <a href="https://telegram.org/" target="_blank">
+                                            <a href="https://t.me/tcake_announcements" target="_blank">
                                                 <i className="fab fa-telegram-plane" />
                                             </a>
-                                            <a href="https://www.reddit.com/" target="_blank">
-                                                <i className="fab fa-reddit-alien" />
+                                            <a href="https://t.me/tcake_official" target="_blank">
+                                                <i className="fas fa-users" />
+                                            </a>
+                                            <a href="mailto:info@tcake.io" target="_blank">
+                                                <i className="far fa-envelope" />
+                                            </a>
+                                            <a href="https://bscscan.com/token/0x3b831d36ed418e893f42d46ff308c326c239429f" target="_blank">
+                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjU5QzI5QzE4NzMwMTFFQjkyQzBBMjgxQzc2REREQTciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjU5QzI5QzI4NzMwMTFFQjkyQzBBMjgxQzc2REREQTciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpGNTlDMjlCRjg3MzAxMUVCOTJDMEEyODFDNzZERERBNyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpGNTlDMjlDMDg3MzAxMUVCOTJDMEEyODFDNzZERERBNyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PhQBhOUAAANNSURBVHjaVJPLa1xVHMc/99x7596ZydyZZJKYpG2oNOLYltgiqLHVRQldiM2ilQhKRQQJqCv/CNfiyoULcWVKhYhuuogLSxGlD00bDcaMjybpmJnJZO487+scT1IFvXA4cDm/7+/3+z6s6s33+d9nGBdRcl7GcgZhDWKInjDtFWTnK5TxEal0oOo7qJ0KWDbWf0oPgfpUJdE5M3ME0/FQQQuRSudk3J+VoTtLVH0XkgUUX/9bJP65R/T5Vnc7p+IOhgrxHjnD0PHXyBWfQdU3kEkLw52cQsXLEM8jlZ72AMDYn/sLfY6gFMItEjR+pvXnNf3Lprn6GXHi64ehrmtjWGMYheFFMu4LRAmWjDtzMvRndHeszBi6FTJskqg9gs1bRP37iOExZL+rAVuongsDRdSAuSS6wYQQ9sDC4MkFckcvkPRr7AMVjr+JIQ0aax+TnXoRFUW4o0/iDJ0iPXKCwtE5vBOXB6Wt3hGFJ944pZo+2eHncIem0YBkxp/H8UqI/CjZw7M42WNkimeQ9W28qXmS7TWi7Z/2CZ63hOXlO/ev0a4sY/RjnMfOIps1jFjzoUy9jk/u0Yvsff8hkd3SIkh6jTvETqApSh0TKvT9VLFE0F4jFFVsZ5TWxhJmdkTbwHt4Z3LENBDpLJgCTwOmU1qQqO1YZnZ0p1/9cTz/+KuYtvaNlSY9eRYrdwizcY+wsQ5BgDf9Oq3yEmg+dm9/QCK62GahI2TYve1pvd1sCVn7CyOS+CuLJJ0aTqHEvlTNX69qY41ojk7rlVoMzrxHYfot/WZvxWjdvToYNstlFQcFafW01mnyXlXvO0m3qbQ1EkaLIX2Zw2+EWGkT09Qy+ruE9bWXRRhsNvrte3OJl2B4BVL5gOW7adbLDxg5HDM8FvLJl1vcWf0dTwNFVpde5Qa9P67fNMzU5yJRTZzx09dFT71CoPUuTlCrNelGKW7cqvLLbwETEwM4+QJkhhD1LqKlHpje+IX96YSh7aqMBNVuXUnK67ON8tbG5Uslnn5qnG5HaiA4f36K0pjN7g+rqFrlG1L2s7qychDegzjbGqReRW1tapksVznu2zjOS8Xh3MmgH7nNuu+bcfidIYxF7NQVHfmHEdTZ+VuAAQCJmHhk55Qy9wAAAABJRU5ErkJggg==" />
                                             </a>
                                         </p>
                                     </div>
@@ -1205,7 +1215,10 @@ console.log(symbols.data,'token info');
                                             </li>
                                         </div>
                                         <div id="fav" className="tab-pane fade">
-                                            <li>
+                                            {
+                                            (favourite[0] ? 
+                                            favourite[0].data.map((fav, index) =>
+                                                <li>
                                                 <span className="pro_check">
                                                     {' '}
                                                     <img
@@ -1214,61 +1227,14 @@ console.log(symbols.data,'token info');
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
-                                                    Token Name
+                                                    {fav.currencySymbol}
                                                 </span>{' '}
                                                 |{' '}
                                                 <span className="pro_price">
-                                                    Price
+                                                {fav.currencytoken.substr(0,32)+'...'}
                                                 </span>
                                             </li>
-                                            <li>
-                                                <span className="pro_check">
-                                                    {' '}
-                                                    <img
-                                                        alt="img-text"
-                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
-                                                    />
-                                                </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
-                                                </span>{' '}
-                                                |{' '}
-                                                <span className="pro_price">
-                                                    Price
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span className="pro_check">
-                                                    {' '}
-                                                    <img
-                                                        alt="img-text"
-                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
-                                                    />
-                                                </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
-                                                </span>{' '}
-                                                |{' '}
-                                                <span className="pro_price">
-                                                    Price
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span className="pro_check">
-                                                    {' '}
-                                                    <img
-                                                        alt="img-text"
-                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
-                                                    />
-                                                </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
-                                                </span>{' '}
-                                                |{' '}
-                                                <span className="pro_price">
-                                                    Price
-                                                </span>
-                                            </li>
+                                            ) :  <h6>No Records.</h6> )}
                                         </div>
                                     </div>
                                 </div>
