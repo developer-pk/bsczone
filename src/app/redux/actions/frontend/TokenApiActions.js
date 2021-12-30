@@ -18,6 +18,7 @@ export const ADD_FAVOURITE = 'ADD_FAVOURITE'
 export const REMOVE_FAVOURITE = 'REMOVE_FAVOURITE'
 export const REMOVE_ALERT = 'REMOVE_ALERT'
 export const GET_FAVOURITE_LIST = 'GET_FAVOURITE_LIST'
+export const GET_TRENDS = 'GET_TRENDS'
 const accessToken = window.localStorage.getItem('accessToken')
 const refreshToken = window.localStorage.getItem('refreshToken')
 const email = window.localStorage.getItem('email')
@@ -253,5 +254,25 @@ export const getFavouriteList = () => (dispatch) => {
             console.log(error,'sdfdf');
                 //toast.error(error.response.data.errors[0].messages[0])
         })
+}
+
+export const getTrends = (trends) => (dispatch) => {
+    // axios
+    //     .get(`${TOKEN_API_URL}` + '/token/token_search?search='+ searchSymbol +'&key=ACCwyjHCjjGNk&format=structure', {
+    //     })
+    //     .then((res) => {
+    //         dispatch({
+    //             type: GET_TOKEN_SYMBOL,
+    //             payload: res.data,
+    //         })
+    //     })
+    //     .catch((error) => {
+    //         console.log(error,'sdfdf');
+    //     })
+  dispatch({
+                    type: GET_TRENDS,
+                    payload: trends ? trends :[],
+                })
+
 }
 

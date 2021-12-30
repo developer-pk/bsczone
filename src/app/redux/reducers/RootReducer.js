@@ -25,6 +25,7 @@ import TokenOtherInfoReducer from './frontend/TokenOtherInfoReducer'
 import AlertTokenReducer from './frontend/AlertTokenReducer'
 import FavouriteReducer from './frontend/FavouriteReducer'
 import ForgotPasswordReducer from './frontend/ForgotPasswordReducer'
+import TrendReducer from './frontend/TrendReducer'
 
 const RootReducer = combineReducers({
     notifications: NotificationReducer,
@@ -52,7 +53,8 @@ const RootReducer = combineReducers({
     tokenotherinfo:TokenOtherInfoReducer,
     alertoken:AlertTokenReducer,
     favourite:FavouriteReducer,
-    forgotpassword:ForgotPasswordReducer
+    forgotpassword:ForgotPasswordReducer,
+    trends:TrendReducer,
 })
 
 export default RootReducer

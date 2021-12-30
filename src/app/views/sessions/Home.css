@@ -1071,3 +1071,6 @@ span.buy-type {
     height: 25px;
     margin-bottom: 5px;
 }
+.pro_title{
+    cursor:pointer !important;
+}

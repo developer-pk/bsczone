@@ -28,7 +28,7 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert, getFavouriteList } from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert, getFavouriteList, getTrends } from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
@@ -60,16 +60,16 @@ const Blank = ({ dispatch }) => {
     const [searchArr, setSearchArr] = React.useState([])
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert, favourite} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert, favourite, trends} = useSelector(state=>state);
     const classes = useStyles()
     const [loading, setLoading] = useState(false)
     const { login, logout } = useAuth();
     const [open,setConfirmState] = React.useState(false)
     const [openRem,setConfirmRemoveState] = React.useState(false)
     const [openAlert,setRemoveAlertState] = React.useState(false)
-    const [getSymbol, setSymbol] = React.useState('BNB')
-    const [getAddress, setAddress] = React.useState('0xb8c77482e45f1f44de1745f52c74426c631bdd52')
-    const bnbToken = '0xb8c77482e45f1f44de1745f52c74426c631bdd52';
+    const [getSymbol, setSymbol] = React.useState('TCAKE')
+    const [getAddress, setAddress] = React.useState('0x3b831d36ed418e893f42d46ff308c326c239429f')
+    const bnbToken = '0x3b831d36ed418e893f42d46ff308c326c239429f';
     const {
         isAuthenticated,
         // user
@@ -136,7 +136,7 @@ const Blank = ({ dispatch }) => {
                   'Access-Control-Allow-Origin': '*',
                 },
                 body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
-                    search(string: $token, offset: $offset, limit: $limit) {
+                    search(string: $token, offset: $offset, limit: $limit, network: bsc) {
                         subject {
                           ... on Currency {
                             address
@@ -179,6 +179,61 @@ const Blank = ({ dispatch }) => {
         };
    // const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
     const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
+
+
+    const trendingFunction = () =>{
+        //if(value){
+            return fetch(endpoint, {
+                method: "POST",
+                headers: { 
+                  "Content-Type": "application/json",
+                  "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu",
+                  'Access-Control-Allow-Origin': '*',
+                },
+                body: JSON.stringify({ query: `{
+                    ethereum(network:ethereum) {
+                      dexTrades(
+                        options: {desc: "tradeAmount", limit: 10, limitBy: {each: "baseCurrency.address", limit: 1}}
+                        date: {after: "2021-11-01"}
+                      ) {
+                        tradeAmount(calculate: sum, in: USDT)
+                        baseCurrency {
+                          address
+                          name
+                          symbol
+                        }
+                      }
+                    }
+                  }`,
+                    mode: 'cors',
+
+                }) // ({ QUERY })
+              })
+                .then((response) => {
+                    
+                  if (response.status >= 400) {
+                    throw new Error("Error fetching data");
+                  } else {
+                    
+                    return response.json();
+                  }
+                })
+                .then((data) => {
+                    console.log(data.data.ethereum.dexTrades,'print trending');
+                   // var symbols1 = [];
+                    // data.data.search.map((search) => {
+                    //     // console.log(search,'yes there');
+                        
+                    //      symbols1.push(search.subject);
+                    //  });
+                      dispatch(getTrends(data.data.ethereum.dexTrades));
+                    //  setSearchArr(symbols1)
+                });
+        //}
+
+        };
+        const { data1, isLoading1, error1,trendFetch  } = useQuery(['trend'], () => trendingFunction());
+      
     const [show, setShow] = useState(false);
     const [showLogin, setLoginShow] = useState(false);
     const [copied, setCopy] = useState(false);
@@ -211,7 +266,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleFavRemoveAgree = () => {
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(removeTokenFromFavourite({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -231,7 +286,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleAlertRemoveAgree = () => {
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(removeAlert({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -244,8 +299,8 @@ const Blank = ({ dispatch }) => {
     
 
     const handleAgree = () => {
-        const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'TCAKE');
+        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -271,17 +326,16 @@ const Blank = ({ dispatch }) => {
         getData()
         const params={type:'GET_ADS'};
         dispatch(getAds(params));
-        dispatch(getTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
-        dispatch(getTokenOtherInfo('BNB'));
-        dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+        dispatch(getTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
+        dispatch(getTokenOtherInfo('TCAKE'));
+        dispatch(getTokenTransferList('0x3b831d36ed418e893f42d46ff308c326c239429f'));
         if(authenticated){
-            dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+            dispatch(getAlertTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
             dispatch(getFavouriteList());
         }
         //console.log(tokeninfo,'token add');
     }, [])
-    //console.log(tokenotherinfo.data.images['16x16'],Object.keys(tokenotherinfo).length,'is auth');
-console.log(favourite,'token info');
+    console.log(trends.data,'print trending123');
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
@@ -293,8 +347,8 @@ console.log(favourite,'token info');
     }
 
     const handleFormSubmit = (event) => {
-         const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+         const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'TCAKE');
+        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,currencytoken:tokenAddress};
         dispatch(createAlert(params));
         dispatch(getAlertTokenInfo(tokenAddress));
@@ -335,7 +389,7 @@ console.log(favourite,'token info');
         //console.log(value,'get val');
             setSearchKey(value);
             refetch();
-           
+            trendFetch();
         }
         
         // else{
@@ -375,7 +429,7 @@ console.log(favourite,'token info');
             if(tokeninfo.data.address){
                 dispatch(getAlertTokenInfo(tokeninfo.data.address));
             }else{
-                dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+                dispatch(getAlertTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
             }
             
     }
@@ -406,7 +460,7 @@ console.log(favourite,'token info');
             >
                 
                     <a className="navbar-brand" href="#page-top">
-                        Logo
+                        <img src={process.env.PUBLIC_URL + '/images/logo.1a6b6566.png'} alt="LOGO" />
                     </a>
                     <div className="search">
                         {/* <input
@@ -782,7 +836,7 @@ console.log(favourite,'token info');
                                     </div>
                                     <div className="pans">
                                         <p>
-                                            PANCAKESWAP <a href="/">TRADE</a>
+                                            PANCAKESWAP <a href="https://pancakeswap.finance/swap#/swap?outputCurrency=0x3b831d36ed418e893f42d46ff308c326c239429f">TRADE</a>
                                         </p>
                                         <p className="tag_btn">
                                             <img
@@ -790,10 +844,20 @@ console.log(favourite,'token info');
                                                 src={process.env.PUBLIC_URL + "/images/bscscan.png"}
                                             />{' '}
                                             BSC SCAN{' '}
-                                            <a href="/">
+                                            <div class="dropdown trade_sub">
+                                                <a className="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">VIEW{' '} <i className="fas fa-angle-down"></i>
+                                                                                        </a>
+                                            
+                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a className="dropdown-item" href="#">Transfers</a>
+                                                <a className="dropdown-item" href="#">Holders</a>
+                                                <a className="dropdown-item" href="#">Contracts</a>
+                                            </div>
+                                            </div>
+                                            {/* <a href="https://bscscan.com/token/0x3b831d36ed418e893f42d46ff308c326c239429f">
                                                 TRADE{' '}
                                                 <i className="fas fa-angle-down"></i>
-                                            </a>
+                                            </a> */}
                                         </p>
                                         <p>MEDIA</p>
                                         <p className="media_icon">
@@ -869,7 +933,7 @@ console.log(favourite,'token info');
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol={(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB')}
+                                    symbol={(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'TCAKE')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
@@ -1128,7 +1192,10 @@ console.log(favourite,'token info');
                                             id="trending"
                                             className="tab-pane fade"
                                         >
-                                            <li>
+                                            {
+                                            trends.data.length > 0 ? 
+                                            trends.data.map((trend, index) =>
+                                                <li>
                                                 <span className="pro_check">
                                                     {' '}
                                                     <img
@@ -1136,30 +1203,17 @@ console.log(favourite,'token info');
                                                         src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
                                                 </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
+                                                <span className="pro_title" title={trend.baseCurrency.address}>
+                                                    {trend.baseCurrency.address.substr(0,15)+'...'}
                                                 </span>{' '}
                                                 |{' '}
                                                 <span className="pro_price">
-                                                    Price
+                                                <NumberFormat value={trend.tradeAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+
                                                 </span>
                                             </li>
-                                            <li>
-                                                <span className="pro_check">
-                                                    {' '}
-                                                    <img
-                                                        alt="img-text"
-                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
-                                                    />
-                                                </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
-                                                </span>{' '}
-                                                |{' '}
-                                                <span className="pro_price">
-                                                    Price
-                                                </span>
-                                            </li>
+                                            ) : <h5>No Records Found.</h5>}
+
                                         </div>
                                         <div
                                             id="listing"
