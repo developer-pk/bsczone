@@ -164,7 +164,7 @@ const Blank = ({ dispatch }) => {
                   }
                 })
                 .then((data) => {
-                    //console.log(data,'print symbol');
+                    console.log(data,'print symbol');
                     var symbols1 = [];
                     data.data.search.map((search) => {
                         // console.log(search,'yes there');
@@ -266,7 +266,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleFavRemoveAgree = () => {
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
+        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(removeTokenFromFavourite({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -286,7 +286,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleAlertRemoveAgree = () => {
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
+        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(removeAlert({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -299,8 +299,8 @@ const Blank = ({ dispatch }) => {
     
 
     const handleAgree = () => {
-        const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'Tcake');
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
+        const symbol =  (tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake');
+        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -336,7 +336,7 @@ const Blank = ({ dispatch }) => {
         }
         //console.log(tokeninfo,'token add');
     }, [])
-    console.log(tcake,'print trending123');
+    //console.log(tcake,'print trending123');
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
@@ -348,8 +348,8 @@ const Blank = ({ dispatch }) => {
     }
 
     const handleFormSubmit = (event) => {
-         const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'Tcake');
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
+         const symbol =  (tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake');
+        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,currencytoken:tokenAddress};
         dispatch(createAlert(params));
         dispatch(getAlertTokenInfo(tokenAddress));
@@ -464,7 +464,7 @@ const Blank = ({ dispatch }) => {
             >
                 
                     <a className="navbar-brand" href="#page-top">
-                        <img src={process.env.PUBLIC_URL + '/images/logo.1a6b6566.png'} alt="LOGO" />
+                        <img src={process.env.PUBLIC_URL + '/images/logo-new.png'} alt="LOGO" />
                     </a>
                     <div className="search">
                         {/* <input
@@ -477,11 +477,11 @@ const Blank = ({ dispatch }) => {
                         <Autocomplete
                             id="combo-box-demo"
                             options={symbols.data}
-                            getOptionLabel={(option) => option.name || "test"}
+                            getOptionLabel={(option) => option.name || ""}
                             getOptionSelected={(option, value) => option.symbol === value.symbol}
                             renderOption={(option) => {
                                 //display value in Popper elements
-                                return <div><h5>{`${option.name} (${option.symbol})`}</h5>
+                                return <div><img src={"https://pancakeswap.finance/images/tokens/"+option.address+".png"} /><h5>{`${option.name} (${option.symbol})`}</h5>
                                         <h6>{`${option.address}`}</h6></div>;
                               }}
                             style={{ width: 300 }}
@@ -607,11 +607,11 @@ const Blank = ({ dispatch }) => {
                                                 src={tokenotherinfo.data.images['16x16']}
                                             />
                                             
-                                                : <img alt='img-text' src={process.env.PUBLIC_URL + '/images/logo.1a6b6566.png'} />) }
+                                                : <img alt='img-text' src={process.env.PUBLIC_URL + '/images/logo-new.png'} />) }
 
                                             <b>
                                             {/* {(tokeninfo.data.symbol ? '' : 'ADA/')} */}
-                                                <span>{(tokeninfo.data.symbol ? tokeninfo.data.symbol : (tcake.data.symbol ? tcake.data.symbol : 'Tcake'))}</span>
+                                                <span>{(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : (tcake.data.symbol ? tcake.data.symbol : 'Tcake'))}</span>
                                             </b>
                                         </a>
                                     </li>
@@ -842,7 +842,7 @@ const Blank = ({ dispatch }) => {
                                     </div>
                                     <div className="pans">
                                         <p>
-                                            PANCAKESWAP <a href="https://pancakeswap.finance/swap#/swap?outputCurrency=0x3b831d36ed418e893f42d46ff308c326c239429f">TRADE</a>
+                                            PANCAKESWAP <a href={"https://pancakeswap.finance/swap#/swap?outputCurrency="+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>TRADE</a>
                                         </p>
                                         <p className="tag_btn">
                                             <img
@@ -855,9 +855,9 @@ const Blank = ({ dispatch }) => {
                                                                                         </a>
                                             
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a className="dropdown-item" target="_blank" href="https://bscscan.com/txs?a=0x3b831d36ed418e893f42d46ff308c326c239429f">Transfers</a>
-                                                <a className="dropdown-item" target="_blank" href="https://bscscan.com/token/tokenholderchart/0x3b831d36ed418e893f42d46ff308c326c239429f">Holders</a>
-                                                <a className="dropdown-item" target="_blank" href="https://bscscan.com/address/0x3b831d36ed418e893f42d46ff308c326c239429f">Contracts</a>
+                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/txs?a="+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Transfers</a>
+                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/token/tokenholderchart/"+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Holders</a>
+                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/address/"+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Contracts</a>
                                             </div>
                                             </div>
                                             {/* <a href="https://bscscan.com/token/0x3b831d36ed418e893f42d46ff308c326c239429f">
@@ -939,7 +939,7 @@ const Blank = ({ dispatch }) => {
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol={(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'Tcake')}
+                                    symbol={(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
@@ -1204,13 +1204,20 @@ const Blank = ({ dispatch }) => {
                                                 <li>
                                                 <span className="pro_check">
                                                     {' '}
-                                                    <img
+                                                    {
+                                                        trend.baseCurrency.address ? 
+                                                        <img src={"https://pancakeswap.finance/images/tokens/"+trend.baseCurrency.address+".png"} />
+                                                        :
+                                                        <img
                                                         alt="img-text"
                                                         src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
+                                                    }
+                                                    
+                                                    
                                                 </span>{' '}
-                                                <span className="pro_title" title={trend.baseCurrency.address}>
-                                                    {trend.baseCurrency.address.substr(0,15)+'...'}
+                                                <span className="pro_title" title={trend.baseCurrency.name}>
+                                                    {trend.baseCurrency.name}
                                                 </span>{' '}
                                                 |{' '}
                                                 <span className="pro_price">
