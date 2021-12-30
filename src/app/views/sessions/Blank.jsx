@@ -28,7 +28,7 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert, getFavouriteList, getTrends } from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert, getFavouriteList, getTrends, getTcakeData } from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
@@ -60,14 +60,14 @@ const Blank = ({ dispatch }) => {
     const [searchArr, setSearchArr] = React.useState([])
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert, favourite, trends} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert, favourite, trends, tcake} = useSelector(state=>state);
     const classes = useStyles()
     const [loading, setLoading] = useState(false)
     const { login, logout } = useAuth();
     const [open,setConfirmState] = React.useState(false)
     const [openRem,setConfirmRemoveState] = React.useState(false)
     const [openAlert,setRemoveAlertState] = React.useState(false)
-    const [getSymbol, setSymbol] = React.useState('TCAKE')
+    const [getSymbol, setSymbol] = React.useState('Tcake')
     const [getAddress, setAddress] = React.useState('0x3b831d36ed418e893f42d46ff308c326c239429f')
     const bnbToken = '0x3b831d36ed418e893f42d46ff308c326c239429f';
     const {
@@ -299,7 +299,7 @@ const Blank = ({ dispatch }) => {
     
 
     const handleAgree = () => {
-        const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'TCAKE');
+        const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'Tcake');
         const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
         dispatch(getAlertTokenInfo(tokenAddress));
@@ -327,7 +327,8 @@ const Blank = ({ dispatch }) => {
         const params={type:'GET_ADS'};
         dispatch(getAds(params));
         dispatch(getTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
-        dispatch(getTokenOtherInfo('TCAKE'));
+        dispatch(getTcakeData());
+        dispatch(getTokenOtherInfo('Tcake'));
         dispatch(getTokenTransferList('0x3b831d36ed418e893f42d46ff308c326c239429f'));
         if(authenticated){
             dispatch(getAlertTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
@@ -335,7 +336,7 @@ const Blank = ({ dispatch }) => {
         }
         //console.log(tokeninfo,'token add');
     }, [])
-    console.log(trends.data,'print trending123');
+    console.log(tcake,'print trending123');
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
@@ -347,7 +348,7 @@ const Blank = ({ dispatch }) => {
     }
 
     const handleFormSubmit = (event) => {
-         const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'TCAKE');
+         const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'Tcake');
         const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,currencytoken:tokenAddress};
         dispatch(createAlert(params));
@@ -381,15 +382,15 @@ const Blank = ({ dispatch }) => {
     const handler = ({ target: { name, value } }) => { 
         if(value != undefined && value != null){
         //    dispatch(getTokenBySymbol(value));
-        // if(value.substring(0,2) == '0x'){
-        //     value = value;
-        // }else{
+         if(value.substr(0,2) == '0x'){
+             value = value;
+         }else{
             value = value+'%';
-      //  }
+        }
         //console.log(value,'get val');
             setSearchKey(value);
             refetch();
-            trendFetch();
+            //trendFetch();
         }
         
         // else{
@@ -404,6 +405,9 @@ const Blank = ({ dispatch }) => {
     
     const handleSymbolInfo = (address,symbol) => {
  console.log(symbol,address,'get new search icons');
+        if(symbol == 'Tcake'){
+            dispatch(getTcakeData());
+        }
       dispatch(getTokenInfo(address));
       setSymbol(symbol);
       setAddress(address);
@@ -603,11 +607,11 @@ const Blank = ({ dispatch }) => {
                                                 src={tokenotherinfo.data.images['16x16']}
                                             />
                                             
-                                                : <img alt='img-text' src={process.env.PUBLIC_URL + '/images/cardano-ada-logo.png'} />) }
+                                                : <img alt='img-text' src={process.env.PUBLIC_URL + '/images/logo.1a6b6566.png'} />) }
 
                                             <b>
-                                            {(tokeninfo.data.symbol ? '' : 'ADA/')}
-                                                <span>{(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB')}</span>
+                                            {/* {(tokeninfo.data.symbol ? '' : 'ADA/')} */}
+                                                <span>{(tokeninfo.data.symbol ? tokeninfo.data.symbol : (tcake.data.symbol ? tcake.data.symbol : 'Tcake'))}</span>
                                             </b>
                                         </a>
                                     </li>
@@ -773,7 +777,9 @@ const Blank = ({ dispatch }) => {
                                                // tokenotherinfo[0].data.map((token, index) =>
                                                 <NumberFormat value={tokenotherinfo.data.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
                                             //)
-                                                : <span>$2.4226</span>) }
+                                                : tcake.data ? 
+                                                <NumberFormat value={tcake.data.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                                 : <span>$2.4226</span>) }
                                                 {/* <span>$2.4226</span> */}
                                         </h5>
                                         <p>PRICE 24h CHANGE: { tokenotherinfo.data.values ? 
@@ -849,9 +855,9 @@ const Blank = ({ dispatch }) => {
                                                                                         </a>
                                             
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a className="dropdown-item" href="#">Transfers</a>
-                                                <a className="dropdown-item" href="#">Holders</a>
-                                                <a className="dropdown-item" href="#">Contracts</a>
+                                                <a className="dropdown-item" target="_blank" href="https://bscscan.com/txs?a=0x3b831d36ed418e893f42d46ff308c326c239429f">Transfers</a>
+                                                <a className="dropdown-item" target="_blank" href="https://bscscan.com/token/tokenholderchart/0x3b831d36ed418e893f42d46ff308c326c239429f">Holders</a>
+                                                <a className="dropdown-item" target="_blank" href="https://bscscan.com/address/0x3b831d36ed418e893f42d46ff308c326c239429f">Contracts</a>
                                             </div>
                                             </div>
                                             {/* <a href="https://bscscan.com/token/0x3b831d36ed418e893f42d46ff308c326c239429f">
@@ -933,7 +939,7 @@ const Blank = ({ dispatch }) => {
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol={(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'TCAKE')}
+                                    symbol={(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'Tcake')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize

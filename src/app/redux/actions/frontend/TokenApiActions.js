@@ -19,6 +19,7 @@ export const REMOVE_FAVOURITE = 'REMOVE_FAVOURITE'
 export const REMOVE_ALERT = 'REMOVE_ALERT'
 export const GET_FAVOURITE_LIST = 'GET_FAVOURITE_LIST'
 export const GET_TRENDS = 'GET_TRENDS'
+export const GET_TCAKE = 'GET_TCAKE'
 const accessToken = window.localStorage.getItem('accessToken')
 const refreshToken = window.localStorage.getItem('refreshToken')
 const email = window.localStorage.getItem('email')
@@ -257,22 +258,27 @@ export const getFavouriteList = () => (dispatch) => {
 }
 
 export const getTrends = (trends) => (dispatch) => {
-    // axios
-    //     .get(`${TOKEN_API_URL}` + '/token/token_search?search='+ searchSymbol +'&key=ACCwyjHCjjGNk&format=structure', {
-    //     })
-    //     .then((res) => {
-    //         dispatch({
-    //             type: GET_TOKEN_SYMBOL,
-    //             payload: res.data,
-    //         })
-    //     })
-    //     .catch((error) => {
-    //         console.log(error,'sdfdf');
-    //     })
-  dispatch({
-                    type: GET_TRENDS,
-                    payload: trends ? trends :[],
-                })
 
+  dispatch({
+            type: GET_TRENDS,
+            payload: trends ? trends :[],
+        })
+
+}
+
+export const getTcakeData = () => (dispatch) => {
+    axios
+        .get('https://api.pancakeswap.info/api/v2/tokens/0x3b831d36ed418e893f42d46ff308c326c239429f', {
+        })
+        .then((res) => {
+            //console.log(res.data.data,'tcake');
+            dispatch({
+                type: GET_TCAKE,
+                payload: res.data.data ? res.data.data :{},
+            })
+        })
+        .catch((error) => {
+            console.log(error,'sdfdf');
+        })
 }
 
