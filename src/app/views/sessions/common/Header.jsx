@@ -37,7 +37,7 @@ const Header = ({ dispatch }) => {
     <span className="navbar-toggler-icon"></span>
     <span className="navbar-toggler-icon"></span>
   </button>  <div className="col-md-3 col-sm-12">
-   <a className="navbar-brand" href="#">Logo</a>
+   <a className="navbar-brand" href="#"><img src={process.env.PUBLIC_URL + '/images/logo-new.png'} alt="LOGO" /></a>
  
 </div>
 <div className="col-md-9 col-sm-12">

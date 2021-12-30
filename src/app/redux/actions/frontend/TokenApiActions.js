@@ -17,6 +17,9 @@ export const GET_ALERT_TOKEN_INFO = 'GET_ALERT_TOKEN_INFO'
 export const ADD_FAVOURITE = 'ADD_FAVOURITE'
 export const REMOVE_FAVOURITE = 'REMOVE_FAVOURITE'
 export const REMOVE_ALERT = 'REMOVE_ALERT'
+export const GET_FAVOURITE_LIST = 'GET_FAVOURITE_LIST'
+export const GET_TRENDS = 'GET_TRENDS'
+export const GET_TCAKE = 'GET_TCAKE'
 const accessToken = window.localStorage.getItem('accessToken')
 const refreshToken = window.localStorage.getItem('refreshToken')
 const email = window.localStorage.getItem('email')
@@ -226,6 +229,56 @@ export const removeAlert = (tokenInfo) => (dispatch) => {
         .catch((error) => {
             console.log(error,'sdfdf');
                 //toast.error(error.response.data.errors[0].messages[0])
+        })
+}
+
+export const getFavouriteList = () => (dispatch) => {
+    axios
+        .get(`${SERVICE_URL}/${DEFAULT_SERVICE_VERSION}` + '/alert/my-favorite-tokens', {
+            headers: {
+                Authorization: 'Bearer ' + accessToken,
+            },
+        })
+        .then((res) => {
+
+            if (res.status == 201 || res.status == 200) {
+               // toast.success(res.data.message)
+              //  history.push('/home');
+            }
+
+            dispatch({
+                type: GET_FAVOURITE_LIST,
+                payload: res.data ? res.data: [],
+            })
+        })
+        .catch((error) => {
+            console.log(error,'sdfdf');
+                //toast.error(error.response.data.errors[0].messages[0])
+        })
+}
+
+export const getTrends = (trends) => (dispatch) => {
+
+  dispatch({
+            type: GET_TRENDS,
+            payload: trends ? trends :[],
+        })
+
+}
+
+export const getTcakeData = () => (dispatch) => {
+    axios
+        .get('https://api.pancakeswap.info/api/v2/tokens/0x3b831d36ed418e893f42d46ff308c326c239429f', {
+        })
+        .then((res) => {
+            //console.log(res.data.data,'tcake');
+            dispatch({
+                type: GET_TCAKE,
+                payload: res.data.data ? res.data.data :{},
+            })
+        })
+        .catch((error) => {
+            console.log(error,'sdfdf');
         })
 }
 

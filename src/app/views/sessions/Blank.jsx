@@ -28,7 +28,7 @@ import { Modal, Form } from "react-bootstrap";
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { SERVICE_URL, DEFAULT_SERVICE_VERSION } from "../../constants/utility"
-import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert} from 'app/redux/actions/frontend/TokenApiActions'
+import {getTokenBySymbol, getTokenInfo, getTokenTransferList, getTokenOtherInfo, getAlertTokenInfo, addTokenInFavourite, removeTokenFromFavourite, removeAlert, getFavouriteList, getTrends, getTcakeData } from 'app/redux/actions/frontend/TokenApiActions'
 import Moment from 'react-moment';
 import moment from 'moment';
 import DataTable from "react-data-table-component";
@@ -60,16 +60,16 @@ const Blank = ({ dispatch }) => {
     const [searchArr, setSearchArr] = React.useState([])
     const [ip, setIP] = useState('');
     const [message, setMessage] = useState('')
-    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert} = useSelector(state=>state);
+    const {ads,symbols,tokeninfo,transfers,tokenotherinfo,alertoken,alert, favourite, trends, tcake} = useSelector(state=>state);
     const classes = useStyles()
     const [loading, setLoading] = useState(false)
     const { login, logout } = useAuth();
     const [open,setConfirmState] = React.useState(false)
     const [openRem,setConfirmRemoveState] = React.useState(false)
     const [openAlert,setRemoveAlertState] = React.useState(false)
-    const [getSymbol, setSymbol] = React.useState('BNB')
-    const [getAddress, setAddress] = React.useState('0xb8c77482e45f1f44de1745f52c74426c631bdd52')
-    const bnbToken = '0xb8c77482e45f1f44de1745f52c74426c631bdd52';
+    const [getSymbol, setSymbol] = React.useState('Tcake')
+    const [getAddress, setAddress] = React.useState('0x3b831d36ed418e893f42d46ff308c326c239429f')
+    const bnbToken = '0x3b831d36ed418e893f42d46ff308c326c239429f';
     const {
         isAuthenticated,
         // user
@@ -132,10 +132,11 @@ const Blank = ({ dispatch }) => {
                 method: "POST",
                 headers: { 
                   "Content-Type": "application/json",
-                  "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu"
+                  "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu",
+                  'Access-Control-Allow-Origin': '*',
                 },
                 body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
-                    search(string: $token, offset: $offset, limit: $limit) {
+                    search(string: $token, offset: $offset, limit: $limit, network: bsc) {
                         subject {
                           ... on Currency {
                             address
@@ -148,7 +149,10 @@ const Blank = ({ dispatch }) => {
                         }
                       }
                 }`,
-                    variables: {"limit":10,"offset":0,"token":value} }) // ({ QUERY })
+                    variables: {"limit":10,"offset":0,"token":value},
+                    mode: 'cors',
+
+                }) // ({ QUERY })
               })
                 .then((response) => {
                     
@@ -160,7 +164,7 @@ const Blank = ({ dispatch }) => {
                   }
                 })
                 .then((data) => {
-                    //console.log(data,'print symbol');
+                    console.log(data,'print symbol');
                     var symbols1 = [];
                     data.data.search.map((search) => {
                         // console.log(search,'yes there');
@@ -175,6 +179,61 @@ const Blank = ({ dispatch }) => {
         };
    // const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
     const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
+
+
+    const trendingFunction = () =>{
+        //if(value){
+            return fetch(endpoint, {
+                method: "POST",
+                headers: { 
+                  "Content-Type": "application/json",
+                  "X-API-KEY": "BQYAOLGxCUZFuXBEylRKEPm2tYHdi2Wu",
+                  'Access-Control-Allow-Origin': '*',
+                },
+                body: JSON.stringify({ query: `{
+                    ethereum(network:ethereum) {
+                      dexTrades(
+                        options: {desc: "tradeAmount", limit: 10, limitBy: {each: "baseCurrency.address", limit: 1}}
+                        date: {after: "2021-11-01"}
+                      ) {
+                        tradeAmount(calculate: sum, in: USDT)
+                        baseCurrency {
+                          address
+                          name
+                          symbol
+                        }
+                      }
+                    }
+                  }`,
+                    mode: 'cors',
+
+                }) // ({ QUERY })
+              })
+                .then((response) => {
+                    
+                  if (response.status >= 400) {
+                    throw new Error("Error fetching data");
+                  } else {
+                    
+                    return response.json();
+                  }
+                })
+                .then((data) => {
+                    console.log(data.data.ethereum.dexTrades,'print trending');
+                   // var symbols1 = [];
+                    // data.data.search.map((search) => {
+                    //     // console.log(search,'yes there');
+                        
+                    //      symbols1.push(search.subject);
+                    //  });
+                      dispatch(getTrends(data.data.ethereum.dexTrades));
+                    //  setSearchArr(symbols1)
+                });
+        //}
+
+        };
+        const { data1, isLoading1, error1,trendFetch  } = useQuery(['trend'], () => trendingFunction());
+      
     const [show, setShow] = useState(false);
     const [showLogin, setLoginShow] = useState(false);
     const [copied, setCopy] = useState(false);
@@ -207,7 +266,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleFavRemoveAgree = () => {
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(removeTokenFromFavourite({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -227,7 +286,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleAlertRemoveAgree = () => {
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(removeAlert({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -240,8 +299,8 @@ const Blank = ({ dispatch }) => {
     
 
     const handleAgree = () => {
-        const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+        const symbol =  (tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake');
+        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -267,17 +326,17 @@ const Blank = ({ dispatch }) => {
         getData()
         const params={type:'GET_ADS'};
         dispatch(getAds(params));
-        dispatch(getTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
-        dispatch(getTokenOtherInfo('BNB'));
-        dispatch(getTokenTransferList('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+        dispatch(getTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
+        dispatch(getTcakeData());
+        dispatch(getTokenOtherInfo('Tcake'));
+        dispatch(getTokenTransferList('0x3b831d36ed418e893f42d46ff308c326c239429f'));
         if(authenticated){
-            dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
-            
+            dispatch(getAlertTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
+            dispatch(getFavouriteList());
         }
         //console.log(tokeninfo,'token add');
     }, [])
-    //console.log(tokenotherinfo.data.images['16x16'],Object.keys(tokenotherinfo).length,'is auth');
-console.log(symbols.data,'token info');
+    //console.log(tcake,'print trending123');
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
@@ -287,9 +346,10 @@ console.log(symbols.data,'token info');
         temp[name] = value
         setUserInfo(temp);
     }
+
     const handleFormSubmit = (event) => {
-         const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
-        const tokenAddress =  (tokeninfo.data.address ? tokeninfo.data.address : '0xb8c77482e45f1f44de1745f52c74426c631bdd52');
+         const symbol =  (tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake');
+        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,currencytoken:tokenAddress};
         dispatch(createAlert(params));
         dispatch(getAlertTokenInfo(tokenAddress));
@@ -322,15 +382,15 @@ console.log(symbols.data,'token info');
     const handler = ({ target: { name, value } }) => { 
         if(value != undefined && value != null){
         //    dispatch(getTokenBySymbol(value));
-        // if(value.substring(0,2) == '0x'){
-        //     value = value;
-        // }else{
+         if(value.substr(0,2) == '0x'){
+             value = value;
+         }else{
             value = value+'%';
-      //  }
+        }
         //console.log(value,'get val');
             setSearchKey(value);
             refetch();
-           
+            //trendFetch();
         }
         
         // else{
@@ -345,6 +405,9 @@ console.log(symbols.data,'token info');
     
     const handleSymbolInfo = (address,symbol) => {
  console.log(symbol,address,'get new search icons');
+        if(symbol == 'Tcake'){
+            dispatch(getTcakeData());
+        }
       dispatch(getTokenInfo(address));
       setSymbol(symbol);
       setAddress(address);
@@ -370,7 +433,7 @@ console.log(symbols.data,'token info');
             if(tokeninfo.data.address){
                 dispatch(getAlertTokenInfo(tokeninfo.data.address));
             }else{
-                dispatch(getAlertTokenInfo('0xb8c77482e45f1f44de1745f52c74426c631bdd52'));
+                dispatch(getAlertTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
             }
             
     }
@@ -401,7 +464,7 @@ console.log(symbols.data,'token info');
             >
                 
                     <a className="navbar-brand" href="#page-top">
-                        Logo
+                        <img src={process.env.PUBLIC_URL + '/images/logo-new.png'} alt="LOGO" />
                     </a>
                     <div className="search">
                         {/* <input
@@ -414,10 +477,11 @@ console.log(symbols.data,'token info');
                         <Autocomplete
                             id="combo-box-demo"
                             options={symbols.data}
-                            getOptionLabel={(option) => option.name || "test"}
+                            getOptionLabel={(option) => option.name || ""}
+                            getOptionSelected={(option, value) => option.symbol === value.symbol}
                             renderOption={(option) => {
                                 //display value in Popper elements
-                                return <div><h5>{`${option.name} (${option.symbol})`}</h5>
+                                return <div><img src={"https://pancakeswap.finance/images/tokens/"+option.address+".png"} /><h5>{`${option.name} (${option.symbol})`}</h5>
                                         <h6>{`${option.address}`}</h6></div>;
                               }}
                             style={{ width: 300 }}
@@ -543,11 +607,11 @@ console.log(symbols.data,'token info');
                                                 src={tokenotherinfo.data.images['16x16']}
                                             />
                                             
-                                                : <img alt='img-text' src={process.env.PUBLIC_URL + '/images/cardano-ada-logo.png'} />) }
+                                                : <img alt='img-text' src={process.env.PUBLIC_URL + '/images/logo-new.png'} />) }
 
                                             <b>
-                                            {(tokeninfo.data.symbol ? '' : 'ADA/')}
-                                                <span>{(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB')}</span>
+                                            {/* {(tokeninfo.data.symbol ? '' : 'ADA/')} */}
+                                                <span>{(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : (tcake.data.symbol ? tcake.data.symbol : 'Tcake'))}</span>
                                             </b>
                                         </a>
                                     </li>
@@ -713,7 +777,9 @@ console.log(symbols.data,'token info');
                                                // tokenotherinfo[0].data.map((token, index) =>
                                                 <NumberFormat value={tokenotherinfo.data.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
                                             //)
-                                                : <span>$2.4226</span>) }
+                                                : tcake.data ? 
+                                                <NumberFormat value={tcake.data.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                                 : <span>$2.4226</span>) }
                                                 {/* <span>$2.4226</span> */}
                                         </h5>
                                         <p>PRICE 24h CHANGE: { tokenotherinfo.data.values ? 
@@ -776,7 +842,7 @@ console.log(symbols.data,'token info');
                                     </div>
                                     <div className="pans">
                                         <p>
-                                            PANCAKESWAP <a href="/">TRADE</a>
+                                            PANCAKESWAP <a href={"https://pancakeswap.finance/swap#/swap?outputCurrency="+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>TRADE</a>
                                         </p>
                                         <p className="tag_btn">
                                             <img
@@ -784,24 +850,38 @@ console.log(symbols.data,'token info');
                                                 src={process.env.PUBLIC_URL + "/images/bscscan.png"}
                                             />{' '}
                                             BSC SCAN{' '}
-                                            <a href="/">
+                                            <div class="dropdown trade_sub">
+                                                <a className="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">VIEW{' '} <i className="fas fa-angle-down"></i>
+                                                                                        </a>
+                                            
+                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/txs?a="+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Transfers</a>
+                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/token/tokenholderchart/"+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Holders</a>
+                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/address/"+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Contracts</a>
+                                            </div>
+                                            </div>
+                                            {/* <a href="https://bscscan.com/token/0x3b831d36ed418e893f42d46ff308c326c239429f">
                                                 TRADE{' '}
                                                 <i className="fas fa-angle-down"></i>
-                                            </a>
+                                            </a> */}
                                         </p>
                                         <p>MEDIA</p>
                                         <p className="media_icon">
-                                            <a href="/" target="_blank">
-                                                <i className="fas fa-globe-africa" />
-                                            </a>
-                                            <a href="https://twitter.com/" target="_blank">
+                                            
+                                            <a href="https://twitter.com/tcake_official" target="_blank">
                                                 <i className="fab fa-twitter" />
                                             </a>
-                                            <a href="https://telegram.org/" target="_blank">
+                                            <a href="https://t.me/tcake_announcements" target="_blank">
                                                 <i className="fab fa-telegram-plane" />
                                             </a>
-                                            <a href="https://www.reddit.com/" target="_blank">
-                                                <i className="fab fa-reddit-alien" />
+                                            <a href="https://t.me/tcake_official" target="_blank">
+                                                <i className="fas fa-users" />
+                                            </a>
+                                            <a href="mailto:info@tcake.io" target="_blank">
+                                                <i className="far fa-envelope" />
+                                            </a>
+                                            <a href="https://bscscan.com/token/0x3b831d36ed418e893f42d46ff308c326c239429f" target="_blank">
+                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RjU5QzI5QzE4NzMwMTFFQjkyQzBBMjgxQzc2REREQTciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RjU5QzI5QzI4NzMwMTFFQjkyQzBBMjgxQzc2REREQTciPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpGNTlDMjlCRjg3MzAxMUVCOTJDMEEyODFDNzZERERBNyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpGNTlDMjlDMDg3MzAxMUVCOTJDMEEyODFDNzZERERBNyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PhQBhOUAAANNSURBVHjaVJPLa1xVHMc/99x7596ZydyZZJKYpG2oNOLYltgiqLHVRQldiM2ilQhKRQQJqCv/CNfiyoULcWVKhYhuuogLSxGlD00bDcaMjybpmJnJZO487+scT1IFvXA4cDm/7+/3+z6s6s33+d9nGBdRcl7GcgZhDWKInjDtFWTnK5TxEal0oOo7qJ0KWDbWf0oPgfpUJdE5M3ME0/FQQQuRSudk3J+VoTtLVH0XkgUUX/9bJP65R/T5Vnc7p+IOhgrxHjnD0PHXyBWfQdU3kEkLw52cQsXLEM8jlZ72AMDYn/sLfY6gFMItEjR+pvXnNf3Lprn6GXHi64ehrmtjWGMYheFFMu4LRAmWjDtzMvRndHeszBi6FTJskqg9gs1bRP37iOExZL+rAVuongsDRdSAuSS6wYQQ9sDC4MkFckcvkPRr7AMVjr+JIQ0aax+TnXoRFUW4o0/iDJ0iPXKCwtE5vBOXB6Wt3hGFJ944pZo+2eHncIem0YBkxp/H8UqI/CjZw7M42WNkimeQ9W28qXmS7TWi7Z/2CZ63hOXlO/ev0a4sY/RjnMfOIps1jFjzoUy9jk/u0Yvsff8hkd3SIkh6jTvETqApSh0TKvT9VLFE0F4jFFVsZ5TWxhJmdkTbwHt4Z3LENBDpLJgCTwOmU1qQqO1YZnZ0p1/9cTz/+KuYtvaNlSY9eRYrdwizcY+wsQ5BgDf9Oq3yEmg+dm9/QCK62GahI2TYve1pvd1sCVn7CyOS+CuLJJ0aTqHEvlTNX69qY41ojk7rlVoMzrxHYfot/WZvxWjdvToYNstlFQcFafW01mnyXlXvO0m3qbQ1EkaLIX2Zw2+EWGkT09Qy+ruE9bWXRRhsNvrte3OJl2B4BVL5gOW7adbLDxg5HDM8FvLJl1vcWf0dTwNFVpde5Qa9P67fNMzU5yJRTZzx09dFT71CoPUuTlCrNelGKW7cqvLLbwETEwM4+QJkhhD1LqKlHpje+IX96YSh7aqMBNVuXUnK67ON8tbG5Uslnn5qnG5HaiA4f36K0pjN7g+rqFrlG1L2s7qychDegzjbGqReRW1tapksVznu2zjOS8Xh3MmgH7nNuu+bcfidIYxF7NQVHfmHEdTZ+VuAAQCJmHhk55Qy9wAAAABJRU5ErkJggg==" />
                                             </a>
                                         </p>
                                     </div>
@@ -859,7 +939,7 @@ console.log(symbols.data,'token info');
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
                                 <TradingViewWidget
-                                    symbol={(tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB')}
+                                    symbol={(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
@@ -1118,38 +1198,35 @@ console.log(symbols.data,'token info');
                                             id="trending"
                                             className="tab-pane fade"
                                         >
-                                            <li>
+                                            {
+                                            trends.data.length > 0 ? 
+                                            trends.data.map((trend, index) =>
+                                                <li>
                                                 <span className="pro_check">
                                                     {' '}
-                                                    <img
+                                                    {
+                                                        trend.baseCurrency.address ? 
+                                                        <img src={"https://pancakeswap.finance/images/tokens/"+trend.baseCurrency.address+".png"} />
+                                                        :
+                                                        <img
                                                         alt="img-text"
                                                         src={process.env.PUBLIC_URL + "/images/check.png"}
                                                     />
+                                                    }
+                                                    
+                                                    
                                                 </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
-                                                </span>{' '}
-                                                |{' '}
-                                                <span className="pro_price">
-                                                    Price
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span className="pro_check">
-                                                    {' '}
-                                                    <img
-                                                        alt="img-text"
-                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
-                                                    />
-                                                </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
+                                                <span className="pro_title" title={trend.baseCurrency.name}>
+                                                    {trend.baseCurrency.name}
                                                 </span>{' '}
                                                 |{' '}
                                                 <span className="pro_price">
-                                                    Price
+                                                <NumberFormat value={trend.tradeAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+
                                                 </span>
                                             </li>
+                                            ) : <h5>No Records Found.</h5>}
+
                                         </div>
                                         <div
                                             id="listing"
@@ -1205,7 +1282,11 @@ console.log(symbols.data,'token info');
                                             </li>
                                         </div>
                                         <div id="fav" className="tab-pane fade">
-                                            <li>
+
+                                            { authenticated ? 
+                                            (favourite[0] ? 
+                                            favourite[0].data.map((fav, index) =>
+                                                <li>
                                                 <span className="pro_check">
                                                     {' '}
                                                     <img
@@ -1214,61 +1295,16 @@ console.log(symbols.data,'token info');
                                                     />
                                                 </span>{' '}
                                                 <span className="pro_title">
-                                                    Token Name
+                                                    {fav.currencySymbol}
                                                 </span>{' '}
                                                 |{' '}
                                                 <span className="pro_price">
-                                                    Price
+                                                {fav.currencytoken.substr(0,32)+'...'}
                                                 </span>
                                             </li>
-                                            <li>
-                                                <span className="pro_check">
-                                                    {' '}
-                                                    <img
-                                                        alt="img-text"
-                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
-                                                    />
-                                                </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
-                                                </span>{' '}
-                                                |{' '}
-                                                <span className="pro_price">
-                                                    Price
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span className="pro_check">
-                                                    {' '}
-                                                    <img
-                                                        alt="img-text"
-                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
-                                                    />
-                                                </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
-                                                </span>{' '}
-                                                |{' '}
-                                                <span className="pro_price">
-                                                    Price
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span className="pro_check">
-                                                    {' '}
-                                                    <img
-                                                        alt="img-text"
-                                                        src={process.env.PUBLIC_URL + "/images/check.png"}
-                                                    />
-                                                </span>{' '}
-                                                <span className="pro_title">
-                                                    Token Name
-                                                </span>{' '}
-                                                |{' '}
-                                                <span className="pro_price">
-                                                    Price
-                                                </span>
-                                            </li>
+                                            ) :  <h6>No Records.</h6> )
+                                        : <div className="sise_title text-center"><span><a href="#" onClick={() => handleLoginShow()}>Login</a></span></div>
+                                        }
                                         </div>
                                     </div>
                                 </div>

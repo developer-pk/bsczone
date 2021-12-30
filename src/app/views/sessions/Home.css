@@ -1093,11 +1093,13 @@ span.buy-type {
 }
 }
 @media only screen and (max-width: 767px){
+
 .search {
     margin-left: 0;
     order: 3;width: 100%;
     margin-top: 10px;
 }
+
 div#navbarResponsive {
        order: 2;
     flex-basis: auto;
@@ -1149,5 +1151,10 @@ nav#mainNav {
     max-width: 100%;
 }nav#mainNav .navbar-brand img {
     width: 40px;
+}
+
+.pro_title{
+    cursor:pointer !important;
+
 }
 }
