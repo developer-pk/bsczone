@@ -1082,7 +1082,9 @@ span.buy-type {
     height: 25px;
     margin-bottom: 5px;
 }
-
+.mobile_area {
+    display: none;
+}
 
 
 @media only screen and (max-width: 1500px){
@@ -1092,7 +1094,17 @@ span.buy-type {
 }
 }
 @media only screen and (max-width: 767px){
-
+.mobile_area {
+    display: block;
+}
+.trade_sub .dropdown-menu.show {
+    position: absolute!important;
+    width: 136px;
+    right: 0!important;
+   
+    left: auto!important;
+    top: 17px!important;
+}
 .search {
     margin-left: 0;
     order: 3;width: 100%;
@@ -1155,5 +1167,158 @@ nav#mainNav {
 .pro_title{
     cursor:pointer !important;
 
+}
+.Mobile_head {
+    background: #1d242c;
+    border-radius: 12px;
+    margin: 15px 0;
+    padding: 10px;
+}
+li.ada_logo img {
+    width: 30px;
+}
+.Mobile_head li {
+    list-style: none;
+    font-size: 16px;
+    margin-top: 0;
+    color: #9ca7b4;
+    text-transform: uppercase;
+}.Mobile_head li a {
+    padding: 0;
+}
+.Mobile_head ul{     padding: 0;
+    display: flex;
+    margin: 0;
+    align-items: center;
+    justify-content: space-between;}
+
+.Mobile_head li .price {
+    display: flex;
+    vertical-align: middle;
+}
+.Mobile_head li .price p{
+    margin: 0;}
+.Mobile_head li h5{
+font-size: 16px;
+    margin: 0;    line-height: normal;
+    color: #9ca7b4;display: inline-block;
+    text-transform: uppercase;}
+    .Mobile_head p {
+    margin: 0;
+    font-weight: 500;
+}
+.Mobile_head p {
+    margin: 0;
+    font-weight: 500;
+}
+.Mobile_head p span{
+   color: #16dbc7
+}
+
+
+.top_drop.show {
+    display: block;
+    width: 100%;
+    right: 20px;
+    left: auto!important;
+    top: 174px!important;
+    border-radius: 10px;
+}
+div#myContent {
+    background: #2c343e;
+    padding: 15px;
+    border-radius: 10px;
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    left: 0;    z-index: 1;
+}
+.right_side {
+    width: 47%;
+}
+.market_cap.token_infoo {
+    margin-bottom: 15px;padding-bottom: 0px;
+}
+
+.left_side {
+    width: 47%;
+}
+.token_infoo {
+    display: flex;
+    justify-content: space-between;
+}
+.copy_text.token_infoo .copy {
+    margin: 0px 0;
+    display: inline-block;padding: 10px;
+}
+.copy_text.token_infoo li.nav-item.alert_icon{
+    margin: 0px 0;}
+
+div#myContent h4 {
+    color: #9ca7b4;
+}
+div#myContent p {
+    color: #9ca7b4;
+    font-size: 12px;
+}
+
+div#myContent p.tag_btn {
+    display: flex;
+    justify-content: space-between;
+}
+div#myContent p.media_icon a {
+    padding: 0;
+    margin: 0 0 0 21px;
+    height: auto;
+    width: 20px;
+}
+div#myContent p.media_icon {
+    display: flex;
+    justify-content: initial;
+    align-items: center;margin-bottom: 0!important
+}
+div#nav-tab {
+    border: none;
+    background: transparent;
+}
+
+.mobile_area .chart_tab {
+    display: flex;
+    justify-content: space-between;
+}
+.mobile_area .chart_tab a.active {
+    background: #131722;
+    color: #fff;
+}
+.mobile_area .chart_tab a {
+    background: #1d242c;
+    text-transform: uppercase;
+    font-size: 18px;
+    border-radius: 10px;
+    width: 30%;
+    text-align: center;
+    color: #707175;
+    font-weight: 500;
+    border: none;
+}
+a#info:hover {
+    color: #12defa;
+}
+div#myContent p.tag_btn img {
+    height: 18px;
+}
+.mobile_area div#cruncy-chart {
+    margin-bottom: 20px;
+    height: 80.5vh
+}
+    .mobile_area div#nav-tabContent {
+    margin-bottom: 15px;
+}
+.sidebar_div.mobile_add {
+    display: block;
+    margin-top: 20px;
+}
+.content.main-content {
+    display: none;
 }
 }
