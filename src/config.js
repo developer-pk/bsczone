@@ -28,6 +28,6 @@ const config = {
     : '0x3b831d36ed418e893f42d46ff308c326c239429f',
   T_CAKE_DECIMALS: isDev() ? 18 : 18,
 };
-console.log(config,'print env');
+
 export default config;
 
