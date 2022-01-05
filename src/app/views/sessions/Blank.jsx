@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     Card,
     Checkbox,
@@ -40,6 +40,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useQuery } from "react-query";
+import Chart from './Chart';
+import ThemeContext from '../../contexts/ThemeContext';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -70,6 +72,7 @@ const Blank = ({ dispatch }) => {
     const [getSymbol, setSymbol] = React.useState('Tcake')
     const [getAddress, setAddress] = React.useState('0x3b831d36ed418e893f42d46ff308c326c239429f')
     const bnbToken = '0x3b831d36ed418e893f42d46ff308c326c239429f';
+    const { theme, toggle } = useContext(ThemeContext);
     const {
         isAuthenticated,
         // user
@@ -938,12 +941,14 @@ const Blank = ({ dispatch }) => {
                     <div className="col-md-10">
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
-                                <TradingViewWidget
+                                {/* <TradingViewWidget
                                     symbol={(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
                                 />
+                                 */}
+                                <Chart theme={theme} />
                             </div>
                         </div>
                         <div className="row">
