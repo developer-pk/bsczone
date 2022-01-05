@@ -510,7 +510,7 @@ const Blank = ({ dispatch }) => {
                         )} */}
                         
                     </div>
-                    <button
+                   {/* <button
                         className="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded"
                         type="button"
                         data-bs-toggle="collapse"
@@ -521,9 +521,9 @@ const Blank = ({ dispatch }) => {
                     >
                         Menu
                         <i className="fas fa-bars" />
-                    </button>
+                    </button>*/}
                     <div
-                        className="collapse navbar-collapse"
+                        className="collapse1 navbar-collapse"
                         id="navbarResponsive"
                     >
                         <ul className="navbar-nav ms-auto">
