@@ -588,6 +588,32 @@ const Blank = ({ dispatch }) => {
                         </ul>
                     </div>
             </nav>
+
+            <div className="mobile_area top_bar">
+                <div className="Mobile_head">
+                <ul>
+                    <li> <a
+                                            className="nav-link"
+                                            href="index.html"
+                                        >
+                                            {(tokenotherinfo.data.images ? 
+                                               
+                                                <img
+                                                alt="img-text"
+                                                src={tokenotherinfo.data.images['16x16']}
+                                            />
+                                            
+                                                : <img alt='img-text' src={process.env.PUBLIC_URL + '/images/logo-new.png'} />) }
+
+                                            <b>
+                                            {/* {(tokeninfo.data.symbol ? '' : 'ADA/')} */}
+                                                <span>{(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : (tcake.data.symbol ? tcake.data.symbol : 'Tcake'))}</span>
+                                            </b>
+                                        </a>
+                                        </li>
+                                        </ul>
+                </div>
+            </div>
             <div className="content main-content">
                 <div className="row">
                     <div className="col-md-2">
