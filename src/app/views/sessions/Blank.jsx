@@ -42,7 +42,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { useQuery } from "react-query";
 import Chart from './Chart';
 import ThemeContext from '../../contexts/ThemeContext';
-import { TVChartContainer } from 'app/components/TVChartContainer/index';
+// import { TVChartContainer } from 'app/components/TVChartContainer/index';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
