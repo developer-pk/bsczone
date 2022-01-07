@@ -42,6 +42,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { useQuery } from "react-query";
 import Chart from './Chart';
 import ThemeContext from '../../contexts/ThemeContext';
+// import { TVChartContainer } from 'app/components/TVChartContainer/index';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -70,6 +71,7 @@ const Blank = ({ dispatch }) => {
     const [openRem,setConfirmRemoveState] = React.useState(false)
     const [openAlert,setRemoveAlertState] = React.useState(false)
     const [getSymbol, setSymbol] = React.useState('Tcake')
+    const [getParam, setParam] = React.useState('string: $token, offset: $offset, limit: $limit')
     const [getAddress, setAddress] = React.useState('0x3b831d36ed418e893f42d46ff308c326c239429f')
     const bnbToken = '0x3b831d36ed418e893f42d46ff308c326c239429f';
     const { theme, toggle } = useContext(ThemeContext);
@@ -139,7 +141,7 @@ const Blank = ({ dispatch }) => {
                   'Access-Control-Allow-Origin': '*',
                 },
                 body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
-                    search(string: $token, offset: $offset, limit: $limit, network: bsc) {
+                    search(`+getParam+`) {
                         subject {
                           ... on Currency {
                             address
@@ -170,9 +172,17 @@ const Blank = ({ dispatch }) => {
                     console.log(data,'print symbol');
                     var symbols1 = [];
                     data.data.search.map((search) => {
+
+                        if (!!Object.keys(search.subject).length) {
+                            symbols1.push(search.subject);
+                        }else{
+                            
+                        }
                         // console.log(search,'yes there');
-                        
-                         symbols1.push(search.subject);
+                        // if(search.subject != ""){
+                        //     symbols1.push(search.subject);
+                        // }
+                        console.log('print symbol123456',Object.keys(search.subject).length);
                      });
                      dispatch(getTokenBySymbol(symbols1));
                      setSearchArr(symbols1)
@@ -183,7 +193,7 @@ const Blank = ({ dispatch }) => {
    // const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
     const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
 
-
+    console.log(symbols,'print symbol123');
     const trendingFunction = () =>{
         //if(value){
             return fetch(endpoint, {
@@ -269,7 +279,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleFavRemoveAgree = () => {
-        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
+        const tokenAddress =  (getAddress ? getAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(removeTokenFromFavourite({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -289,7 +299,7 @@ const Blank = ({ dispatch }) => {
     };
 
     const handleAlertRemoveAgree = () => {
-        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
+        const tokenAddress =  (getAddress ? getAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(removeAlert({currencytoken:tokenAddress}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -303,7 +313,7 @@ const Blank = ({ dispatch }) => {
 
     const handleAgree = () => {
         const symbol =  (tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake');
-        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
+        const tokenAddress =  (getAddress ? getAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         dispatch(addTokenInFavourite({currencySymbol:symbol,currencytoken:tokenAddress,status:'active'}))
         dispatch(getAlertTokenInfo(tokenAddress));
         
@@ -352,7 +362,7 @@ const Blank = ({ dispatch }) => {
 
     const handleFormSubmit = (event) => {
          const symbol =  (tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake');
-        const tokenAddress =  (tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
+        const tokenAddress =  (getAddress ? getAddress : '0x3b831d36ed418e893f42d46ff308c326c239429f');
         const params = {highPrice:highPrice,lowPrice:lowPrice,status:'active',currencySymbol:symbol,ip:ip,currencytoken:tokenAddress};
         dispatch(createAlert(params));
         dispatch(getAlertTokenInfo(tokenAddress));
@@ -387,8 +397,10 @@ const Blank = ({ dispatch }) => {
         //    dispatch(getTokenBySymbol(value));
          if(value.substr(0,2) == '0x'){
              value = value;
+             setParam('string: $token, offset: $offset, limit: $limit')
          }else{
             value = value+'%';
+            setParam('string: $token, offset: $offset, limit: $limit, network: bsc')
         }
         //console.log(value,'get val');
             setSearchKey(value);
@@ -478,6 +490,7 @@ const Blank = ({ dispatch }) => {
                             onChange={handler}
                         /> */}
                         <Autocomplete
+                            loading
                             id="combo-box-demo"
                             options={symbols.data}
                             getOptionLabel={(option) => option.name || ""}
@@ -1449,9 +1462,9 @@ const Blank = ({ dispatch }) => {
                                     </div>
                                     <div className="copy">
                                         {/* 0x3ee2......435d47{' '} */}
-                                        {(tokeninfo.data.address ? tokeninfo.data.address.substring(0, 18)+'... ' : '0x3ee2......435d47')}
-                                        {(tokeninfo.data.address) ? 
-                                        <CopyToClipboard text={tokeninfo.data.address}
+                                        {(getAddress ? getAddress.substring(0, 18)+'... ' : '0x3ee2......435d47')}
+                                        {(getAddress) ? 
+                                        <CopyToClipboard text={getAddress}
                                             onCopy={() => setCopy(true)}>
                                             <span><i className="far fa-copy"></i></span>
                                             </CopyToClipboard> : <CopyToClipboard text='0x3ee2f7d3d7f4s435d47 '
@@ -1497,7 +1510,7 @@ const Blank = ({ dispatch }) => {
                                     </div>
                                     <div className="pans">
                                         <p>
-                                            PANCAKESWAP <a href={"https://pancakeswap.finance/swap#/swap?outputCurrency="+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>TRADE</a>
+                                            PANCAKESWAP <a target="_blank" href={"https://pancakeswap.finance/swap#/swap?outputCurrency="+(getAddress ? getAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f")}>TRADE</a>
                                         </p>
                                         <p className="tag_btn">
                                             <img
@@ -1510,9 +1523,9 @@ const Blank = ({ dispatch }) => {
                                                                                         </a>
                                             
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/txs?a="+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Transfers</a>
-                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/token/tokenholderchart/"+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Holders</a>
-                                                <a className="dropdown-item" target="_blank" href={"https://bscscan.com/address/"+tokenotherinfo.data.tokenAddress ? tokenotherinfo.data.tokenAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f"}>Contracts</a>
+                                                <a className="dropdown-item"  href={"https://bscscan.com/txs?a="+(getAddress ? getAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f")} target="_blank">Transfers</a>
+                                                <a className="dropdown-item"  href={"https://bscscan.com/token/tokenholderchart/"+(getAddress ? getAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f")} target="_blank">Holders</a>
+                                                <a className="dropdown-item" href={"https://bscscan.com/address/"+(getAddress ? getAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f")} target="_blank" >Contracts</a>
                                             </div>
                                             </div>
                                             {/* <a href="https://bscscan.com/token/0x3b831d36ed418e893f42d46ff308c326c239429f">
@@ -1593,14 +1606,14 @@ const Blank = ({ dispatch }) => {
                     <div className="col-md-10">
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
-                                {/* <TradingViewWidget
+                                <TradingViewWidget
                                     symbol={(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
                                 />
-                                 */}
-                                <Chart theme={theme} />
+                                
+                                {/* <TVChartContainer /> */}
                             </div>
                         </div>
                         <div className="row">
@@ -1718,7 +1731,7 @@ const Blank = ({ dispatch }) => {
                                     <ul className="nav nav-tabs">
                                         <li>
                                             <a
-                                                className="active"
+                                                
                                                 data-toggle="tab"
                                                 href="#promoted"
                                             >
@@ -1727,6 +1740,7 @@ const Blank = ({ dispatch }) => {
                                         </li>
                                         <li>
                                             <a
+                                                className="active"
                                                 data-toggle="tab"
                                                 href="#trending"
                                             >
@@ -1750,7 +1764,7 @@ const Blank = ({ dispatch }) => {
                                     <div className="tab-content">
                                         <div
                                             id="promoted"
-                                            className="tab-pane fade in active show"
+                                            className="tab-pane fade"
                                         >
                                             <ul>
                                                 <li>
@@ -1853,7 +1867,7 @@ const Blank = ({ dispatch }) => {
                                         </div>
                                         <div
                                             id="trending"
-                                            className="tab-pane fade"
+                                            className="tab-pane fade in active show"
                                         >
                                             {
                                             trends.data.length > 0 ? 
