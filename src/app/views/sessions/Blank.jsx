@@ -402,8 +402,16 @@ const Blank = ({ dispatch }) => {
              value = value;
              setParam('string: $token, offset: $offset, limit: $limit')
          }else{
-            value = value+'%';
-            setParam('string: $token, offset: $offset, limit: $limit, network: bsc')
+            
+            if(value == 'BNB' || value == 'bnb'){
+                value = value+'%';
+                setParam('string: $token, offset: $offset, limit: $limit')
+            }else{
+                value = value+'%';
+                setParam('string: $token, offset: $offset, limit: $limit, network: bsc')
+            }
+           
+            
         }
         //console.log(value,'get val');
             setSearchKey(value);
@@ -500,8 +508,14 @@ const Blank = ({ dispatch }) => {
                             getOptionSelected={(option, value) => option.symbol === value.symbol}
                             renderOption={(option) => {
                                 //display value in Popper elements
-                                return <div><img src={"https://pancakeswap.finance/images/tokens/"+option.address+".png"} className="token-img-auto" /><h5>{`${option.name} (${option.symbol})`}</h5>
-                                        <h6>{`${option.address}`}</h6></div>;
+                                return <div className="search_listing">
+                                    <div className="list_img">
+                                    <img src={"https://pancakeswap.finance/images/tokens/"+option.address+".png"} className="token-img-auto" />
+                                    </div>
+                                    <div className="list_text">
+                                   <h5>{`${option.name} (${option.symbol})`}</h5>
+                                        <h6>{`${option.address}`}</h6>
+                                        </div></div>;
                               }}
                             style={{ width: 300 }}
                             onInputChange={handler}
