@@ -71,6 +71,7 @@ const Blank = ({ dispatch }) => {
     const [openRem,setConfirmRemoveState] = React.useState(false)
     const [openAlert,setRemoveAlertState] = React.useState(false)
     const [getSymbol, setSymbol] = React.useState('Tcake')
+    const [getParam, setParam] = React.useState('string: $token, offset: $offset, limit: $limit')
     const [getAddress, setAddress] = React.useState('0x3b831d36ed418e893f42d46ff308c326c239429f')
     const bnbToken = '0x3b831d36ed418e893f42d46ff308c326c239429f';
     const { theme, toggle } = useContext(ThemeContext);
@@ -140,7 +141,7 @@ const Blank = ({ dispatch }) => {
                   'Access-Control-Allow-Origin': '*',
                 },
                 body: JSON.stringify({ query: `query SearchToken($token: String!, $limit: Int!, $offset: Int!) {
-                    search(string: $token, offset: $offset, limit: $limit) {
+                    search(`+getParam+`) {
                         subject {
                           ... on Currency {
                             address
@@ -396,8 +397,10 @@ const Blank = ({ dispatch }) => {
         //    dispatch(getTokenBySymbol(value));
          if(value.substr(0,2) == '0x'){
              value = value;
+             setParam('string: $token, offset: $offset, limit: $limit')
          }else{
             value = value+'%';
+            setParam('string: $token, offset: $offset, limit: $limit, network: bsc')
         }
         //console.log(value,'get val');
             setSearchKey(value);
