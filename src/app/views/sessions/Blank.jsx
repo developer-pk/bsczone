@@ -490,6 +490,7 @@ const Blank = ({ dispatch }) => {
                             onChange={handler}
                         /> */}
                         <Autocomplete
+                            loading
                             id="combo-box-demo"
                             options={symbols.data}
                             getOptionLabel={(option) => option.name || ""}
