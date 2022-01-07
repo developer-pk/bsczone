@@ -857,7 +857,7 @@ const Blank = ({ dispatch }) => {
                                     </div>
                                     <div className="pans">
                                         <p>
-                                            PANCAKESWAP <a href={"https://pancakeswap.finance/swap#/swap?outputCurrency="+(getAddress ? getAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f")}>TRADE</a>
+                                            PANCAKESWAP <a target="_blank" href={"https://pancakeswap.finance/swap#/swap?outputCurrency="+(getAddress ? getAddress : "0x3b831d36ed418e893f42d46ff308c326c239429f")}>TRADE</a>
                                         </p>
                                         <p className="tag_btn">
                                             <img
@@ -1078,7 +1078,7 @@ const Blank = ({ dispatch }) => {
                                     <ul className="nav nav-tabs">
                                         <li>
                                             <a
-                                                className="active"
+                                                
                                                 data-toggle="tab"
                                                 href="#promoted"
                                             >
@@ -1087,6 +1087,7 @@ const Blank = ({ dispatch }) => {
                                         </li>
                                         <li>
                                             <a
+                                                className="active"
                                                 data-toggle="tab"
                                                 href="#trending"
                                             >
@@ -1110,7 +1111,7 @@ const Blank = ({ dispatch }) => {
                                     <div className="tab-content">
                                         <div
                                             id="promoted"
-                                            className="tab-pane fade in active show"
+                                            className="tab-pane fade"
                                         >
                                             <ul>
                                                 <li>
@@ -1213,7 +1214,7 @@ const Blank = ({ dispatch }) => {
                                         </div>
                                         <div
                                             id="trending"
-                                            className="tab-pane fade"
+                                            className="tab-pane fade in active show"
                                         >
                                             {
                                             trends.data.length > 0 ? 
