@@ -169,12 +169,15 @@ const Blank = ({ dispatch }) => {
                   }
                 })
                 .then((data) => {
-                    console.log(data,'print symbol');
+                   
                     var symbols1 = [];
                     data.data.search.map((search) => {
-
+                        console.log(search.subject,'print symbol');
                         if (!!Object.keys(search.subject).length) {
-                            symbols1.push(search.subject);
+                            if(search.subject.address){
+                                symbols1.push(search.subject);
+                            }
+                            
                         }else{
                             
                         }
@@ -497,7 +500,7 @@ const Blank = ({ dispatch }) => {
                             getOptionSelected={(option, value) => option.symbol === value.symbol}
                             renderOption={(option) => {
                                 //display value in Popper elements
-                                return <div><img src={"https://pancakeswap.finance/images/tokens/"+option.address+".png"} /><h5>{`${option.name} (${option.symbol})`}</h5>
+                                return <div><img src={"https://pancakeswap.finance/images/tokens/"+option.address+".png"} className="token-img-auto" /><h5>{`${option.name} (${option.symbol})`}</h5>
                                         <h6>{`${option.address}`}</h6></div>;
                               }}
                             style={{ width: 300 }}
