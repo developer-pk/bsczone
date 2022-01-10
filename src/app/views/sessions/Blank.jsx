@@ -930,11 +930,12 @@ const Blank = ({ dispatch }) => {
                     <div className="tab-content" id="nav-tabContent">
   <div className="tab-pane fade show active" id="home_chart" role="tabpanel" aria-labelledby="home_chart_menu">
     <div id="cruncy-chart">
-        {/* <TradingViewWidget
+        <TradingViewWidget
+        container_id="tradingview_b3e07"
             symbol={(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake')}
             theme={Themes.DARK}
             locale="en"
-            autosize /> */}
+            autosize /> 
     </div>
   </div>
   <div className="tab-pane fade" id="home_trade" role="tabpanel" aria-labelledby="home_trade_menu">
@@ -1611,13 +1612,13 @@ const Blank = ({ dispatch }) => {
                     <div className="col-md-10">
                         <div className="row">
                             <div className="col-12" id="cruncy-chart">
-                                <TradingViewWidget
-                                    containerId="tv_container_anjali"
+                                 <TradingViewWidget
+                                    container_id="tradingview_b3e06"
                                     symbol={(tokenotherinfo.data.symbol ? tokenotherinfo.data.symbol : 'Tcake')}
                                     theme={Themes.DARK}
                                     locale="en"
                                     autosize
-                                />
+                                /> 
 
                             </div>
                         </div>
