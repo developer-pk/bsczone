@@ -1351,3 +1351,22 @@ ul#combo-box-demo-popup {
     color: #9ca7b4;
     min-height: 300px;
 }
+.hide{
+    display:none;
+}
+.show{
+    display:block;
+}
+.MuiAutocomplete-paper {
+    margin: 4px 0;
+    overflow: hidden;
+    font-size: 14px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+}
+.MuiAutocomplete-loading {
+    color: rgba(52, 49, 76, 0.54);
+    padding: 14px 16px;
+}

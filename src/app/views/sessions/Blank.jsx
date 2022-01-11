@@ -44,6 +44,7 @@ import Chart from './Chart';
 import ThemeContext from '../../contexts/ThemeContext';
 // import { TVChartContainer } from 'app/components/TVChartContainer/index';
 import './responsive.css';
+import Select from 'react-select'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -76,6 +77,10 @@ const Blank = ({ dispatch }) => {
     const [getAddress, setAddress] = React.useState('0x3b831d36ed418e893f42d46ff308c326c239429f')
     const bnbToken = '0x3b831d36ed418e893f42d46ff308c326c239429f';
     const { theme, toggle } = useContext(ThemeContext);
+    const [showLoader, setLoader] = useState('hide')
+    const [showList, setList] = useState()
+    const [selectedSymbol, setSelectedSymbol] = useState()
+    
     const {
         isAuthenticated,
         // user
@@ -173,11 +178,12 @@ const Blank = ({ dispatch }) => {
                    
                     var symbols1 = [];
                     data.data.search.map((search) => {
-                        console.log(search.subject,'print symbol');
-                        if (!!Object.keys(search.subject).length) {
+                        //console.log(search.subject,'print symbol');
+                 if (!!Object.keys(search.subject).length) {
                             if(search.subject.address){
                                 symbols1.push(search.subject);
-                            }
+                                //dispatch(getTokenBySymbol([search.subject]));
+                           }
                             
                         }else{
                             
@@ -186,9 +192,9 @@ const Blank = ({ dispatch }) => {
                         // if(search.subject != ""){
                         //     symbols1.push(search.subject);
                         // }
-                        console.log('print symbol123456',Object.keys(search.subject).length);
+                        //console.log('print symbol123456',Object.keys(search.subject).length);
                      });
-                     dispatch(getTokenBySymbol(symbols1));
+                    dispatch(getTokenBySymbol(symbols1));
                      setSearchArr(symbols1)
                 });
         //}
@@ -250,7 +256,11 @@ const Blank = ({ dispatch }) => {
 
         };
         const { data1, isLoading1, error1,trendFetch  } = useQuery(['trend'], () => trendingFunction());
-      
+        const optionsDrop = []
+        symbols.data.map((symbol) => {
+            optionsDrop.push({value:symbol.address,label:symbol.name,symbol:symbol.symbol});
+         });
+       
     const [show, setShow] = useState(false);
     const [showLogin, setLoginShow] = useState(false);
     const [copied, setCopy] = useState(false);
@@ -351,7 +361,7 @@ const Blank = ({ dispatch }) => {
             dispatch(getAlertTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
             dispatch(getFavouriteList());
         }
-        //console.log(tokeninfo,'token add');
+        console.log('onpage load');
     }, [])
     //console.log(tcake,'print trending123');
     const handleChange = ({ target: { name, value } }) => {
@@ -397,6 +407,7 @@ const Blank = ({ dispatch }) => {
     }
 
     const handler = ({ target: { name, value } }) => { 
+        setLoader('show');
         if(value != undefined && value != null){
         //    dispatch(getTokenBySymbol(value));
          if(value.substr(0,2) == '0x'){
@@ -441,6 +452,8 @@ const Blank = ({ dispatch }) => {
       if(!tokeninfo.data){
         dispatch(getTokenInfo(address));
       }
+      setList('hide');
+      setSelectedSymbol(symbol);
       //console.log(transfers,'get val');
       dispatch(getTokenOtherInfo(symbol));
       dispatch(getTokenTransferList(address));
@@ -465,8 +478,11 @@ const Blank = ({ dispatch }) => {
             
     }
 
-
+    const handleSelectClick = (e) => {
+        e.target.select();
+      };
   let { highPrice, lowPrice } = state
+
     return (
         <div
             className={clsx(
@@ -495,24 +511,33 @@ const Blank = ({ dispatch }) => {
                         <img src={process.env.PUBLIC_URL + '/images/logo-new.png'} alt="LOGO" />
                     </a>
                     <div className="search">
-                        {/* <input
+                         <input
                             type="text"
                             id="search"
                             name="search"
                             placeholder="Search BY SYMBOL / ADDRESS ...."
+                            value={selectedSymbol}
                             onChange={handler}
+                        />
+                        {/* <Select options={optionsDrop} 
+                        onChange={(event,value) => value ? handleSymbolInfo(value.address,value.symbol): null} 
+                        onInputChange={handler}
+                        renderInput={(params) => <TextField {...params} placeholder="Search By Symbol" variant="outlined" />}
                         /> */}
-                        <Autocomplete
+                        {/* <Autocomplete
                             loading
                             id="combo-box-demo"
-                            options={symbols.data}
+                            options={!loading ? symbols.data : []}
                             getOptionLabel={(option) => option.name || ""}
                             getOptionSelected={(option, value) => option.symbol === value.symbol}
                             renderOption={(option) => {
                                 //display value in Popper elements
+                                let errorflag=true;
                                 return <div className="search_listing">
                                     <div className="list_img">
-                                    <img src={"https://pancakeswap.finance/images/tokens/"+option.address+".png"} className="token-img-auto" />
+                                    <img src={"https://pancakeswap.finance/images/tokens/"+option.address+".png"}
+                                    onError={(e)=>{ if (errorflag){ errorflag=false; e.target.src=process.env.PUBLIC_URL + '/images/logo-new.png'; } }}
+                                    className="token-img-auto" />
                                     </div>
                                     <div className="list_text">
                                    <h5>{`${option.name} (${option.symbol})`}</h5>
@@ -523,23 +548,31 @@ const Blank = ({ dispatch }) => {
                             onInputChange={handler}
                             onChange={(event,value) => value ? handleSymbolInfo(value.address,value.symbol): null}
                             renderInput={(params) => <TextField {...params} placeholder="Search By Symbol" variant="outlined" />}
-                            />
-                        {/* {((symbols.length > 0 )
+                            /> */}
+                         {((symbols.data.length > 0 )
                          ? 
-                        ( <ul id="show-search-symbols">
-                        { symbols.map((val,index) => (
+                        ( <ul id="show-search-symbols" className={showList}>
+                        { symbols.data.map((val,index) => (
                                             <li
                                             key={index}
                                             data-src={val.id}
                                             value={val.id}
-                                            onClick={() => handleSymbolInfo(val.address)}
+                                            onClick={() => handleSymbolInfo(val.address,val.symbol)}
                                             >
-                                            {val.name}
+                                    <div className="search_listing">
+                                    <div className="list_img">
+                                    <img src={"https://pancakeswap.finance/images/tokens/"+val.address+".png"}
+                                    className="token-img-auto" />
+                                    </div>
+                                    <div className="list_text">
+                                   <h5>{`${val.name} (${val.symbol})`}</h5>
+                                        <h6>{`${val.address}`}</h6>
+                                        </div></div>
                                             </li>
                                         ))}
-                        </ul>) : ('')
+                        </ul>) : (<div class={"MuiPaper-root MuiAutocomplete-paper MuiPaper-elevation1 MuiPaper-rounded "+showLoader}><div class="MuiAutocomplete-loading">Loading…</div></div>)
 
-                        )} */}
+                        )}
                         
                     </div>
                    {/* <button
@@ -1103,7 +1136,9 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     {
                                                         trend.baseCurrency.address ? 
-                                                        <img src={"https://pancakeswap.finance/images/tokens/"+trend.baseCurrency.address+".png"} />
+                                                        <img src={"https://pancakeswap.finance/images/tokens/"+trend.baseCurrency.address+".png"}
+                                                       
+                                                        />
                                                         :
                                                         <img
                                                         alt="img-text"
