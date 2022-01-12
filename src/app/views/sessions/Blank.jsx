@@ -44,7 +44,7 @@ import Chart from './Chart';
 import ThemeContext from '../../contexts/ThemeContext';
 // import { TVChartContainer } from 'app/components/TVChartContainer/index';
 import './responsive.css';
-import Select from 'react-select'
+import  Identicon from 'identicon.js';
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -175,8 +175,11 @@ const Blank = ({ dispatch }) => {
                   }
                 })
                 .then((data) => {
-                   
+                   console.log(data.data.search,'if no search',data.data.search.length)
                     var symbols1 = [];
+                    if(data.data.search.length > 0){
+
+                    
                     data.data.search.map((search) => {
                         //console.log(search.subject,'print symbol');
                  if (!!Object.keys(search.subject).length) {
@@ -194,6 +197,7 @@ const Blank = ({ dispatch }) => {
                         // }
                         //console.log('print symbol123456',Object.keys(search.subject).length);
                      });
+                    }
                     dispatch(getTokenBySymbol(symbols1));
                      setSearchArr(symbols1)
                 });
@@ -406,8 +410,20 @@ const Blank = ({ dispatch }) => {
         })
     }
 
+    const clearSymbol = () => {
+        // setState({
+        //     ...state,
+        //     selectedSymbol:''
+        // })
+        setSelectedSymbol('');
+        setSearchKey('');
+            refetch();
+        setList('show');
+    }
+
     const handler = ({ target: { name, value } }) => { 
         setLoader('show');
+        setSelectedSymbol(value);
         if(value != undefined && value != null){
         //    dispatch(getTokenBySymbol(value));
          if(value.substr(0,2) == '0x'){
@@ -481,7 +497,7 @@ const Blank = ({ dispatch }) => {
     const handleSelectClick = (e) => {
         e.target.select();
       };
-  let { highPrice, lowPrice } = state
+  let { highPrice, lowPrice, symbol } = state
 
     return (
         <div
@@ -519,6 +535,8 @@ const Blank = ({ dispatch }) => {
                             value={selectedSymbol}
                             onChange={handler}
                         />
+                        {selectedSymbol && symbols.data.length > 0 ? <i className="fas fa-times pull-right clearsearchIcon" onClick={clearSymbol} /> : ''}
+                        
                         {/* <Select options={optionsDrop} 
                         onChange={(event,value) => value ? handleSymbolInfo(value.address,value.symbol): null} 
                         onInputChange={handler}
@@ -561,8 +579,23 @@ const Blank = ({ dispatch }) => {
                                             >
                                     <div className="search_listing">
                                     <div className="list_img">
-                                    <img src={"https://pancakeswap.finance/images/tokens/"+val.address+".png"}
-                                    className="token-img-auto" />
+                                     {/* <img src={"https://pancakeswap.finance/images/tokens/"+val.address+".png"}
+                                    className="token-img-auto" />  */}
+                                     <img
+                                        src={`https://pancakeswap.finance/images/tokens/${val.address}.png`}
+                                        onError={(e) => {
+                                        e.target.onError = null;
+                                        if (val.address.length >= 15) {
+                                            val.symbol === 'Tcake'
+                                            ? (e.target.src = process.env.PUBLIC_URL + '/images/logo-new.png')
+                                            : (e.target.src = `data:image/png;base64,${new Identicon(
+                                                val.address,
+                                                '200',
+                                                ).toString()}`);
+                                        }
+                                        }}
+                                        alt={val.symbol} className="token-img-auto" 
+                                />
                                     </div>
                                     <div className="list_text">
                                    <h5>{`${val.name} (${val.symbol})`}</h5>
@@ -1136,9 +1169,22 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     {
                                                         trend.baseCurrency.address ? 
-                                                        <img src={"https://pancakeswap.finance/images/tokens/"+trend.baseCurrency.address+".png"}
-                                                       
-                                                        />
+
+                                                        <img
+                                                        src={`https://pancakeswap.finance/images/tokens/${trend.baseCurrency.address}.png`}
+                                                        onError={(e) => {
+                                                        e.target.onError = null;
+                                                        if (trend.baseCurrency.address.length >= 15) {
+                                                            trend.baseCurrency.symbol === 'Tcake'
+                                                            ? (e.target.src = process.env.PUBLIC_URL + '/images/logo-new.png')
+                                                            : (e.target.src = `data:image/png;base64,${new Identicon(
+                                                                trend.baseCurrency.address,
+                                                                '200',
+                                                                ).toString()}`);
+                                                        }
+                                                        }}
+                                                        alt={trend.baseCurrency.symbol} className="trend-img"
+                                                />
                                                         :
                                                         <img
                                                         alt="img-text"
@@ -1918,7 +1964,21 @@ const Blank = ({ dispatch }) => {
                                                     {' '}
                                                     {
                                                         trend.baseCurrency.address ? 
-                                                        <img src={"https://pancakeswap.finance/images/tokens/"+trend.baseCurrency.address+".png"} />
+                                                        <img
+                                                        src={`https://pancakeswap.finance/images/tokens/${trend.baseCurrency.address}.png`}
+                                                        onError={(e) => {
+                                                        e.target.onError = null;
+                                                        if (trend.baseCurrency.address.length >= 15) {
+                                                            trend.baseCurrency.symbol === 'Tcake'
+                                                            ? (e.target.src = process.env.PUBLIC_URL + '/images/logo-new.png')
+                                                            : (e.target.src = `data:image/png;base64,${new Identicon(
+                                                                trend.baseCurrency.address,
+                                                                '200',
+                                                                ).toString()}`);
+                                                        }
+                                                        }}
+                                                        alt={trend.baseCurrency.symbol} className="trend-img"
+                                                />
                                                         :
                                                         <img
                                                         alt="img-text"

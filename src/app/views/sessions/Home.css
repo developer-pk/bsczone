@@ -1332,6 +1332,9 @@ div#myContent p.tag_btn img {
 .content.main-content {
     display: none;
 }
+.modal-popup-class .modal-body {
+    width: 100%;
+    height: auto;}
 }
 .token-img-auto{
     width: 100%;
@@ -1369,4 +1372,12 @@ ul#combo-box-demo-popup {
 .MuiAutocomplete-loading {
     color: rgba(52, 49, 76, 0.54);
     padding: 14px 16px;
+}
+.clearsearchIcon{
+    margin-left: -29px;
+    color: white;
+}
+.trend-img{
+    height: 30px;
+    width: 30px;
 }
