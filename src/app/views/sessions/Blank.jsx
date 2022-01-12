@@ -1757,102 +1757,7 @@ const Blank = ({ dispatch }) => {
                                     />
                             : <h5>There are not records to display.</h5>}
                                 </Card>
-                                {/* <div className="table-responsive">
-                                    <table className="table">
-                                        <thead>
-                                            <tr>
-                                                <th>TYPE</th>
-                                                <th>TOKEN</th>
-                                                <th>PRICE</th>
-                                                <th>PRICE/TOKEN</th>
-                                                <th>TIME</th>
-                                                <th>TX</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td className="buy">BUY</td>
-                                                <td>0.001673169 ADA</td>
-                                                <td>
-                                                    0.05976700 WBNB |{' '}
-                                                    <span>$24.22</span>
-                                                </td>
-                                                <td>
-                                                    0.005940283 WBNB |{' '}
-                                                    <span>$2.40712144</span>
-                                                </td>
-                                                <td>11:44:16</td>
-                                                <td className="tx">
-                                                    ...c9758aac9b
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td className="buy">BUY</td>
-                                                <td>0.001673169 ADA</td>
-                                                <td>
-                                                    0.05976700 WBNB |{' '}
-                                                    <span>$24.22</span>
-                                                </td>
-                                                <td>
-                                                    0.005940283 WBNB |{' '}
-                                                    <span>$2.40712144</span>
-                                                </td>
-                                                <td>11:44:16</td>
-                                                <td className="tx">
-                                                    ...c9758aac9b
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td className="sell">BUY</td>
-                                                <td>0.001673169 ADA</td>
-                                                <td>
-                                                    0.05976700 WBNB |{' '}
-                                                    <span>$24.22</span>
-                                                </td>
-                                                <td>
-                                                    0.005940283 WBNB |{' '}
-                                                    <span>$2.40712144</span>
-                                                </td>
-                                                <td>11:44:16</td>
-                                                <td className="tx">
-                                                    ...c9758aac9b
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td className="buy">BUY</td>
-                                                <td>0.001673169 ADA</td>
-                                                <td>
-                                                    0.05976700 WBNB |{' '}
-                                                    <span>$24.22</span>
-                                                </td>
-                                                <td>
-                                                    0.005940283 WBNB |{' '}
-                                                    <span>$2.40712144</span>
-                                                </td>
-                                                <td>11:44:16</td>
-                                                <td className="tx">
-                                                    ...c9758aac9b
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td className="sell">BUY</td>
-                                                <td>0.001673169 ADA</td>
-                                                <td>
-                                                    0.05976700 WBNB |{' '}
-                                                    <span>$24.22</span>
-                                                </td>
-                                                <td>
-                                                    0.005940283 WBNB |{' '}
-                                                    <span>$2.40712144</span>
-                                                </td>
-                                                <td>11:44:16</td>
-                                                <td className="tx">
-                                                    ...c9758aac9b
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div> */}
+                                
                             </div>
                             <div className="col-4 col-xl-4 mb-12 mb-xl-0">
                                 <div className="promo_tab">
@@ -1861,7 +1766,7 @@ const Blank = ({ dispatch }) => {
                                             <a
                                                 
                                                 data-toggle="tab"
-                                                href="#promoted"
+                                                href="#promoted1"
                                             >
                                                 promoted
                                             </a>
@@ -1870,7 +1775,7 @@ const Blank = ({ dispatch }) => {
                                             <a
                                                 className="active"
                                                 data-toggle="tab"
-                                                href="#trending"
+                                                href="#trending1"
                                             >
                                                 Trending
                                             </a>
@@ -1878,20 +1783,20 @@ const Blank = ({ dispatch }) => {
                                         <li>
                                             <a
                                                 data-toggle="tab"
-                                                href="#listing"
+                                                href="#listing1"
                                             >
                                                 New Listings 2
                                             </a>
                                         </li>
                                         <li>
-                                            <a data-toggle="tab" href="#fav">
+                                            <a data-toggle="tab" href="#fav1">
                                                 Favourite
                                             </a>
                                         </li>
                                     </ul>
                                     <div className="tab-content">
                                         <div
-                                            id="promoted"
+                                            id="promoted1"
                                             className="tab-pane fade"
                                         >
                                             <ul>
@@ -1994,7 +1899,7 @@ const Blank = ({ dispatch }) => {
                                             </ul>
                                         </div>
                                         <div
-                                            id="trending"
+                                            id="trending1"
                                             className="tab-pane fade in active show"
                                         >
                                             {
@@ -2039,7 +1944,7 @@ const Blank = ({ dispatch }) => {
 
                                         </div>
                                         <div
-                                            id="listing"
+                                            id="listing1"
                                             className="tab-pane fade"
                                         >
                                             <li>
@@ -2091,7 +1996,7 @@ const Blank = ({ dispatch }) => {
                                                 </span>
                                             </li>
                                         </div>
-                                        <div id="fav" className="tab-pane fade">
+                                        <div id="fav1" className="tab-pane fade">
 
                                             { authenticated ? 
                                             (favourite[0] ? 
