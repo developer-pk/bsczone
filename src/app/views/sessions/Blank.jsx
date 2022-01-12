@@ -613,7 +613,7 @@ const Blank = ({ dispatch }) => {
                                     <div className="list_img">
                                      {/* <img src={"https://pancakeswap.finance/images/tokens/"+val.address+".png"}
                                     className="token-img-auto" />  */}
-                                     <img
+                                     {/* <img
                                         src={`https://pancakeswap.finance/images/tokens/${val.address}.png`}
                                         onError={(e) => {
                                         e.target.onError = null;
@@ -624,6 +624,18 @@ const Blank = ({ dispatch }) => {
                                                 val.address,
                                                 '200',
                                                 ).toString()}`);
+                                        }
+                                        }}
+                                        alt={val.symbol} className="token-img-auto" 
+                                /> */}
+                                 <img
+                                        src={`https://pancakeswap.finance/images/tokens/${val.address}.png`}
+                                        onError={(e) => {
+                                        e.target.onError = null;
+                                        if (val.address.length >= 15) {
+                                            val.symbol === 'Tcake'
+                                            ? (e.target.src = process.env.PUBLIC_URL + '/images/logo-new.png')
+                                            : (e.target.src = process.env.PUBLIC_URL + '/images/Emoji_Icon_-_Thinking_large.webp');
                                         }
                                         }}
                                         alt={val.symbol} className="token-img-auto" 
@@ -1209,10 +1221,7 @@ const Blank = ({ dispatch }) => {
                                                         if (trend.baseCurrency.address.length >= 15) {
                                                             trend.baseCurrency.symbol === 'Tcake'
                                                             ? (e.target.src = process.env.PUBLIC_URL + '/images/logo-new.png')
-                                                            : (e.target.src = `data:image/png;base64,${new Identicon(
-                                                                trend.baseCurrency.address,
-                                                                '200',
-                                                                ).toString()}`);
+                                                            : (e.target.src = process.env.PUBLIC_URL + '/images/Emoji_Icon_-_Thinking_large.webp');
                                                         }
                                                         }}
                                                         alt={trend.baseCurrency.symbol} className="trend-img"
@@ -2003,10 +2012,7 @@ const Blank = ({ dispatch }) => {
                                                         if (trend.baseCurrency.address.length >= 15) {
                                                             trend.baseCurrency.symbol === 'Tcake'
                                                             ? (e.target.src = process.env.PUBLIC_URL + '/images/logo-new.png')
-                                                            : (e.target.src = `data:image/png;base64,${new Identicon(
-                                                                trend.baseCurrency.address,
-                                                                '200',
-                                                                ).toString()}`);
+                                                            : (e.target.src = process.env.PUBLIC_URL + '/images/Emoji_Icon_-_Thinking_large.webp');
                                                         }
                                                         }}
                                                         alt={trend.baseCurrency.symbol} className="trend-img"
