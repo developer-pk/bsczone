@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import {
     Card,
     Checkbox,
@@ -57,7 +57,27 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
+// function useOutsideAlerter(ref) {
+//     useEffect(() => {
+    
+//       // Function for click event
+//       function handleOutsideClick(event) {
+//         if (ref.current && !ref.current.contains(event.target)) {
+//           alert("you just clicked outside of box!");
+//         }
+//       }
+    
+//       // Adding click event listener
+//       document.addEventListener("click", handleOutsideClick);
+    
+//     }, [ref]);
+//   }
+
 const Blank = ({ dispatch }) => {
+  //  let ref = useRef(null);
+    const ref = useRef(null);
+
+    useOutsideAlerter(ref);
     const [rowsPerPage, setRowsPerPage] = React.useState(5)
     const [page, setPage] = React.useState(0)
     const [state, setState] = useState({})
@@ -139,6 +159,7 @@ const Blank = ({ dispatch }) => {
     
         const clickMeFun = (value) =>{console.log(value,'search word');
         //if(value){
+            setList('show');
             return fetch(endpoint, {
                 method: "POST",
                 headers: { 
@@ -365,7 +386,7 @@ const Blank = ({ dispatch }) => {
             dispatch(getAlertTokenInfo('0x3b831d36ed418e893f42d46ff308c326c239429f'));
             dispatch(getFavouriteList());
         }
-        console.log('onpage load');
+
     }, [])
     //console.log(tcake,'print trending123');
     const handleChange = ({ target: { name, value } }) => {
@@ -416,14 +437,15 @@ const Blank = ({ dispatch }) => {
         //     selectedSymbol:''
         // })
         setSelectedSymbol('');
-        setSearchKey('');
-            refetch();
+      //  setSearchKey('');
+      //      refetch();
         setList('show');
     }
 
     const handler = ({ target: { name, value } }) => { 
         setLoader('show');
         setSelectedSymbol(value);
+        setList('show');
         if(value != undefined && value != null){
         //    dispatch(getTokenBySymbol(value));
          if(value.substr(0,2) == '0x'){
@@ -497,6 +519,24 @@ const Blank = ({ dispatch }) => {
     const handleSelectClick = (e) => {
         e.target.select();
       };
+      function useOutsideAlerter(ref) {
+        useEffect(() => {
+        
+          // Function for click event
+          function handleOutsideClick(event) {
+            if (ref.current && !ref.current.contains(event.target)) {
+             // alert("you just clicked outside of box!");
+             console.log('you just clicked outside of box!');
+             setLoader('hide');
+             setList('hide')
+            }
+          }
+        
+          // Adding click event listener
+          document.addEventListener("click", handleOutsideClick);
+        
+        }, [ref]);
+      }
   let { highPrice, lowPrice, symbol } = state
 
     return (
@@ -526,7 +566,7 @@ const Blank = ({ dispatch }) => {
                     <a className="navbar-brand" href="#page-top">
                         <img src={process.env.PUBLIC_URL + '/images/logo-new.png'} alt="LOGO" />
                     </a>
-                    <div className="search">
+                    <div className="search" ref={ref}>
                          <input
                             type="text"
                             id="search"
@@ -603,7 +643,7 @@ const Blank = ({ dispatch }) => {
                                         </div></div>
                                             </li>
                                         ))}
-                        </ul>) : (<div class={"MuiPaper-root MuiAutocomplete-paper MuiPaper-elevation1 MuiPaper-rounded "+showLoader}><div class="MuiAutocomplete-loading">Loading…</div></div>)
+                        </ul>) : (<div className={"MuiPaper-root MuiAutocomplete-paper MuiPaper-elevation1 MuiPaper-rounded "+showLoader}><div className="MuiAutocomplete-loading">Loading…</div></div>)
 
                         )}
                         
