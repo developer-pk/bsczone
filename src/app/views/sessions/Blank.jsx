@@ -228,7 +228,7 @@ const Blank = ({ dispatch }) => {
    // const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
     const { data, isLoading, error,refetch  } = useQuery(['monster',searchKey], () => clickMeFun(searchKey));
 
-    console.log(symbols,'print symbol123');
+    console.log(tokenotherinfo,'print symbol123',tcake);
     const trendingFunction = () =>{
         //if(value){
             return fetch(endpoint, {
@@ -463,19 +463,10 @@ const Blank = ({ dispatch }) => {
            
             
         }
-        //console.log(value,'get val');
             setSearchKey(value);
             refetch();
-            //trendFetch();
         }
-        
-        // else{
-        //     //hit for token address search
-        //     dispatch(getTokenInfo(value));
-        //     const symbol =  (tokeninfo.data.symbol ? tokeninfo.data.symbol : 'BNB');
-        //     dispatch(getTokenOtherInfo(symbol));
-        //     dispatch(getTokenTransferList(value));
-        // }
+
      
     };
     
@@ -516,8 +507,8 @@ const Blank = ({ dispatch }) => {
             
     }
 
-    const handleSelectClick = (e) => {
-        e.target.select();
+    const onFocus = () => {
+        setList('show');
       };
       function useOutsideAlerter(ref) {
         useEffect(() => {
@@ -574,6 +565,7 @@ const Blank = ({ dispatch }) => {
                             placeholder="Search BY SYMBOL / ADDRESS ...."
                             value={selectedSymbol}
                             onChange={handler}
+                            onFocus={ onFocus }
                         />
                         {selectedSymbol && symbols.data.length > 0 ? <i className="fas fa-times pull-right clearsearchIcon" onClick={clearSymbol} /> : ''}
                         
@@ -746,10 +738,10 @@ const Blank = ({ dispatch }) => {
                     <h5>
                     PRICE: {(tokenotherinfo.data.values ? 
                        // tokenotherinfo[0].data.map((token, index) =>
-                        <NumberFormat value={tokenotherinfo.data.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                        <NumberFormat value={tokenotherinfo.data.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={5} />
                     //)
                         : tcake.data ? 
-                        <NumberFormat value={tcake.data.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                        <NumberFormat value={tcake.data.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={5} />
                          : <span>$2.4226</span>) }
                         {/* <span>$2.4226</span> */}
                     </h5>
@@ -765,7 +757,7 @@ const Blank = ({ dispatch }) => {
                             <span className="positive-number">+{tokenotherinfo.data.values.USD.percentChange24h}%</span> 
                             : 
                             <span className="negative-number">{tokenotherinfo.data.values.USD.percentChange24h}%</span>
-                        : <span>+5%</span> }
+                        : <span>N/A</span> }
                         {/* <span>+5%</span> */}
                 </p>
             </li>
@@ -949,7 +941,7 @@ const Blank = ({ dispatch }) => {
                                                // tokenotherinfo[0].data.map((token, index) =>
                                                 <NumberFormat value={tokenotherinfo.data.values.USD.marketCap} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
                                             //)
-                                                : <span>$76,871,158,103</span> }
+                                                : <span>$399,578.08</span> }
                                             
                                         </p>
                                         <p>
@@ -958,7 +950,7 @@ const Blank = ({ dispatch }) => {
                                                 //tokenotherinfo[0].data.map((token, index) =>
                                                 <NumberFormat value={tokenotherinfo.data.values.USD.volume24h} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                             
-                                                : <span>$4,832,839,159</span> }
+                                                : <span>N/A</span> }
                                             {/* <span>$4,832,839,159</span> */}
                                         </p>
                                         </div>
@@ -970,11 +962,11 @@ const Blank = ({ dispatch }) => {
                                                 //tokenotherinfo[0].data.map((token, index) =>
                                                 <span className="number">{tokenotherinfo.data.totalSupply}</span>
                                             //)
-                                                : <span>33,117,618,880</span> }
+                                                : <span><NumberFormat value='178,499,565.878013' displayType={'text'} thousandSeparator={true} decimalScale={2} /></span> }
                                             {/* <span>33,117,618,880</span> */}
                                         </p>
                                         <p>
-                                            LIQUIDITY: <span>$500,000</span>
+                                            LIQUIDITY: <span>N/A</span>
                                         </p>
                                     </div>
                                     </div>
@@ -1570,10 +1562,10 @@ const Blank = ({ dispatch }) => {
                                         <h5>
                                             PRICE: {(tokenotherinfo.data.values ? 
                                                // tokenotherinfo[0].data.map((token, index) =>
-                                                <NumberFormat value={tokenotherinfo.data.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                                <NumberFormat value={tokenotherinfo.data.values.USD.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={5} />
                                             //)
                                                 : tcake.data ? 
-                                                <NumberFormat value={tcake.data.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
+                                                <NumberFormat value={tcake.data.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={5} />
                                                  : <span>$2.4226</span>) }
                                                 {/* <span>$2.4226</span> */}
                                         </h5>
@@ -1583,7 +1575,7 @@ const Blank = ({ dispatch }) => {
                                                     <span className="positive-number">+{tokenotherinfo.data.values.USD.percentChange24h}%</span> 
                                                     : 
                                                     <span className="negative-number">{tokenotherinfo.data.values.USD.percentChange24h}%</span>
-                                                : <span>+5%</span> }
+                                                : <span>N/A</span> }
                                                 {/* <span>+5%</span> */}
                                                 </p>
                                     </div>
@@ -1610,7 +1602,7 @@ const Blank = ({ dispatch }) => {
                                                // tokenotherinfo[0].data.map((token, index) =>
                                                 <NumberFormat value={tokenotherinfo.data.values.USD.marketCap} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} />
                                             //)
-                                                : <span>$76,871,158,103</span> }
+                                                : <span>$399,578.08</span> }
                                             
                                         </p>
                                         <p>
@@ -1619,7 +1611,7 @@ const Blank = ({ dispatch }) => {
                                                 //tokenotherinfo[0].data.map((token, index) =>
                                                 <NumberFormat value={tokenotherinfo.data.values.USD.volume24h} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                             
-                                                : <span>$4,832,839,159</span> }
+                                                : <span>N/A</span> }
                                             {/* <span>$4,832,839,159</span> */}
                                         </p>
                                         <p>
@@ -1628,11 +1620,11 @@ const Blank = ({ dispatch }) => {
                                                 //tokenotherinfo[0].data.map((token, index) =>
                                                 <span className="number">{tokenotherinfo.data.totalSupply}</span>
                                             //)
-                                                : <span>33,117,618,880</span> }
+                                                : <span> <NumberFormat value='178,499,565.878013' displayType={'text'} thousandSeparator={true} decimalScale={2} /></span> }
                                             {/* <span>33,117,618,880</span> */}
                                         </p>
                                         <p>
-                                            LIQUIDITY: <span>$500,000</span>
+                                            LIQUIDITY: <span>N/A</span>
                                         </p>
                                     </div>
                                     <div className="pans">
